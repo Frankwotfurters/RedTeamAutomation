@@ -1,0 +1,42 @@
+
+START - automation started - Mon May 03 2021 19:06:13 GMT+0800 (+08)
+
+LIVE MODE - type done to quit
+ [RPA][STARTED]
+[RPA][0] - listening for inputs
+[RPA][1] - http://localhost/DVWA/login.php
+[RPA][1] - listening for inputs
+[RPA][2] - exist_result = exist('//*[@name="username"]').toString()
+[RPA][2] - listening for inputs
+[RPA][3] - dump exist_result to rpa_python.txt
+[RPA][3] - listening for inputs
+[RPA][4] - type //*[@name="username"] as admin
+[RPA][4] - listening for inputs
+[RPA][5] - exist_result = exist('//*[@name="password"]').toString()
+[RPA][5] - listening for inputs
+[RPA][6] - dump exist_result to rpa_python.txt
+[RPA][6] - listening for inputs
+[RPA][7] - type //*[@name="password"] as password[enter]
+[RPA][7] - listening for inputs
+[RPA][8] - http://localhost/DVWA/vulnerabilities/csrf/
+[RPA][8] - listening for inputs
+[RPA][9] - dom return document.querySelector("html").outerHTML
+[RPA][9] - listening for inputs
+[RPA][10] - dump dom_result to rpa_python.txt
+[RPA][10] - listening for inputs
+[RPA][11] - dump url() to rpa_python.txt
+[RPA][11] - listening for inputs
+[RPA][12] - js clipboard('file:///media/sf_Scripts/poc.html')
+[RPA][12] - listening for inputs
+[RPA][13] - keyboard [ctrl][t]
+[RPA][13] - listening for inputs
+[RPA][14] - keyboard [ctrl][v]
+[RPA][14] - listening for inputs
+[RPA][15] - keyboard [enter]
+[RPA][15] - listening for inputs
+[RPA][16] - keyboard [ctrl][r]
+[RPA][16] - listening for inputs
+[RPA][17] - keyboard [ctrl][r]
+[RPA][17] - listening for inputs
+[RPA][18] - keyboard [ctrl][r]
+[RPA][18] - listening for inputs
