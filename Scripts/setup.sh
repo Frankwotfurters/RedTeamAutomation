@@ -1,1 +1,2 @@
-export OPENSSL_CONF=/openssl.cnf
+#!/bin/bash
+OPENSSL_CONF=/openssl.cnf
