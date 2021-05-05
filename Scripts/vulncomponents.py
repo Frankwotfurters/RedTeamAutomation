@@ -1,4 +1,3 @@
-#pip install retirejs
 import rpa as r
 import re
 import retirejs

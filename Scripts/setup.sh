@@ -1,2 +1,5 @@
 #!/bin/bash
-OPENSSL_CONF=/openssl.cnf
+
+OPENSSL_CONF=/etc/ssl/
+pip install rpa
+pip install retirejs
