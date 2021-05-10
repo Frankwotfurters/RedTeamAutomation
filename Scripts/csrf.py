@@ -4,9 +4,10 @@ from bs4 import BeautifulSoup
 import link_extractor
 from urllib.request import urlparse, urljoin
 
-creds = ["admin", "password"]
-creds[1] += "[enter]" # have RPA press enter after typing credentials
-loginPage = 'http://localhost/DVWA/login.php'
+internal_urls = []
+external_urls = []
+visited_urls = []
+form_urls = []
 
 def login(loginPage, creds):
 	r.url(loginPage)
@@ -76,7 +77,7 @@ def check(form):
 	else:
 		return True
 
-def create_poc():
+def create_poc(form):
 	folder = get_domain(r.url())
 	print(folder)
 	if not os.path.exists(folder):
@@ -87,35 +88,39 @@ def create_poc():
 	output = pwd + "/poc.html"
 	print("Exported PoC to " + output)
 
-	r.clipboard("file://"+output)
-	r.keyboard("[ctrl][t]")
-	r.keyboard("[ctrl][v]")
+	# r.clipboard("file://"+output)
+	# r.keyboard("[ctrl][t]")
+	# r.keyboard("[ctrl][v]")
 	# r.keyboard("[enter]")
 
-r.init(visual_automation = True)
-login(loginPage, creds)
-internal_urls = []
-external_urls = []
-visited_urls = []
-form_urls = []
-find_forms()
-print(form_urls)
+def main():
+	creds = ["admin", "password"]
+	creds[1] += "[enter]" # have RPA press enter after typing credentials
+	loginPage = 'http://localhost/DVWA/login.php'
 
-for url in form_urls:
-	r.url(url)
-	html = r.dom('return document.querySelector("html").outerHTML')
-	soup = BeautifulSoup(html, 'html.parser')
-	form = soup.find("form")
-	print(check(form))
-	try:
-		form['action'] = r.url() + form['action']
-	except:
-		pass
+	r.init(visual_automation = True)
+	login(loginPage, creds)
+	find_forms()
+	print(form_urls)
 
-	if check(form):
+	for url in form_urls:
+		r.url(url)
+		html = r.dom('return document.querySelector("html").outerHTML')
+		soup = BeautifulSoup(html, 'html.parser')
+		form = soup.find("form")
 		print(check(form))
-		create_poc()
+		try:
+			form['action'] = r.url() + form['action']
+		except:
+			pass
 
-# Cleanup
-r.wait(60)
-r.close()
+		if check(form):
+			print(check(form))
+			create_poc(form)
+
+	# Cleanup
+	r.wait(60)
+	r.close()
+
+if __name__ == "__main__":
+	main()

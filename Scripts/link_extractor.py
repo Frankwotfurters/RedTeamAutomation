@@ -105,4 +105,4 @@ if __name__ == "__main__":
     with open(f"{domain_name}_external_links.txt", "w") as f:
         for external_link in external_urls:
             print(external_link.strip(), file=f)
-print("[*] URL Links saved to respective files.")
+    print("[*] URL Links saved to respective files.")
