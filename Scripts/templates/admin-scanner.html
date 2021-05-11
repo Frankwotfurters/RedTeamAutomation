@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="showcase">
+    <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><b>Admin Scanner</b></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+  </div>
+  <h1>Admin Interface Scanner</h1>
+  <hr>
+  <h3>Note:</h3>
+  <h3>Robotic Process Automation (RPA) Demonstration is available during the scan. The RPA tool will take a screenshot of the vulnerable admin page and save it to the user's system.</h3>
+  <h3><b>About:</b></h3>
+  <p>Admin Interface Scanner is a tool that scans through a website to locate admin interfaces with common directory names. The scanner will loop through a curated wordlist of commonly compromised admin names, and test connections towards the website. If a connection is opened with a name from the list, the script will detect that and show the results at the end of the scan.</p>
+  <h3>Impact:</h3>
+  <p>This vulnerability is under the OWASP Top 10 - Security Misconfigurations. Adversaries can potentially gain unauthorized access to the admin panel and alter configurations to negatively impact the website.</p>
+{% endblock %}
