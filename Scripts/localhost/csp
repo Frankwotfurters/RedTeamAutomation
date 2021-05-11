@@ -1,5 +1,0 @@
-<form method="POST" name="csp">
-<p>You can include scripts from external sources, examine the Content Security Policy and enter a URL to include here:</p>
-<input id="include" name="include" size="50" type="text" value=""/>
-<input type="submit" value="Include"/>
-</form>

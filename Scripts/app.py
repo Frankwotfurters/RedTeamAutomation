@@ -5,47 +5,47 @@ app = Flask(__name__)
 
 @app.route("/index")
 def index():
-	return render_template("index.html", content=["joe", "mama", "hortons"])
+	return render_template("index.html")
 
 @app.route("/sqli")
 def sqliPage():
-	return "SQLI"
+	return render_template("sqli.html")
 
 @app.route("/subdomain")
 def subdPage():
-	return "subdomain"
+	return render_template("subdomain.html")
 
 @app.route("/th-subdomain")
 def thsubdPage():
-	return "threaded-subdomain"
+	return render_template("th-subdomain.html")
 
 @app.route("/admin-scanner")
 def adminScannerPage():
-	return "Admin Scanner"
+	return render_template("admin-scanner.html")
 
 @app.route("/clickjack")
 def clickjackPage():
-	return "Clickjack"
+	return render_template("clickjack.html")
 
 @app.route("/xss")
 def xssPage():
-	return "XSS"
+	return render_template("xss.html")
 
 @app.route("/sensitive-data")
 def sendataPage():
-	return "Sensitive Data Exposure"
+	return render_template("sensitive-data.html")
 
-@app.route("/link-extract")
+@app.route("/link-extractor")
 def linkextractPage():
-	return "Link Extractor"
+	return render_template("link-extractor.html")
 
 @app.route("/csrf")
 def csrfPage():
-	return csrf.main
+	return render_template("csrf.html")
 
 @app.route("/vuln-components")
 def vulncompPage():
-	return "Vulnerable Components"
+	return render_template("vuln-components.html")
 
 if  __name__ == "__main__":
 	app.run(debug=True)
