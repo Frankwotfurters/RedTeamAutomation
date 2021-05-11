@@ -1,11 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <!-- Header -->
-  <div class="w3-container" style="margin-top:80px" id="showcase">
-    <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
-    <h1 class="w3-xxxlarge w3-text-red"><b>SQL Injection</b></h1>
-    <hr style="width:50px;border:5px solid red" class="w3-round">
-  </div>
-  <p>TEST</p>
+<!-- Header -->
+<div class="w3-container" style="margin-top:80px" id="showcase">
+  <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
+  <h1 class="w3-xxxlarge w3-text-red"><b>SQL Injection</b></h1>
+  <hr style="width:50px;border:5px solid red" class="w3-round">
+</div>
+
+<h1>SQL Injection Scanner</h1>
+<hr>
+
+<strong>
+  <h2>Note:
+    <p>
+      This script will test if a webpage is vulnerable to SQL Injection, mainly from the URL or the forms that are
+      within
+      the page.
+    </p>
+  </h2>
+</strong>
+
+<h3>About:</h3>
+<p>
+  SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an
+  application makes to its database. It generally allows an attacker to view data that they are not normally able to
+  retrieve. This might include data belonging to other users, or any other data that the application itself is able to
+  access. In many cases, an attacker can modify or delete this data, causing persistent changes to the application's
+  content or behavior.
+  In some situations, an attacker can escalate an SQL injection attack to compromise the underlying server or other
+  back-end infrastructure, or perform a denial-of-service attack.
+</p>
+
+<h3>Impact:</h3>
+<p>
+  A successful SQL injection attack can result in unauthorized access to sensitive data, such as passwords, credit card
+  details, or personal user information. Many high-profile data breaches in recent years have been the result of SQL
+  injection attacks, leading to reputational damage and regulatory fines. In some cases, an attacker can obtain a
+  persistent backdoor into an organization's systems, leading to a long-term compromise that can go unnoticed for an
+  extended period.
+</p>
+
+<!--INSERT CODE TO RUN SCRIPT-->
 {% endblock %}
