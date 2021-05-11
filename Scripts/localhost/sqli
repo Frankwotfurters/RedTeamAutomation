@@ -1,7 +1,0 @@
-<form action="http://localhost/DVWA/vulnerabilities/sqli/#" method="GET">
-<p>
-				User ID:
-				<input name="id" size="15" type="text"/>
-<input name="Submit" type="submit" value="Submit"/>
-</p>
-</form>
