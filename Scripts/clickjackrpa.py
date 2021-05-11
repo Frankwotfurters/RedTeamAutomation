@@ -48,10 +48,14 @@ def main():
             print("[+] Website is vulnerable!")
             create_poc(site.split('\n')[0])
             print("[*] Created a poc and saved to <URL>.html")
-            r.init()
+            r.init(visual_automation=True)
             #file:///root/Documents/ProjectScripts/www6.turkhackteam.com.html
             #test = "file:///root/Documents/ProjectScripts/"
-            r.url('file:///root/Documents/ProjectScripts/'+site)
+            r.clipboard("file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/"+site+".html")
+            r.url()
+            r.keyboard("[ctrl]l")
+            r.keyboard("[ctrl]v")
+            r.keyboard("[enter]")
             r.wait()
             r.snap("page", f"clickjack-{site}.png")
             r.close()
