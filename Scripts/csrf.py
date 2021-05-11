@@ -1,7 +1,6 @@
 import os
 import rpa as r
 from bs4 import BeautifulSoup
-import link_extractor
 from urllib.request import urlparse, urljoin
 
 internal_urls = []
