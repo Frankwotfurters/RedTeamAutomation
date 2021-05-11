@@ -1,7 +1,6 @@
 import requests
 from threading import Thread, Lock
 from queue import Queue
-import rpa as r
 
 q = Queue()
 list_lock = Lock()
@@ -23,12 +22,7 @@ def scan_subdomains(domain):
             # add the subdomain to the global list
             with list_lock:
                 discovered_domains.append(url)
-                # rpa
-                r.init()
-                r.url(url)
-                r.wait()
-                r.snap('page', url+'.png')
-                r.close()
+
         # we're done with scanning that subdomain
         q.task_done()
 

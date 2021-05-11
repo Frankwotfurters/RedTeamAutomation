@@ -1,5 +1,4 @@
 import requests
-import rpa as r
 
 # the domain to scan for subdomains
 domain = "google.com"
@@ -22,8 +21,3 @@ for subdomain in subdomains:
         pass
     else:
         print("[+] Discovered subdomain:", url)
-    r.init()
-    r.url(url)
-    r.wait()
-    r.snap('page', url+'.png')
-    r.close()
