@@ -7,6 +7,10 @@ app = Flask(__name__)
 def index():
 	return render_template("index.html")
 
+@app.route("/about-us")
+def aboutPage():
+	return render_template("about-us.html")
+
 @app.route("/sqli")
 def sqliPage():
 	return render_template("sqli.html")
