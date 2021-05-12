@@ -5,6 +5,7 @@ from flask import Flask, redirect, url_for, render_template, request
 import csrf
 import clickjackrpa
 import admin_scanner
+import sensitivedatarpa
 
 app = Flask(__name__)
 
@@ -69,6 +70,7 @@ def xssPage():
 
 @app.route("/sensitive-data")
 def sendataPage():
+	target = request.form.get("target")
 	return render_template("sensitive-data.html")
 
 @app.route("/link-extractor")
