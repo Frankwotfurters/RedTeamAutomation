@@ -47,10 +47,7 @@ def subdPage():
 @app.route("/subdomainRun", methods = ['POST'])
 def subdRun():
 	target = request.form.get("target")
-	if target.startswith('subdomains'):
-			return render_template("subdomainRun.html", target=target, results=subdCode())
-	else:
-		return redirect(url_for("subdomainPage", error="File is not named 'subdomains.txt'."))
+	return render_template("subdomainRun.html", target=target, results=subdCode())
 
 @app.route("/th-subdomain")
 def thsubdPage():
