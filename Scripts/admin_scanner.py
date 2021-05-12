@@ -4,8 +4,17 @@ import time
 import sys
 from colorama import init, Fore
 import rpa as r
+import requests
 
-def main():
+
+
+
+# def getTarget():
+#     target = request.form['target']
+#     return target
+
+def main(target):
+    #target = request.form.get['target']
     #Define colours for different outputs
     GREEN = Fore.GREEN
     RED = Fore.RED
@@ -18,9 +27,9 @@ def main():
     #User can input what website they want to run the scanner on
     try:
         # target = input(f"{BLUE}ENTER WEBSITE: ")
-        targetlist = open("target.txt", "r")
-        target = targetlist.read()
-        targetlist.close() 
+        # targetlist = open("target.txt", "r")
+        # target = targetlist.read()
+        # targetlist.close() 
         print("Target: ",target)
             
 
@@ -104,3 +113,6 @@ def main():
 
     print(" ")
     print(f"{BLUE}END OF RESULT")
+
+if __name__ == "__main__":
+    main()

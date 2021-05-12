@@ -12,9 +12,12 @@
   <h3>Note:</h3>
   <h3>The scanner will detect for any clickjacking vulnerabilities within the website. Robotic Process Automation (RPA) Demonstration is available during the scan. However, due to limitations of the RPA tool, the user will need to access the file system to open the saved POC.</h3>
   <h3>START SCAN:</h3>
-  <form action="/clickjackRun" method="POST">
-  	<label for="target">Targets: </label>
-  	<input name="target" id="target">
+  <form action="/clickjackRun" method="POST" enctype = "multipart/form-data">
+    <!-- <label for="target">Targets: </label> -->
+    Enter websites in file (sites.txt)
+    <br>
+    <input name="file" type="file" id="target">
+    <br><br>
   	<input type="submit">
   </form>
   <h3>About:</h3>

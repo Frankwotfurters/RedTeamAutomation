@@ -1,6 +1,7 @@
 from urllib.request import urlopen
 from sys import argv, exit
 import rpa as r
+import requests
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -33,12 +34,11 @@ def create_poc(url):
         f.write(code)
         f.close()
 
-
-def main():
+def main(target):
     ''' Everything comes together '''
-
-    try: sites = open(argv[1], 'r').readlines()
-    #try: sites = open(sites.txt, 'r').readlines() 
+    print(target)
+    try: sites = open(target, 'r').readlines()
+    #try: sites = open(file, 'r').readlines() 
     #try: for sites in targets:
     except: print("[*] Usage: python(3) clickjacking_tester.py <file_name>"); exit(0)
     #except: print(sites)
@@ -68,4 +68,5 @@ def main():
         elif not status: print("[-] Website is not vulnerable!")
         else: print('Everything crashed, RIP.')
 
-if __name__ == '__main__': main()
+if __name__ == '__main__': 
+    main()

@@ -4,7 +4,7 @@ from sql_injection import scan_sql_injection
 from flask import Flask, redirect, url_for, render_template, request
 import csrf
 import clickjackrpa
-import admin_scanner
+from admin_scanner import main
 
 app = Flask(__name__)
 
@@ -52,7 +52,7 @@ def adminScannerPage():
 @app.route("/admin-scannerRun", methods = ['POST'])
 def adminScannerRun():
 	target = request.form.get("target")
-	return render_template("admin-scannerRun.html", target=target, results=admin_scanner.main())
+	return render_template("admin-scannerRun.html", target=target, results=main(target))
 
 @app.route("/clickjack")
 def clickjackPage():
@@ -60,8 +60,8 @@ def clickjackPage():
 
 @app.route("/clickjackRun", methods = ['POST'])
 def clickjackRun():
-	target = request.form.get("target")
-	return render_template("clickjackRun.html", target=target, results=clickjackrpa.main())
+	target = request.files['target']
+	return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target))
 
 @app.route("/xss")
 def xssPage():
