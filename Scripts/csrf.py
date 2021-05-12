@@ -7,6 +7,8 @@ internal_urls = []
 external_urls = []
 visited_urls = []
 form_urls = []
+vuln_forms = []
+non_vuln_forms = []
 
 def login(loginPage, creds):
 	r.url(loginPage)
@@ -53,10 +55,10 @@ def find_forms():
 		if domain_name not in href:
 			# external link
 			if href not in external_urls:
-				print(f"[!] External link: {href}")
+				# print(f"[!] External link: {href}")
 				external_urls.append(href)
 			continue
-		print(f"[*] Internal link: {href}")
+		# print(f"[*] Internal link: {href}")
 		internal_urls.append(href)
 
 	# crawl recursively to search for forms
@@ -77,14 +79,15 @@ def check(form):
 		return True
 
 def create_poc(form):
+
+	#First creates a folder based on domain name
 	folder = get_domain(r.url())
-	print(folder)
 	if not os.path.exists(folder):
 		os.makedirs(folder)
 	f = open(folder + "/" + r.url().split('/')[-2], "w")
 	f.write(str(form))
 	pwd = os.path.dirname(os.path.realpath(__file__))
-	output = pwd + "/poc.html"
+	output = pwd + "/" + folder + r.url().split('/')[-2]
 	print("Exported PoC to " + output)
 
 	# r.clipboard("file://"+output)
@@ -100,26 +103,34 @@ def main():
 	r.init(visual_automation = True)
 	login(loginPage, creds)
 	find_forms()
-	print(form_urls)
 
 	for url in form_urls:
 		r.url(url)
 		html = r.dom('return document.querySelector("html").outerHTML')
 		soup = BeautifulSoup(html, 'html.parser')
 		form = soup.find("form")
-		print(check(form))
 		try:
 			form['action'] = r.url() + form['action']
 		except:
 			pass
 
 		if check(form):
-			print(check(form))
+			# If form is potentially vulnerable to CSRF
+			vuln_forms.append(url)
 			create_poc(form)
+		else:
+			non_vuln_forms.append(url)
 
 	# Cleanup
-	r.wait(60)
+	r.wait(10)
 	r.close()
+
+	results = {}
+	results["internal_urls"] = internal_urls
+	results["visited_urls"] = visited_urls
+	results["vuln_forms"] = vuln_forms
+	results["non_vuln_forms"] = non_vuln_forms
+	return results #returns dictionary of found urls, form urls, possibly vulnerable forms, non-vulnerable forms
 
 if __name__ == "__main__":
 	main()

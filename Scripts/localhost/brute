@@ -1,0 +1,8 @@
+<form action="http://localhost/DVWA/vulnerabilities/brute/#" method="GET">
+			Username:<br/>
+<input name="username" type="text"/><br/>
+			Password:<br/>
+<input autocomplete="off" name="password" type="password"/><br/>
+<br/>
+<input name="Login" type="submit" value="Login"/>
+</form>

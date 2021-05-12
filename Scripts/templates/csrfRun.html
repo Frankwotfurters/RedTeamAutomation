@@ -7,10 +7,7 @@
     <h1 class="w3-xxxlarge w3-text-red"><b>CSRF</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
-  <p>TEST</p>
-  <form action="/csrfRun" method="POST">
-  	<label for="target">Target: </label>
-  	<input name="target" id="target">
-  	<input type="submit">
-  </form>
+  <p>{{target}}</p>
+  <br>
+  <p>{{results}}</p>
 {% endblock %}

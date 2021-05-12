@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, request
 import csrf
 
 app = Flask(__name__)
@@ -46,6 +46,11 @@ def linkextractPage():
 @app.route("/csrf")
 def csrfPage():
 	return render_template("csrf.html")
+
+@app.route("/csrfRun", methods = ['POST'])
+def csrfRun():
+	target = request.form.get("target")
+	return render_template("csrfRun.html", target=target, results=csrf.main())
 
 @app.route("/vuln-components")
 def vulncompPage():
