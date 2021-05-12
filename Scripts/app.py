@@ -19,21 +19,37 @@ def aboutPage():
 
 @app.route("/sqli")
 def sqliPage():
-	return render_template("sqli.html")
+	print(request.args)
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("sqli.html")
+	return render_template("sqli.html", error=error)
 
 @app.route("/sqliRun", methods = ['POST'])
 def sqliRun():
 	target = request.form.get("target")
-	return render_template("sqliRun.html", target=target, results=scan_sql_injection(target))
+	if target.startswith('http://') or target.startswith('https://'):
+			return render_template("sqliRun.html", target=target, results=scan_sql_injection(target))
+	else:
+		return redirect(url_for("sqliPage", error="Target does not begin with http:// or https://"))
 
 @app.route("/subdomain")
 def subdPage():
-	return render_template("subdomain.html")
+	print(request.args)
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("subdomain.html")
+	return render_template("subdomain.html", error=error)
 
 @app.route("/subdomainRun", methods = ['POST'])
 def subdRun():
 	target = request.form.get("target")
-	return render_template("subdomainRun.html", target=target, results=subdCode())
+	if target.startswith('subdomains'):
+			return render_template("subdomainRun.html", target=target, results=subdCode())
+	else:
+		return redirect(url_for("subdomainPage", error="File is not named 'subdomains.txt'."))
 
 @app.route("/th-subdomain")
 def thsubdPage():
