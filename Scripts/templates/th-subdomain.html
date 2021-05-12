@@ -11,6 +11,28 @@
 <h1>Threaded Subdomain Scanner</h1>
 <hr>
 
+<!--CODE TO RUN SCRIPT-->
+<form action="/subdomainRun" method="POST" enctype = "multipart/form-data">
+  File Containing Subdomains: <br>
+  <input name="file" type="file" id="target">
+  <br>
+  (Please name file as subdomains.txt)
+  <br><br><br>
+  Key in Domain Name: <br>
+  <label for="target2">Domain Name: </label>
+  <br>
+  <input name="domain" id="target2">
+  <br>
+  (e.g. google.com)
+  <br><br><br>
+  Key in Name for Outuput File: <br>
+  <label for="target3">Name: </label>
+  <br>
+  <input name="outputFile" id="target3">
+  <br><br>
+  <input type="submit">
+</form>
+<br>
 <strong>
   <h3>Note:
     <p>
@@ -47,5 +69,4 @@
   that needs even less user interaction than usual phishing pages, which are set up to steal user credentials.
 </p>
 
-<!--INSERT CODE TO RUN SCRIPT-->
 {% endblock %}

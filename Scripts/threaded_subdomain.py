@@ -47,8 +47,7 @@ def main(domain, n_threads, subdomains):
         worker.daemon = True
         worker.start()
 
-
-if __name__ == "__main__":
+def thsubdRun():
     import argparse
     parser = argparse.ArgumentParser(description="Faster Subdomain Scanner using Threads")
     parser.add_argument("domain", help="Domain to scan for subdomains without protocol (e.g without 'http://' or 'https://')")
@@ -70,3 +69,6 @@ if __name__ == "__main__":
     with open(output_file, "w") as f:
         for url in discovered_domains:
             print(url, file=f)
+
+if __name__ == "__main__":
+   thsubdRun()
