@@ -14,21 +14,21 @@
 <!--CODE TO RUN SCRIPT-->
 <form action="/subdomainRun" method="POST" enctype = "multipart/form-data">
   File Containing Subdomains: <br>
-  <input name="file" type="file" id="target">
+  <input name="file" type="file" id="target" required accept=".txt">
   <br>
   (Please name file as subdomains.txt)
   <br><br><br>
   Key in Domain Name: <br>
   <label for="target2">Domain Name: </label>
   <br>
-  <input name="domain" id="target2">
+  <input name="domain" id="target2" required>
   <br>
   (e.g. google.com)
   <br><br><br>
   Key in Name for Outuput File: <br>
   <label for="target3">Name: </label>
   <br>
-  <input name="outputFile" id="target3">
+  <input name="outputFile" id="target3" required>
   <br><br>
   <input type="submit">
 </form>
