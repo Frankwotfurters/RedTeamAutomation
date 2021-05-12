@@ -70,8 +70,12 @@ def xssPage():
 
 @app.route("/sensitive-data")
 def sendataPage():
-	target = request.form.get("target")
 	return render_template("sensitive-data.html")
+
+@app.route("/sensitive-dataRun", methods = ['POST'])
+def sendataRun():
+	target = request.form.get("target")
+	return render_template("sensitive-dataRun.html", results=sensitivedatarpa.main(target))
 
 @app.route("/link-extractor")
 def linkextractPage():
