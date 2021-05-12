@@ -7,10 +7,16 @@
     <h1 class="w3-xxxlarge w3-text-red"><b>CSRF</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
-  <p>TEST</p>
+  {% if error %}
+  <p>{{error}}</p>
+  {% endif %}
   <form action="/csrfRun" method="POST">
   	<label for="target">Target: </label>
-  	<input name="target" id="target">
+    <input name="target" id="target" required> <br>
+    <label for="userID">User ID: </label>
+    <input name="userID" id="userID" required> <br>
+    <label for="password">Password: </label>
+    <input name="password" id="password" required>
   	<input type="submit">
   </form>
 {% endblock %}

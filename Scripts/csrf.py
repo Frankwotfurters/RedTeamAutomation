@@ -2,6 +2,7 @@ import os
 import rpa as r
 from bs4 import BeautifulSoup
 from urllib.request import urlparse, urljoin
+import sys
 
 internal_urls = []
 external_urls = []
@@ -9,6 +10,7 @@ visited_urls = []
 form_urls = []
 vuln_forms = []
 non_vuln_forms = []
+generated_pocs = []
 
 def login(loginPage, creds):
 	r.url(loginPage)
@@ -87,18 +89,18 @@ def create_poc(form):
 	f = open(folder + "/" + r.url().split('/')[-2], "w")
 	f.write(str(form))
 	pwd = os.path.dirname(os.path.realpath(__file__))
-	output = pwd + "/" + folder + r.url().split('/')[-2]
+	output = pwd + "/" + folder + "/" + r.url().split('/')[-2]
 	print("Exported PoC to " + output)
+	generated_pocs.append(output)
 
 	# r.clipboard("file://"+output)
 	# r.keyboard("[ctrl][t]")
 	# r.keyboard("[ctrl][v]")
 	# r.keyboard("[enter]")
 
-def main():
-	creds = ["admin", "password"]
+def main(creds, loginPage):
 	creds[1] += "[enter]" # have RPA press enter after typing credentials
-	loginPage = 'http://localhost/DVWA/login.php'
+	# loginPage = 'http://localhost/DVWA/login.php'
 
 	r.init(visual_automation = True)
 	login(loginPage, creds)
@@ -122,7 +124,6 @@ def main():
 			non_vuln_forms.append(url)
 
 	# Cleanup
-	r.wait(10)
 	r.close()
 
 	results = {}
@@ -130,7 +131,26 @@ def main():
 	results["visited_urls"] = visited_urls
 	results["vuln_forms"] = vuln_forms
 	results["non_vuln_forms"] = non_vuln_forms
+	results["generated_pocs"] = generated_pocs
 	return results #returns dictionary of found urls, form urls, possibly vulnerable forms, non-vulnerable forms
 
 if __name__ == "__main__":
-	main()
+	import argparse
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-c", "--creds", help = "Supply credentials to log into web app. Format = userid:password.", required = True)
+	parser.add_argument("-u", "--url", help = "URL of login page to web app.", required = True)
+	args = parser.parse_args()
+	args = vars(parser.parse_args())
+
+	try:
+		# Split username:password into a list and test if valid url
+		creds = args["creds"].split(":")
+		loginPage = args["url"]
+		r.init(chrome_browser=False)
+		r.url(loginPage)
+		r.close()
+
+	except:
+		print("Please provide credentials in the format userid:password")
+
+	main(creds, loginPage)

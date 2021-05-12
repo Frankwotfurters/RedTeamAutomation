@@ -77,12 +77,21 @@ def linkextractPage():
 
 @app.route("/csrf")
 def csrfPage():
-	return render_template("csrf.html")
+	print(request.args)
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("csrf.html")
+	return render_template("csrf.html", error=error)
 
 @app.route("/csrfRun", methods = ['POST'])
 def csrfRun():
-	target = request.form.get("target")
-	return render_template("csrfRun.html", target=target, results=csrf.main())
+	creds = [request.form.get("userID"), request.form.get("password")]
+	loginPage = request.form.get("target")
+	if loginPage.startswith('http://') or loginPage.startswith('https://'):
+		return render_template("csrfRun.html", results=csrf.main(creds, loginPage))
+	else:
+		return redirect(url_for("csrfPage", error="Target does not begin with http:// or https://"))
 
 @app.route("/vuln-components")
 def vulncompPage():
