@@ -11,6 +11,12 @@
   <hr>
   <h3>Note:</h3>
   <h3>Robotic Process Automation (RPA) Demonstration is available during the scan. The RPA tool will take a screenshot of the vulnerable admin page and save it to the user's system.</h3>
+  <h3>START SCAN:</h3>
+  <form action="/admin-scannerRun" method="POST">
+  	<label for="target">Targets: </label>
+  	<input name="target" id="target">
+  	<input type="submit">
+  </form>
   <h3><b>About:</b></h3>
   <p>Admin Interface Scanner is a tool that scans through a website to locate admin interfaces with common directory names. The scanner will loop through a curated wordlist of commonly compromised admin names, and test connections towards the website. If a connection is opened with a name from the list, the script will detect that and show the results at the end of the scan.</p>
   <h3>Impact:</h3>
