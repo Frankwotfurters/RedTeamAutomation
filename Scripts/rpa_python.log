@@ -1,0 +1,9 @@
+
+START - automation started - Wed May 12 2021 16:33:33 GMT+0800 (+08)
+
+LIVE MODE - type done to quit
+ [RPA][STARTED]
+[RPA][0] - listening for inputs
+[RPA][1] - http://localhost/DVWA/login.php
+[RPA][1] - listening for inputs
+[RPA][2] - exist_result = exist('//*[@name="username"]').toString()

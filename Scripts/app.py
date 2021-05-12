@@ -2,6 +2,7 @@ from subdomain import subdCode
 from sql_injection import scan_sql_injection
 from flask import Flask, redirect, url_for, render_template, request
 import csrf
+import clickjackrpa
 
 app = Flask(__name__)
 
@@ -42,6 +43,11 @@ def adminScannerPage():
 @app.route("/clickjack")
 def clickjackPage():
 	return render_template("clickjack.html")
+
+@app.route("/clickjackRun", methods = ['POST'])
+def clickjackRun():
+	target = request.form.get("target")
+	return render_template("clickjackRun.html", target=target, results=clickjackrpa.main())
 
 @app.route("/xss")
 def xssPage():

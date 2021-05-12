@@ -16,7 +16,12 @@ print(" ")
 
 #User can input what website they want to run the scanner on
 try:
-    target = input(f"{BLUE}ENTER WEBSITE: ")
+    # target = input(f"{BLUE}ENTER WEBSITE: ")
+    targetlist = open("target.txt", "r")
+    target = targetlist.read()
+    targetlist.close() 
+    print("Target: ",target)
+        
 
 #If user interrupts scanner (CTRL C). The scanner will stop and print a message.
 except KeyboardInterrupt:
@@ -35,6 +40,7 @@ admin = []
 wordlist = open("admin_wordlist.txt", "r")
 #wordlist_readlines() will allow the loop to read line by line
 list1 = wordlist.readlines()
+#list2 = list1.rstrip()
 
 for i in list1:
     #Combine the website URL and the admin page name
@@ -66,7 +72,7 @@ for i in list1:
         r.init()
         r.url(curl)
         r.wait()
-        r.snap("page", F"admin-scanner-{time2}.png")
+        r.snap("page", f"admin-scanner-{time2}.png")
         r.close()
         
         
