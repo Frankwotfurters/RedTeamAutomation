@@ -1,3 +1,5 @@
+from subdomain import subdCode
+from sql_injection import scan_sql_injection
 from flask import Flask, redirect, url_for, render_template, request
 import csrf
 
@@ -15,9 +17,19 @@ def aboutPage():
 def sqliPage():
 	return render_template("sqli.html")
 
+@app.route("/sqliRun", methods = ['POST'])
+def sqliRun():
+	target = request.form.get("target")
+	return render_template("sqliRun.html", target=target, results=scan_sql_injection(target))
+
 @app.route("/subdomain")
 def subdPage():
 	return render_template("subdomain.html")
+
+@app.route("/subdomainRun", methods = ['POST'])
+def subdRun():
+	target = request.form.get("target")
+	return render_template("sqliRun.html", target=target, results=subdCode())
 
 @app.route("/th-subdomain")
 def thsubdPage():

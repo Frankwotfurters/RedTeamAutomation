@@ -11,17 +11,20 @@
 <h1>SQL Injection Scanner</h1>
 <hr>
 
-<h4>{{ forward_message }}</h4>
-
+<!--CODE TO RUN SCRIPT-->
+<form action="/sqliRun" method="POST">
+  <label for="target">Target: </label>
+  <input name="target" id="target">
+  <input type="submit">
+</form>
+<br>
 <strong>
   <h3>Note:
     <p>
-      This script will test if a webpage is vulnerable to SQL Injection, mainly from the URL or the forms that are
-      within the page.
+      This script will test if a webpage is vulnerable to SQL Injection (URL or forms).
       <br>
-      Robotic Process Automation (RPA) Demonstration is available during the scan. The RPA tool will take a screenshot
-      of
-      the webpage and save it to the user's system.
+      Robotic Process Automation (RPA) Demonstration is available during the scan.
+      The RPA tool will take a screenshot of the webpage and save it to the user's system.
     </p>
   </h3>
 </strong>
@@ -45,6 +48,4 @@
   persistent backdoor into an organization's systems, leading to a long-term compromise that can go unnoticed for an
   extended period.
 </p>
-
-<!--INSERT CODE TO RUN SCRIPT-->
 {% endblock %}
