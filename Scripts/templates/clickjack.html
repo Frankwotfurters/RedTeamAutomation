@@ -9,17 +9,16 @@
   </div>
   <h1>Clickjacking Scanner</h1>
   <hr>
-  <h3>Note:</h3>
-  <h3>The scanner will detect for any clickjacking vulnerabilities within the website. Robotic Process Automation (RPA) Demonstration is available during the scan. However, due to limitations of the RPA tool, the user will need to access the file system to open the saved POC.</h3>
-  <h3>START SCAN:</h3>
   <form action="/clickjackRun" method="POST" enctype = "multipart/form-data">
     <!-- <label for="target">Targets: </label> -->
-    Enter websites in file (sites.txt)
+    Please save websites to a text file. <br> And enter the name of the text file below.
     <br>
-    <input name="file" type="file" id="target">
-    <br><br>
-  	<input type="submit">
+    <!-- <input name="file" type="file" id="target"> -->
+    <input name="target" id="target">
+  	<input type="submit" value="Start Scan">
   </form>
+  <h3>Note:</h3>
+  <h3>The scanner will detect for any clickjacking vulnerabilities within the website. Robotic Process Automation (RPA) Demonstration is available during the scan. However, due to limitations of the RPA tool, the user will need to access the file system to open the saved POC.</h3>
   <h3>About:</h3>
   <p>Clickjacking is an attack that tricks a user into clicking a webpage element which is invisible or disguised as another element. This can cause users to unwittingly download malware, visit malicious web pages, provide credentials or sensitive information, transfer money, or purchase products online.</p>
   <h3>Impact:</h3>

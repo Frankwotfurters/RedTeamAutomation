@@ -36,12 +36,10 @@ def create_poc(url):
 
 def main(target):
     ''' Everything comes together '''
-    print(target)
+    #print(target)
     try: sites = open(target, 'r').readlines()
-    #try: sites = open(file, 'r').readlines() 
-    #try: for sites in targets:
     except: print("[*] Usage: python(3) clickjacking_tester.py <file_name>"); exit(0)
-    #except: print(sites)
+    #file = open("sites.txt", 'r').readlines()
 
     for site in sites[0:]:
         print("\n[*] Checking " + site)

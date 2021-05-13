@@ -75,7 +75,8 @@ def clickjackPage():
 
 @app.route("/clickjackRun", methods = ['POST'])
 def clickjackRun():
-	target = request.files['target']
+	#target = request.files['target']
+	target = request.form.get("target")
 	return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target))
 
 @app.route("/xss")
