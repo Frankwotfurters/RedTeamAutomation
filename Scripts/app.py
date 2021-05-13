@@ -1,5 +1,5 @@
 from subdomain import subdCode
-from threaded_subdomain import thsubdRun
+from threaded_subdomain import main
 from sql_injection import scan_sql_injection
 from flask import Flask, redirect, url_for, render_template, request
 import csrf
@@ -59,7 +59,7 @@ def thsubdRun():
 	target = request.form.get("target")
 	domain = request.form.get("target2")
 	outputFile = request.form.get("target3")
-	return render_template("th-subdomainRun.html", target=target, domain=domain, outputFile=outputFile, results=thsubdRun())
+	return render_template("th-subdomainRun.html", target=target, domain=domain, outputFile=outputFile, results=main(domain, n_threads, subdomains))
 
 @app.route("/admin-scanner")
 def adminScannerPage():
