@@ -9,9 +9,12 @@
   </div>
   <h1>Clickjacking Scanner</h1>
   <hr>
+  {% if error %}
+    <b><p>ERROR: {{error}}</p></b>
+  {% endif %}
   <form action="/clickjackRun" method="POST" enctype = "multipart/form-data">
     <!-- <label for="target">Targets: </label> -->
-    Please save websites to a text file. <br> And enter the name of the text file below.
+    Please save websites to a text (.txt) file. <br> And enter the name of the text file below.
     <br>
     <!-- <input name="file" type="file" id="target"> -->
     <input name="target" id="target">

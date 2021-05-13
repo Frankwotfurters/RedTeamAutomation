@@ -62,22 +62,42 @@ def thsubdRun():
 
 @app.route("/admin-scanner")
 def adminScannerPage():
-	return render_template("admin-scanner.html")
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("admin-scanner.html")
+	return render_template("admin-scanner.html", error=error)
 
 @app.route("/admin-scannerRun", methods = ['POST'])
 def adminScannerRun():
 	target = request.form.get("target")
-	return render_template("admin-scannerRun.html", target=target, results=main(target))
+	count = 0
+	if target.startswith('http://') or target.startswith('https://'):
+		count = count +1
+	if target.endswith('/'):
+		count = count +1
+	if count == 2:
+		return render_template("admin-scannerRun.html", target=target, results=main(target))
+	else:
+		return redirect(url_for("adminScannerPage", error="Please follow the recommended format!"))
 
 @app.route("/clickjack")
 def clickjackPage():
-	return render_template("clickjack.html")
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("clickjack.html")
+	return render_template("clickjack.html", error=error)
 
 @app.route("/clickjackRun", methods = ['POST'])
 def clickjackRun():
 	#target = request.files['target']
 	target = request.form.get("target")
-	return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target))
+	if target.endswith('.txt'):
+		return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target))
+	else:
+		return redirect(url_for("clickjackPage", error="Only files with the '.txt' extension are allowed!"))
+
 
 @app.route("/xss")
 def xssPage():
@@ -117,6 +137,7 @@ def csrfRun():
 @app.route("/vuln-components")
 def vulncompPage():
 	return render_template("vuln-components.html")
+
 
 if  __name__ == "__main__":
 	app.run(debug=True)

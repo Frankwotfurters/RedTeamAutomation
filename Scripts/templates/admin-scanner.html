@@ -9,6 +9,11 @@
   </div>
   <h1>Admin Interface Scanner</h1>
   <hr>
+
+  {% if error %}
+    <b><p>ERROR: {{error}}</p></b>
+  {% endif %}
+
   <form action="/admin-scannerRun" method="POST">
     Please enter target URL according to the recommended format:<br>
     Format: http://website.com/subdirectory/

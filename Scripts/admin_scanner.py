@@ -26,6 +26,11 @@ def main(target):
 
     #User can input what website they want to run the scanner on
     try:
+        # if target.endswith("/"):
+        #     print("Target: ",target)
+        # else:
+        #     print('Please follow the recommended format!')
+        #     exit()
         # target = input(f"{BLUE}ENTER WEBSITE: ")
         # targetlist = open("target.txt", "r")
         # target = targetlist.read()
