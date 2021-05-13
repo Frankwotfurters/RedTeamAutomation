@@ -1,5 +1,5 @@
 from subdomain import subdCode
-from threaded_subdomain import main
+from threaded_subdomain import subdCode
 from sql_injection import scan_sql_injection
 from flask import Flask, redirect, url_for, render_template, request
 import csrf
@@ -7,6 +7,7 @@ import clickjackrpa
 from admin_scanner import main
 import admin_scanner
 import sensitivedatarpa
+
 
 app = Flask(__name__)
 
@@ -58,7 +59,7 @@ def thsubdRun():
 	target = request.form.get("target")
 	domain = request.form.get("target2")
 	outputFile = request.form.get("target3")
-	return render_template("th-subdomainRun.html", target=target, domain=domain, outputFile=outputFile, results=main(domain, n_threads, subdomains))
+	return render_template("th-subdomainRun.html", target=target, domain=domain, outputFile=outputFile, results=thsubdRun())
 
 @app.route("/admin-scanner")
 def adminScannerPage():
@@ -96,7 +97,7 @@ def clickjackRun():
 	if target.endswith('.txt'):
 		return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target))
 	else:
-		return redirect(url_for("clickjackPage", error="Only files with the '.txt' extension are allowed!"))
+		return redirect(url_for("clickjackPage", error="Only files with the '.txt' extension are  allowed!"))
 
 
 @app.route("/xss")

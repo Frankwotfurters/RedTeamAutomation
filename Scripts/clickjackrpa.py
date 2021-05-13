@@ -2,6 +2,12 @@ from urllib.request import urlopen
 from sys import argv, exit
 import rpa as r
 import requests
+from fpdf import FPDF
+
+#Generate PDF
+pdf = FPDF('P', 'mm', 'A4')
+pdf.add_page()
+pdf.set_font('Arial','B', 12)
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -43,12 +49,15 @@ def main(target):
 
     for site in sites[0:]:
         print("\n[*] Checking " + site)
+        pdf_cell(40, 10, "\n[*] Checking " + site)
         status = check(site)
 
         if status:
             print("[+] Website is vulnerable!")
+            pdf_cell(40, 10, "[+] Website is vulnerable!")
             create_poc(site.split('\n')[0])
             print("[*] Created a poc and saved to <URL>.html")
+            pdf_cell(40, 10, "[*] Created a poc and saved to <URL>.html")
             r.init(visual_automation=True)
             #file:///root/Documents/ProjectScripts/www6.turkhackteam.com.html
             #test = "file:///root/Documents/ProjectScripts/"
@@ -63,8 +72,14 @@ def main(target):
 
             print(" ")
 
-        elif not status: print("[-] Website is not vulnerable!")
-        else: print('Everything crashed, RIP.')
+        elif not status: 
+            print("[-] Website is not vulnerable!") 
+            pdf_cell(40, 10, "[-] Website is not vulnerable!")
+        else: 
+            print('Everything crashed, RIP.') 
+            pdf_cell(40, 10, "[-] Website is not vulnerable!")
+
+pdf.output(f'clickjack.pdf', 'F')
 
 if __name__ == '__main__': 
     main()
