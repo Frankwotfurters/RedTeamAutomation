@@ -6,7 +6,8 @@ import csrf
 import clickjackrpa
 from admin_scanner import main
 import admin_scanner
-import sensitivedatarpa
+from sensitivedatarpa import scan_sensitive_data
+from linkextractorrpa import scan_link_extract
 
 
 app = Flask(__name__)
@@ -107,15 +108,39 @@ def xssPage():
 @app.route("/sensitive-data")
 def sendataPage():
 	return render_template("sensitive-data.html")
+	print(request.args)
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("sensitive-data.html")
+	return render_template("sensitive-data.html", error=error)
 
 @app.route("/sensitive-dataRun", methods = ['POST'])
 def sendataRun():
 	target = request.form.get("target")
-	return render_template("sensitive-dataRun.html", results=sensitivedatarpa.main(target))
+	if target.startswith('http://') or target.startswith('https://'):
+			return render_template("sensitive-dataRun.html", target=target, results=scan_sensitive_data(target))
+	else:
+		return redirect(url_for("sendataPage", error="Target does not begin with http:// or https://"))
+	
 
 @app.route("/link-extractor")
 def linkextractPage():
 	return render_template("link-extractor.html")
+	print(request.args)
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("link-extractor.html")
+	return render_template("link-extractor.html", error=error)
+
+@app.route("/link-extractorRun", methods = ['POST'])
+def linkextractRun():
+	target = request.form.get("target")
+	if target.startswith('http://') or target.startswith('https://'):
+			return render_template("link-extractorRun.html", target=target, results=scan_link_extract(target))
+	else:
+		return redirect(url_for("linkextractPage", error="Target does not begin with http:// or https://"))
 
 @app.route("/csrf")
 def csrfPage():
