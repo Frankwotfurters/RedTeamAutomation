@@ -6,7 +6,11 @@ from fpdf import FPDF
 domain = "google.com"
 
 # read all subdomains
-subdomains = open("subdomains.txt", 'r').readlines()
+file = open("subdomains.txt")
+# read all content
+content = file.read()
+# split by new lines
+subdomains = content.splitlines()
 
 def subdCode():
     # generate pdf
