@@ -3,6 +3,7 @@ import rpa as r
 from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 from pprint import pprint
+from fpdf import FPDF
 
 s = requests.Session()
 s.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
@@ -58,6 +59,15 @@ def is_vulnerable(response):
     return False
 
 def scan_sql_injection(url):
+    # generate pdf
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', size=16)
+    pdf.cell(200, 10, txt="RTA Integrated RPA", ln=2, align='L')
+    pdf.set_font('')
+    pdf.set_font('Arial', size=12)
+    pdf.cell(200, 10, txt="Scanner: SQL Injection", ln=1, align='L')
+    pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
     # test on URL
     for c in "\"'":
         # add quote/double quote character to the URL
@@ -75,6 +85,12 @@ def scan_sql_injection(url):
             r.wait()
             r.snap('page', url+'.png')
             r.close()
+
+            pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+            pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+            pdf.cell(200, 10, txt= "[+] SQL Injection vulnerability detected (URL):"+ url, ln=1, align="L")
+            pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+            pdf.output(f'sql-injection.pdf')
             return
     # test on HTML forms
     forms = get_all_forms(url)
@@ -112,8 +128,16 @@ def scan_sql_injection(url):
                 r.wait()
                 r.snap('page', url+'.png')
                 r.close()
-                break   
 
+                pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+                pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+                pdf.cell(200, 10, txt= "[+] SQL Injection vulnerability detected with specified link (FORM):", ln=1, align="L")
+                pdf.cell(200, 10, txt= "[+] Form:", ln=1, align="L")
+                pdf.cell(200, 10, print(form_details), ln=1, align="L")
+                pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+                pdf.output(f'sql-injection.pdf')
+                break   
+            
 if __name__ == "__main__":
     import sys
     url = sys.argv[1]

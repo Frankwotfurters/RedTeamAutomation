@@ -2,6 +2,7 @@ import requests
 from threading import Thread, Lock
 from queue import Queue
 import rpa as r
+from fpdf import FPDF
 
 q = Queue()
 list_lock = Lock()
@@ -29,6 +30,11 @@ def scan_subdomains(domain):
                 r.wait()
                 r.snap('page', url+'.png')
                 r.close()
+                r.clipboard("file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/discovered_domains.html")
+                r.url()
+                r.keyboard("[ctrl]l")
+                r.keyboard("[ctrl]v")
+                r.keyboard("[enter]")
         # we're done with scanning that subdomain
         q.task_done()
 
