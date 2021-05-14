@@ -2,12 +2,7 @@ from urllib.request import urlopen
 from sys import argv, exit
 import rpa as r
 import requests
-#from fpdf import FPDF
-
-#Generate PDF
-# pdf = FPDF('P', 'mm', 'A4')
-# pdf.add_page()
-# pdf.set_font('Arial','B', 12)
+from fpdf import FPDF
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -42,6 +37,16 @@ def create_poc(url):
 
 def main(target):
     ''' Everything comes together '''
+    #Generate PDF
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', size=16)
+    pdf.cell(200, 10, txt="RTA Integrated RPA", ln=2, align='L')
+    pdf.set_font('')
+    pdf.set_font('Arial', size=12)
+    pdf.cell(200, 10, txt="Scanner: Clickjacking", ln=1, align='L')
+    pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
+
     #print(target)
     try: sites = open(target, 'r').readlines()
     except: print("[*] Usage: python(3) clickjacking_tester.py <file_name>"); exit(0)
@@ -49,15 +54,15 @@ def main(target):
 
     for site in sites[0:]:
         print("\n[*] Checking " + site)
-        # pdf_cell(40, 10, "\n[*] Checking " + site)
+        pdf.cell(200, 10, txt="[*] Checking " + site, ln=1, align="L")
         status = check(site)
 
         if status:
             print("[+] Website is vulnerable!")
-            # pdf_cell(40, 10, "[+] Website is vulnerable!")
+            pdf.cell(200, 10, txt="[+] Website is vulnerable!", ln=1, align="L")
             create_poc(site.split('\n')[0])
             print("[*] Created a poc and saved to <URL>.html")
-            # pdf_cell(40, 10, "[*] Created a poc and saved to <URL>.html")
+            pdf.cell(40, 10, txt=f"[*] Created a poc and saved to {site}.html", ln=1, align="L")
             r.init(visual_automation=True)
             #file:///root/Documents/ProjectScripts/www6.turkhackteam.com.html
             #test = "file:///root/Documents/ProjectScripts/"
@@ -74,12 +79,14 @@ def main(target):
 
         elif not status: 
             print("[-] Website is not vulnerable!") 
-            # pdf_cell(40, 10, "[-] Website is not vulnerable!")
+            pdf.cell(200, 10, txt="[-] Website is not vulnerable!", ln=1, align="L")
+            pdf.cell(200, 10, txt=" ", ln=1, align="L")
         else: 
             print('Everything crashed, RIP.') 
-            # pdf_cell(40, 10, "[-] Website is not vulnerable!")
+            pdf.cell(200, 10, txt="[-] Everything crashed, RIP.", ln=1, align="L")
 
-# pdf.output(f'clickjack.pdf', 'F')
+    pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+    pdf.output(f'clickjack-{target}.pdf')
 
 if __name__ == '__main__': 
     main()
