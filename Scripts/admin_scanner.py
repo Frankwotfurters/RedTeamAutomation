@@ -5,7 +5,7 @@ import sys
 from colorama import init, Fore
 import rpa as r
 import requests
-
+from fpdf import FPDF
 
 
 
@@ -16,6 +16,17 @@ import requests
 def main(target):
     #target = request.form.get['target']
     #Define colours for different outputs
+    
+    #Generate PDF
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', size=16)
+    pdf.cell(200, 10, txt="RTA Integrated RPA", ln=2, align='L')
+    pdf.set_font('')
+    pdf.set_font('Arial', size=12)
+    pdf.cell(200, 10, txt="Scanner: Admin Interface", ln=1, align='L')
+    pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
+
     GREEN = Fore.GREEN
     RED = Fore.RED
     BLUE = Fore.BLUE
@@ -36,6 +47,7 @@ def main(target):
         # target = targetlist.read()
         # targetlist.close() 
         print("Target: ",target)
+        pdf.cell(200, 10, txt="Target Scanned: "+target, ln=1, align="L")
             
 
     #If user interrupts scanner (CTRL C). The scanner will stop and print a message.
@@ -46,6 +58,7 @@ def main(target):
     print(" ")
     time1 = time.strftime("[%I:%M:%S]")
     print(time1,f"{GREEN}[+] STARTING SCAN ON " + target)
+    pdf.cell(200, 10, txt=f"Scan Start Time: {time1}", ln=1, align="L")
 
     #Create an empty array to store admin pages that were found
     admin = []
@@ -84,6 +97,7 @@ def main(target):
             admin.append(curl)
             time2 = time.strftime("[%I:%M:%S]")
             print(time2,f"{GREEN}[+] FOUND POSSIBLE ADMIN PAGE:",curl)
+            #pdf.cell(200, 10, txt="[+] FOUND POSSIBLE ADMIN PAGE:"+ curl, ln=1, align="L")
             r.init()
             r.url(curl)
             r.wait()
@@ -104,6 +118,12 @@ def main(target):
         print(f"{RED}[-] VULNERABILITY DETECTED: OWASP 2017 A6 [SECURITY MISCONFIGURATIONS]")
         print(f"{RED}[-] SCANNER WAS ABLE TO LOCATE ADMIN PAGE(S) OF WEBSITE")
         print(f"{RED}[-] POSSIBLE ADMIN PAGE(S): ")
+        pdf.cell(200, 10, txt=f"Scan End Time: {time3}", ln=1, align="L")
+        pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+        pdf.cell(200, 10, txt="[-] Website is vulnerable.", ln=1, align="L")
+        pdf.cell(200, 10, txt="[-] Vulnerability Detected: OWASP Top 10 - Security Misconfigurations", ln=1, align="L")
+        pdf.cell(200, 10, txt="[-] Scanner was able to locate admin page(s) of website", ln=1, align="L")
+        pdf.cell(200, 10, txt="[-] Possible admin page(s): ", ln=1, align="L")
         
         #New array to omit the "\n" from the admin array
         admin2 = [ ]
@@ -111,13 +131,20 @@ def main(target):
             admin2.append(i.strip())
 
         print(admin2)
+        pdf.cell(200, 10, txt=f"{admin2}\n", ln=1, align="L")
 
     else:
         print(f"{GREEN}[+] WEBSITE IS NOT VULNERABLE.")
         print(f"{GREEN}[+] SCANNER WAS UNABLE TO LOCATE ADMIN PAGE(S).")
+        pdf.cell(200, 10, txt="[+] Website is not vulnerable", ln=1, align="L")
+        pdf.cell(200, 10, txt="[+] Scanner was unable to locate admin page(s)", ln=1, align="L")
 
     print(" ")
     print(f"{BLUE}END OF RESULT")
+
+    pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+    pdf.output(f'adminscanner.pdf')
+
 
 if __name__ == "__main__":
     main()
