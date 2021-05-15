@@ -103,7 +103,9 @@ def main(target):
             r.init()
             r.url(curl)
             r.wait()
-            r.snap("page", f"admin-scanner-{time2}.png")
+            ss = []
+            ss.append(f"admin-scanner-{curl}.png")
+            r.snap("page", f"admin-scanner-{curl}.png")
             r.close()
             
             
@@ -142,11 +144,26 @@ def main(target):
         pdf.cell(200, 10, txt="[+] Scanner was unable to locate admin page(s)", ln=1, align="L")
 
     print(" ")
+    pdf.cell(40, 10, txt=f"Screenshot(s) of POC will be in the following page(s).", ln=1, align="L")
     print(f"{BLUE}END OF RESULT")
 
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+    # To add screenshots of all vulnerable pages to the PDF Report
+    # for i in ss:
+    #     pdf.add_page(orientation="L", format="A4")
+    #     pdf.set_font('Arial', size=12)
+    #     pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
+    #     pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
     pdf.output(f'adminscan({time1}).pdf')
 
+    #RPA (To open PDF file after scan)
+    # outputfile = f"adminscan({time1}).pdf"
+    # r.init(visual_automation=True)
+    # r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
+    # r.url()
+    # r.keyboard("[ctrl]l")
+    # r.keyboard("[ctrl]v")
+    # r.keyboard("[enter]")
 
 if __name__ == "__main__":
     main()

@@ -64,19 +64,23 @@ def main(target):
 
         if status:
             print("[+] Website is vulnerable!")
-            pdf.cell(200, 10, txt="[+] Website is vulnerable!", ln=1, align="L")
+            pdf.cell(200, 10, txt=f"[+] {site} is vulnerable!", ln=1, align="L")
             create_poc(site.split('\n')[0])
             print("[*] Created a poc and saved to <URL>.html")
-            pdf.cell(40, 10, txt=f"[*] Created a poc and saved to {site}.html", ln=1, align="L")
+            pdf.cell(40, 10, txt=f"[*] Created a POC and saved to {site}.html", ln=1, align="L")
+            pdf.cell(40, 10, txt=f"Screenshot(s) of POC will be in the following page(s).", ln=1, align="L")
             r.init(visual_automation=True)
             #file:///root/Documents/ProjectScripts/www6.turkhackteam.com.html
             #test = "file:///root/Documents/ProjectScripts/"
+            #RPA (To take screenshot)
             r.clipboard("file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/"+site+".html")
             r.url()
             r.keyboard("[ctrl]l")
             r.keyboard("[ctrl]v")
             r.keyboard("[enter]")
             r.wait()
+            ss = []
+            ss.append(f"clickjack-{site}.png")
             r.snap("page", f"clickjack-{site}.png")
             r.close()
 
@@ -84,16 +88,31 @@ def main(target):
 
         elif not status: 
             print("[-] Website is not vulnerable!") 
-            pdf.cell(200, 10, txt="[-] Website is not vulnerable!", ln=1, align="L")
+            pdf.cell(200, 10, txt=f"[-] {site} is not vulnerable!", ln=1, align="L")
             pdf.cell(200, 10, txt=" ", ln=1, align="L")
         else: 
             print('Everything crashed, RIP.') 
             pdf.cell(200, 10, txt="[-] Everything crashed, RIP.", ln=1, align="L")
     
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-    # pdf.add_page()
-    # pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{site}.png')
+    # To add screenshots of all vulnerable pages to the PDF Report
+    for i in ss:
+        pdf.add_page(orientation="L", format="A4")
+        pdf.set_font('Arial', size=12)
+        pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
+        pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+
+    
     pdf.output(f"clickjack({time1}).pdf")
+
+    #RPA (To open PDF file after scan)
+    outputfile = f"clickjack({time1}).pdf"
+    r.init(visual_automation=True)
+    r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
+    r.url()
+    r.keyboard("[ctrl]l")
+    r.keyboard("[ctrl]v")
+    r.keyboard("[enter]")
 
 if __name__ == '__main__': 
     main()
