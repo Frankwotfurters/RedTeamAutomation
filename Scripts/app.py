@@ -2,15 +2,20 @@ from subdomain import subdCode
 from threaded_subdomain import main
 from sql_injection import scan_sql_injection
 from flask import Flask, redirect, url_for, render_template, request
-import csrf
 import clickjackrpa
 from admin_scanner import main
 import admin_scanner
 from sensitivedatarpa import scan_sensitive_data
 from linkextractorrpa import scan_link_extract
+import csrf
+import vulncomponents
 
 
 app = Flask(__name__)
+
+@app.route("/")
+def root():
+	return redirect(url_for("index"))
 
 @app.route("/index")
 def index():
@@ -143,7 +148,6 @@ def linkextractRun():
 
 @app.route("/csrf")
 def csrfPage():
-	print(request.args)
 	try:
 		error = request.args["error"]
 	except:
@@ -161,7 +165,19 @@ def csrfRun():
 
 @app.route("/vuln-components")
 def vulncompPage():
-	return render_template("vuln-components.html")
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("vuln-components.html")
+	return render_template("vuln-components.html", error=error)
+
+@app.route("/vuln-componentsRun", methods = ['POST'])
+def vulncompRun():
+	target = request.form.get("target")
+	if target.startswith('http://') or target.startswith('https://'):
+		return render_template("vuln-componentsRun.html", results=vulncomponents.main(target))
+	else:
+		return redirect(url_for("vulncompPage", error="Target does not begin with http:// or https://"))
 
 
 if  __name__ == "__main__":
