@@ -64,7 +64,7 @@ def subdCode():
     # RPA (To open PDF file after scan)
     outputfile = f"subdomains-scanned({time1}).pdf"
     r.init(visual_automation=True)
-    r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
+    r.clipboard(f"file:///media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
