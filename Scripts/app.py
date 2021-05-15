@@ -107,7 +107,6 @@ def xssPage():
 
 @app.route("/sensitive-data")
 def sendataPage():
-	return render_template("sensitive-data.html")
 	print(request.args)
 	try:
 		error = request.args["error"]

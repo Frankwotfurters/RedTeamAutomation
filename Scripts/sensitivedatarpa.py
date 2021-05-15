@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 import re
+from fpdf import FPDF
 
 def get_all_forms(url):
     """Given a url, it returns all forms from the HTML content"""
@@ -89,6 +90,15 @@ def scan_form(url):
             # won't break because we want to print other available vulnerable forms
     #return is_vulnerable
 def scan_sensitive_data(url):
+    #Generate PDF
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', size=16)
+    pdf.cell(200, 10, txt="RTA Integrated RPA", ln=2, align='L')
+    pdf.set_font('')
+    pdf.set_font('Arial', size=12)
+    pdf.cell(200, 10, txt="Scanner: Sensitive Data Exposure", ln=1, align='L')
+    pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
     s = requests.Session()
     req = requests.get(url)
@@ -119,10 +129,27 @@ def scan_sensitive_data(url):
     for i in data:
         r.type('//*[@name=' + '"' + i + '"]', 'password[enter]')
 
+    r.snap('page', 'sensitive-dataResults.png')
+    
+
     if "Incorrect username or password" in r.text():
-        print("Sensitive Data Exposure: False")
+        #print("Sensitive Data Exposure: False")
+        pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+        pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+        pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL):"+ url, ln=1, align="L")
+        pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/sensitive-dataResults.png',10,10,80,500)
+        pdf.output(f'sensitive-data.pdf')
     else:
-        print("Sensitive Data Exposure: True")
+        #print("Sensitive Data Exposure: True")
+        pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+        pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+        pdf.cell(200, 10, txt= "[+] Sensitive Data Exposure detected (URL):"+ url, ln=1, align="L")
+        pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/sensitive-dataResults.png',-50,90,300,120)
+        pdf.output(f'sensitive-data.pdf')
+
+   
 
 if __name__ == "__main__":
     import argparse

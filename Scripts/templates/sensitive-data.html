@@ -11,6 +11,10 @@
   <h1>Sensitive Data Exposure Detector</h1>
   <hr>
 
+  {% if error %}
+  <p>{{error}}</p>
+{% endif %}
+
   <form action="/sensitive-dataRun" method="POST">
     <label for="target">Target URL: </label>
     <input name="target" id="target">
