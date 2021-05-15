@@ -25,6 +25,9 @@ def main(target):
     pdf.set_font('')
     pdf.set_font('Arial', size=12)
     pdf.cell(200, 10, txt="Scanner: Admin Interface", ln=1, align='L')
+    timestart = time.strftime("%d/%m/%Y %I:%M:%S")
+    time1 = time.strftime("%-H%M")
+    pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
     GREEN = Fore.GREEN
@@ -56,9 +59,8 @@ def main(target):
         exit()
 
     print(" ")
-    time1 = time.strftime("[%I:%M:%S]")
     print(time1,f"{GREEN}[+] STARTING SCAN ON " + target)
-    pdf.cell(200, 10, txt=f"Scan Start Time: {time1}", ln=1, align="L")
+    #pdf.cell(200, 10, txt=f"Scan Start Time: {time1}", ln=1, align="L")
 
     #Create an empty array to store admin pages that were found
     admin = []
@@ -118,7 +120,7 @@ def main(target):
         print(f"{RED}[-] VULNERABILITY DETECTED: OWASP 2017 A6 [SECURITY MISCONFIGURATIONS]")
         print(f"{RED}[-] SCANNER WAS ABLE TO LOCATE ADMIN PAGE(S) OF WEBSITE")
         print(f"{RED}[-] POSSIBLE ADMIN PAGE(S): ")
-        pdf.cell(200, 10, txt=f"Scan End Time: {time3}", ln=1, align="L")
+        #pdf.cell(200, 10, txt=f"Scan End Time: {time3}", ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
         pdf.cell(200, 10, txt="[-] Website is vulnerable.", ln=1, align="L")
         pdf.cell(200, 10, txt="[-] Vulnerability Detected: OWASP Top 10 - Security Misconfigurations", ln=1, align="L")
@@ -143,7 +145,7 @@ def main(target):
     print(f"{BLUE}END OF RESULT")
 
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-    pdf.output(f'adminscanner.pdf')
+    pdf.output(f'adminscan({time1}).pdf')
 
 
 if __name__ == "__main__":

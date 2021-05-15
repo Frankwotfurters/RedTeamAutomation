@@ -3,6 +3,7 @@ from sys import argv, exit
 import rpa as r
 import requests
 from fpdf import FPDF
+import time
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -45,13 +46,17 @@ def main(target):
     pdf.set_font('')
     pdf.set_font('Arial', size=12)
     pdf.cell(200, 10, txt="Scanner: Clickjacking", ln=1, align='L')
+
+    timestart = time.strftime("%d/%m/%Y %I:%M:%S")
+    time1 = time.strftime("%-H%M")
+    pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
     #print(target)
     try: sites = open(target, 'r').readlines()
     except: print("[*] Usage: python(3) clickjacking_tester.py <file_name>"); exit(0)
     #file = open("sites.txt", 'r').readlines()
-
+ 
     for site in sites[0:]:
         print("\n[*] Checking " + site)
         pdf.cell(200, 10, txt="[*] Checking " + site, ln=1, align="L")
@@ -84,9 +89,11 @@ def main(target):
         else: 
             print('Everything crashed, RIP.') 
             pdf.cell(200, 10, txt="[-] Everything crashed, RIP.", ln=1, align="L")
-
+    
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-    pdf.output(f'clickjack-{target}.pdf')
+    # pdf.add_page()
+    # pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{site}.png')
+    pdf.output(f"clickjack({time1}).pdf")
 
 if __name__ == '__main__': 
     main()
