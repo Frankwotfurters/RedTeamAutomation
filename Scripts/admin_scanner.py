@@ -71,7 +71,7 @@ def main(target):
     #wordlist_readlines() will allow the loop to read line by line
     list1 = wordlist.readlines()
     #list2 = list1.rstrip()
-
+    ss = []
     for i in list1:
         #Combine the website URL and the admin page name
         curl = target + i
@@ -97,15 +97,15 @@ def main(target):
             if curl in admin:
                 break
             admin.append(curl)
+            imgtime = time.strftime("(%I%M)")
             time2 = time.strftime("[%I:%M:%S]")
             print(time2,f"{GREEN}[+] FOUND POSSIBLE ADMIN PAGE:",curl)
             #pdf.cell(200, 10, txt="[+] FOUND POSSIBLE ADMIN PAGE:"+ curl, ln=1, align="L")
             r.init()
             r.url(curl)
             r.wait()
-            ss = []
-            ss.append(f"admin-scanner-{curl}.png")
-            r.snap("page", f"admin-scanner-{curl}.png")
+            ss.append(f"admin-scanner-{imgtime}.png")
+            r.snap("page", f"admin-scanner-{imgtime}.png")
             r.close()
             
             
@@ -149,21 +149,22 @@ def main(target):
 
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
     # To add screenshots of all vulnerable pages to the PDF Report
-    # for i in ss:
-    #     pdf.add_page(orientation="L", format="A4")
-    #     pdf.set_font('Arial', size=12)
-    #     pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
-    #     pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+    for i in ss:
+        pdf.add_page(orientation="L", format="A4")
+        pdf.set_font('Arial', size=12)
+        pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
+        pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+    
     pdf.output(f'adminscan({time1}).pdf')
 
     #RPA (To open PDF file after scan)
-    # outputfile = f"adminscan({time1}).pdf"
-    # r.init(visual_automation=True)
-    # r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
-    # r.url()
-    # r.keyboard("[ctrl]l")
-    # r.keyboard("[ctrl]v")
-    # r.keyboard("[enter]")
+    outputfile = f"adminscan({time1}).pdf"
+    r.init(visual_automation=True)
+    r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
+    r.url()
+    r.keyboard("[ctrl]l")
+    r.keyboard("[ctrl]v")
+    r.keyboard("[enter]")
 
 if __name__ == "__main__":
     main()
