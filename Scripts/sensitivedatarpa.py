@@ -132,8 +132,10 @@ def scan_sensitive_data(url):
         break
     for i in data:
         r.type('//*[@name=' + '"' + i + '"]', 'password[enter]')
-
-    r.snap('page', 'sensitive-dataResults.png')
+    s = url
+    n = s.translate({ord(i): None for i in ':/'})
+    #print(n)
+    r.snap('page', n+'.png')
     r.close()
 
     if "Incorrect username or password" in r.text():
@@ -142,7 +144,7 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
         pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/sensitive-dataResults.png',10,10,80,500)
+        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/'+n+'.png',10,10,80,500)
         pdf.output(f'sensitive-data({time1}).pdf')
     else:
         #print("Sensitive Data Exposure: True")
@@ -150,7 +152,7 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
         pdf.cell(200, 10, txt= "[+] Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/sensitive-dataResults.png',-50,90,300,120)
+        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
         pdf.output(f'sensitive-data({time1}).pdf')
 
         #RPA (To open PDF file after scan)
