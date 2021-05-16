@@ -13,6 +13,8 @@ content = file.read()
 # split by new lines
 subdomains = content.splitlines()
 
+imageTime = time.strftime("%-H%M")
+
 def subdCode():
     # generate pdf
     pdf = FPDF()
@@ -42,7 +44,9 @@ def subdCode():
         r.wait()
         ss = []
         ss.append(f"subdomains-{url}.png")
-        r.snap('page', url+'.png')
+        x = url
+        n = x.translate({ord(i): None for i in ':/'})
+        r.snap('page', 'subdomains-'+imageTime+'.png')
         r.close()
         
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
@@ -52,12 +56,12 @@ def subdCode():
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
     pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
-    # # To add screenshots of all vulnerable pages to the PDF Report
-    # for i in ss:
-    #     pdf.add_page(orientation="L", format="A4")
-    #     pdf.set_font('Arial', size=12)
-    #     pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
-    #     pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+    # To add screenshots of all vulnerable pages to the PDF Report
+    for i in ss:
+        pdf.add_page()
+        pdf.set_font('Arial', size=12)
+        pdf.cell(200, 10, txt=f"({i})", ln=1, align='L')
+        pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/subdomains-{imageTime}.png',50,50,300,120)
 
     pdf.output(f'subdomains-scanned({time1}).pdf')
 
