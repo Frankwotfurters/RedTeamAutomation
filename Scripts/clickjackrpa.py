@@ -4,6 +4,7 @@ import rpa as r
 import requests
 from fpdf import FPDF
 import time
+import os.path
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -49,6 +50,7 @@ def main(target):
 
     timestart = time.strftime("%d/%m/%Y %I:%M:%S")
     time1 = time.strftime("%-H%M")
+    imgtime = time.strftime("(%d%m-%I%M%S)")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
@@ -72,16 +74,19 @@ def main(target):
             r.init(visual_automation=True)
             #file:///root/Documents/ProjectScripts/www6.turkhackteam.com.html
             #test = "file:///root/Documents/ProjectScripts/"
+
+            pwd = os.path.dirname(os.path.realpath(__file__))
+            saved = pwd + "/" + site + "/" + ".html"
             #RPA (To take screenshot)
-            r.clipboard("file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/"+site+".html")
+            r.clipboard(f"file://{saved}")
             r.url()
             r.keyboard("[ctrl]l")
             r.keyboard("[ctrl]v")
             r.keyboard("[enter]")
             r.wait()
             ss = []
-            ss.append(f"clickjack-{site}.png")
-            r.snap("page", f"clickjack-{site}.png")
+            ss.append(f"clickjack-{imgtime}.png")
+            r.snap("page", f"clickjack-{imgtime}.png")
             r.close()
 
             print(" ")
@@ -100,17 +105,17 @@ def main(target):
         pdf.add_page(orientation="L", format="A4")
         pdf.set_font('Arial', size=12)
         pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
-        pdf.image(f'/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{i}',50,50,300,120)
+        pdf.image(f'{pwd}/{i}',50,50,300,120)
 
     pdf.output(f"clickjack({time1}).pdf")
 
     displayfile = []
-    displayfile.append(f"clickjack({time1}).pdf")
-    outputfile = f"clickjack({time1}).pdf"
+    displayfile.append(f"{pwd}/clickjack({time1}).pdf")
+    outputfile = f"{pwd}/clickjack({time1}).pdf"
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)
-    r.clipboard(f"file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{outputfile}")
+    r.clipboard(f"file://{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
