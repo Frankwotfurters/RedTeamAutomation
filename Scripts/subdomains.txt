@@ -1,1 +1,5 @@
-google.com
+www
+mail
+ftp
+localhost
+webmail
