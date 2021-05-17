@@ -70,6 +70,7 @@ def scan_sql_injection(url):
     pdf.cell(200, 10, txt="Scanner: SQL Injection", ln=1, align='L')
     timestart = time.strftime("%d/%m/%Y %I:%M:%S")
     time1 = time.strftime("%-H%M")
+    imageTime = time.strftime("%-H%M")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
     # test on URL
@@ -87,9 +88,7 @@ def scan_sql_injection(url):
             r.init()
             r.url(url+'%27')
             r.wait()
-            ss = []
-            ss.append(f"sql-injection-{url}.png")
-            r.snap('page', url+'.png')
+            r.snap('page', 'sql-injection-'+imageTime+'.png')
             r.close()
 
             pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
@@ -98,19 +97,18 @@ def scan_sql_injection(url):
             pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
             pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
-            # # To add screenshots of all vulnerable pages to the PDF Report
-            # for i in ss:
-            #     pdf.add_page(orientation="L", format="A4")
-            #     pdf.set_font('Arial', size=12)
-            #     pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
-            #     pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+            # to add screenshots of all vulnerable pages to the pdf report
+            pdf.add_page(orientation="L")
+            pdf.set_font('Arial', size=12)
+            pdf.cell(200, 10, txt=f"({url})", ln=1, align='L')
+            pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/sql-injection-{imageTime}.png',50,50,300,120)
 
             pdf.output(f'sql_injection({time1}).pdf')
 
             #RPA (To open PDF file after scan)
             outputfile = f"sql_injection({time1}).pdf"
             r.init(visual_automation=True)
-            r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
+            r.clipboard(f"file:///media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/{outputfile}")
             r.url()
             r.keyboard("[ctrl]l")
             r.keyboard("[ctrl]v")
@@ -150,9 +148,7 @@ def scan_sql_injection(url):
                 r.init()
                 r.url(url)
                 r.wait()
-                ss = []
-                ss.append(f"sql-injection-{url}.png")
-                r.snap('page', url+'.png')
+                r.snap('page', 'sql-injection-'+imageTime+'.png')
                 r.close()
 
                 pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
@@ -160,22 +156,21 @@ def scan_sql_injection(url):
                 pdf.cell(200, 10, txt= "[+] SQL Injection vulnerability detected with specified link (FORM):", ln=1, align="L")
                 pdf.cell(200, 10, txt= "[+] Form:", ln=1, align="L")
                 pdf.cell(200, 10, print(form_details), ln=1, align="L")
-                pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
                 pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+                pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
-                # # To add screenshots of all vulnerable pages to the PDF Report
-                # for i in ss:
-                #     pdf.add_page(orientation="L", format="A4")
-                #     pdf.set_font('Arial', size=12)
-                #     pdf.cell(200, 10, txt=f"Screenshots: ({i})", ln=1, align='L')
-                #     pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+                # To add screenshots of all vulnerable pages to the PDF Report
+                pdf.add_page(orientation="L")
+                pdf.set_font('Arial', size=12)
+                pdf.cell(200, 10, txt=f"({url})", ln=1, align='L')
+                pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/sql-injection-{imageTime}.png',50,50,300,120)
 
                 pdf.output(f'sql_injection({time1}).pdf')
 
                 #RPA (To open PDF file after scan)
                 outputfile = f"sql_injection({time1}).pdf"
                 r.init(visual_automation=True)
-                r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
+                r.clipboard(f"file:///media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/{outputfile}")
                 r.url()
                 r.keyboard("[ctrl]l")
                 r.keyboard("[ctrl]v")

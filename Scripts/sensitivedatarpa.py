@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 import re
 from fpdf import FPDF
+import time
 
 def get_all_forms(url):
     """Given a url, it returns all forms from the HTML content"""
@@ -98,6 +99,9 @@ def scan_sensitive_data(url):
     pdf.set_font('')
     pdf.set_font('Arial', size=12)
     pdf.cell(200, 10, txt="Scanner: Sensitive Data Exposure", ln=1, align='L')
+    timestart = time.strftime("%d/%m/%Y %I:%M:%S")
+    time1 = time.strftime("%-H%M")
+    pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
     s = requests.Session()
@@ -128,28 +132,37 @@ def scan_sensitive_data(url):
         break
     for i in data:
         r.type('//*[@name=' + '"' + i + '"]', 'password[enter]')
-
-    r.snap('page', 'sensitive-dataResults.png')
-    
+    s = url
+    n = s.translate({ord(i): None for i in ':/'})
+    #print(n)
+    r.snap('page', n+'.png')
+    r.close()
 
     if "Incorrect username or password" in r.text():
         #print("Sensitive Data Exposure: False")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
-        pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL):"+ url, ln=1, align="L")
+        pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/sensitive-dataResults.png',10,10,80,500)
-        pdf.output(f'sensitive-data.pdf')
+        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/'+n+'.png',10,10,80,500)
+        pdf.output(f'sensitive-data({time1}).pdf')
     else:
         #print("Sensitive Data Exposure: True")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
-        pdf.cell(200, 10, txt= "[+] Sensitive Data Exposure detected (URL):"+ url, ln=1, align="L")
+        pdf.cell(200, 10, txt= "[+] Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/sensitive-dataResults.png',-50,90,300,120)
-        pdf.output(f'sensitive-data.pdf')
+        pdf.image('/media/sf_MP/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
+        pdf.output(f'sensitive-data({time1}).pdf')
 
-   
+        #RPA (To open PDF file after scan)
+        outputfile = f"sensitive-data({time1}).pdf"
+        r.init(visual_automation=True)
+        r.clipboard(f"file:///media/sf_MP/RedTeamAutomation/Scripts/{outputfile}")
+        r.url()
+        r.keyboard("[ctrl]l")
+        r.keyboard("[ctrl]v")
+        r.keyboard("[enter]")
 
 if __name__ == "__main__":
     import argparse
