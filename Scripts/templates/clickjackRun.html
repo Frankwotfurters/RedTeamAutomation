@@ -7,9 +7,10 @@
     <h1 class="w3-xxxlarge w3-text-red"><b>Clickjacking</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
-  <p>Test File: {{target}}</p>
-  <p>Results:</p>
-  <br>
-  <br>
-  <p>{{results}}</p>
+  <p>Test file: {{target}}</p>
+  <!-- <p>{{results}}</p> -->
+  <p>Scan Report available for viewing:</p>
+  <p>{% for i in results["displayfile"] %}</p>
+  <a href="file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{{i}}">{{i}}</a>
+  {% endfor %}
 {% endblock %}

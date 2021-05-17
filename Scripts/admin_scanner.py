@@ -97,7 +97,7 @@ def main(target):
             if curl in admin:
                 break
             admin.append(curl)
-            imgtime = time.strftime("(%I%M)")
+            imgtime = time.strftime("(%d%m-%I%M%S)")
             time2 = time.strftime("[%I:%M:%S]")
             print(time2,f"{GREEN}[+] FOUND POSSIBLE ADMIN PAGE:",curl)
             #pdf.cell(200, 10, txt="[+] FOUND POSSIBLE ADMIN PAGE:"+ curl, ln=1, align="L")
@@ -158,13 +158,21 @@ def main(target):
     pdf.output(f'adminscan({time1}).pdf')
 
     #RPA (To open PDF file after scan)
-    outputfile = f"adminscan({time1}).pdf"
+    displayfile = []
+    displayfile.append(f"adminscan({time1}).pdf")
+
+    outputfile = (f"adminscan({time1}).pdf")
     r.init(visual_automation=True)
     r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
+
+    #Display PDF link on results page
+    results = {}
+    results["displayfile"] = displayfile
+    return results
 
 if __name__ == "__main__":
     main()

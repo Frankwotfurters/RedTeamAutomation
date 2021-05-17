@@ -102,17 +102,24 @@ def main(target):
         pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
         pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
 
-    
     pdf.output(f"clickjack({time1}).pdf")
 
-    #RPA (To open PDF file after scan)
+    displayfile = []
+    displayfile.append(f"clickjack({time1}).pdf")
     outputfile = f"clickjack({time1}).pdf"
+
+    #RPA (To open PDF file after scan)
     r.init(visual_automation=True)
     r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
+
+    #Display PDF link on results page
+    results = {}
+    results["displayfile"] = displayfile
+    return results
 
 if __name__ == '__main__': 
     main()

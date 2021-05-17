@@ -8,6 +8,9 @@
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
   <p>Target Scanned: {{target}}</p>
-  <br>
-  <p>{{results}}</p>
+  <!-- <p>{{results}}</p> -->
+  <p>Scan Report available for viewing:</p>
+  <p>{% for i in results["displayfile"] %}</p>
+  <a href="file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{{i}}">{{i}}</a>
+  {% endfor %}
 {% endblock %}
