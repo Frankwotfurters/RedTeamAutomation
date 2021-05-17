@@ -10,7 +10,7 @@ visited_urls = []
 form_urls = []
 vuln_forms = []
 non_vuln_forms = []
-generated_pocs = []
+generated_pocs = {}
 
 def login(loginPage, creds):
 	r.url(loginPage)
@@ -91,7 +91,7 @@ def create_poc(form):
 	pwd = os.path.dirname(os.path.realpath(__file__))
 	output = pwd + "/" + folder + "/" + r.url().split('/')[-2]
 	print("Exported PoC to " + output)
-	generated_pocs.append(output)
+	generated_pocs[r.url()] = output
 
 	# r.clipboard("file://"+output)
 	# r.keyboard("[ctrl][t]")
@@ -128,9 +128,8 @@ def main(creds, loginPage):
 
 	results = {}
 	results["internal_urls"] = internal_urls
-	results["visited_urls"] = visited_urls
+	results["form_urls"] = form_urls
 	results["vuln_forms"] = vuln_forms
-	results["non_vuln_forms"] = non_vuln_forms
 	results["generated_pocs"] = generated_pocs
 	return results #returns dictionary of found urls, form urls, possibly vulnerable forms, non-vulnerable forms
 

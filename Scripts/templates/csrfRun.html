@@ -10,7 +10,21 @@
   <br>
   <p>{{results}}</p>
 
-  {% for poc in results["generated_pocs"] %}
-  <a href="file://{{poc}}">{{poc}}</a>
-  {% endfor %}
+  <table>
+  	<tr>
+  		<th>URL</th>
+  		<th>Form found?</th>
+  		<th>Form vulnerable?</th>
+  		<th>PoC</th>
+  	</tr>
+  	{% for url in results["internal_urls"] %}
+  	<tr>
+		<td>{{url}}</td> <!-- URL -->
+		<td>{% if url in results["form_urls"] %} {{"✅"}} {% else %} {{"❌"}} {% endif %}</td> <!-- Form found? -->
+		<td>{% if url in results["vuln_forms"] %} {{"✅"}} {% else %} {{"❌"}} {% endif %}</td> <!-- Vulnerable? -->
+		<td>{{results["generated_pocs"][url]}}</td> <!-- PoC -->
+	</tr>
+	{% endfor %}
+  </table>
+
 {% endblock %}
