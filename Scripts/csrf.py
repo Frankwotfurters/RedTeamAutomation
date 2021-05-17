@@ -81,15 +81,25 @@ def check(form):
 		return True
 
 def create_poc(form):
+	#Determines file name based on html page name
+	if r.url()[-1] == "/":
+		filename = r.url().split('/')[-2]
+	else:
+		filename = r.url().split('/')[-1]
 
-	#First creates a folder based on domain name
+	#Creates a folder based on domain name
 	folder = get_domain(r.url())
 	if not os.path.exists(folder):
 		os.makedirs(folder)
-	f = open(folder + "/" + r.url().split('/')[-2], "w")
+
+	#Writes html of PoC to file
+	print(r.url())
+	print(filename)
+	f = open(folder + "/" + filename, "w")
 	f.write(str(form))
 	pwd = os.path.dirname(os.path.realpath(__file__))
-	output = pwd + "/" + folder + "/" + r.url().split('/')[-2]
+
+	output = pwd + "/" + folder + "/" + filename
 	print("Exported PoC to " + output)
 	generated_pocs[r.url()] = output
 

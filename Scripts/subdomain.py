@@ -28,6 +28,7 @@ def subdCode():
     time1 = time.strftime("%-H%M")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
+    r.init()
     for subdomain in subdomains:
         # construct the url
         url = f"http://{subdomain}.{domain}"
@@ -39,7 +40,6 @@ def subdCode():
             pass
     else:
         print("[+] Discovered subdomain:", url)
-        r.init()
         r.url(url)
         r.wait()
         ss = []

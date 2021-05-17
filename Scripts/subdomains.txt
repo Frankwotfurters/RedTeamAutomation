@@ -1,5 +1,1 @@
-www
-mail
-ftp
-localhost
-webmail
+google.com
