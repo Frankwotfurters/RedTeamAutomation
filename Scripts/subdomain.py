@@ -43,7 +43,7 @@ def subdCode():
         r.url(url)
         r.wait()
         ss = []
-        ss.append(f"subdomains-{url}.png")
+        ss.append(f"subdomains-{imageTime}.png")
         r.snap('page', 'subdomains-'+imageTime+'.png')
         r.close()
         
