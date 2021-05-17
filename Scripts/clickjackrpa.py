@@ -73,7 +73,7 @@ def main(target):
             #file:///root/Documents/ProjectScripts/www6.turkhackteam.com.html
             #test = "file:///root/Documents/ProjectScripts/"
             #RPA (To take screenshot)
-            r.clipboard("file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/"+site+".html")
+            r.clipboard("file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/"+site+".html")
             r.url()
             r.keyboard("[ctrl]l")
             r.keyboard("[ctrl]v")
@@ -100,7 +100,7 @@ def main(target):
         pdf.add_page(orientation="L", format="A4")
         pdf.set_font('Arial', size=12)
         pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
-        pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+        pdf.image(f'/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{i}',50,50,300,120)
 
     pdf.output(f"clickjack({time1}).pdf")
 
@@ -110,7 +110,7 @@ def main(target):
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)
-    r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
+    r.clipboard(f"file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")

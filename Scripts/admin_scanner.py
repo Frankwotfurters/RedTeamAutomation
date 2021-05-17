@@ -153,7 +153,7 @@ def main(target):
         pdf.add_page(orientation="L", format="A4")
         pdf.set_font('Arial', size=12)
         pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
-        pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+        pdf.image(f'/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{i}',50,50,300,120)
     
     pdf.output(f'adminscan({time1}).pdf')
 
@@ -163,7 +163,7 @@ def main(target):
 
     outputfile = (f"adminscan({time1}).pdf")
     r.init(visual_automation=True)
-    r.clipboard(f"file:///media/sf_Shared_VM_Folder_(Kali)/Scripts/{outputfile}")
+    r.clipboard(f"file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
