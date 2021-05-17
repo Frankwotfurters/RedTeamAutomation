@@ -40,11 +40,19 @@
 				<td>{{results["jsOutput"][js][0]["component"]}}</td> <!-- Component -->
 				<td>{{results["jsOutput"][js][0]["detection"]}}</td> <!-- Detection -->
 					{% for vulnerability in results["jsOutput"][js][0]["vulnerabilities"] %}
+						{% if loop.index0 > 0 %}
+							<td>-</td> <!-- Script -->
+							<td>-</td> <!-- Version -->
+							<td>-</td> <!-- Component -->
+							<td>-</td> <!-- Detection -->
+						{% endif %}
 						<td>{{vulnerability["severity"]}}</td> <!-- Vulnerability Serverity -->
-						<td>{% for cve in vulnerability["CVE"] %} {{cve}} {% endfor %}</td> <!-- CVE -->
-						<td>{{vulnerability["summary"]}}</td> <!-- Summary -->
-						<td>{{vulnerability["issue"]}}</td> <!-- Issue -->
+						<td>{% for cve in vulnerability["identifiers"]["CVE"] %} {{cve}} {% endfor %}</td> <!-- CVE -->
+						<td>{{vulnerability["identifiers"]["summary"]}}</td> <!-- Summary -->
+						<td>{{vulnerability["identifiers"]["issue"]}}</td> <!-- Issue -->
 						<td>{% for link in vulnerability["info"] %} {{link}} {% endfor %}</td> <!-- Information -->
+					</tr>
+					<tr>
 					{% endfor %}
 			{% endif %}
 		</tr>
