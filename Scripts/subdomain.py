@@ -44,8 +44,6 @@ def subdCode():
         r.wait()
         ss = []
         ss.append(f"subdomains-{url}.png")
-        x = url
-        n = x.translate({ord(i): None for i in ':/'})
         r.snap('page', 'subdomains-'+imageTime+'.png')
         r.close()
         
@@ -58,7 +56,7 @@ def subdCode():
 
     # To add screenshots of all vulnerable pages to the PDF Report
     for i in ss:
-        pdf.add_page()
+        pdf.add_page(orientation="L")
         pdf.set_font('Arial', size=12)
         pdf.cell(200, 10, txt=f"({i})", ln=1, align='L')
         pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/subdomains-{imageTime}.png',50,50,300,120)

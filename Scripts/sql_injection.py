@@ -88,8 +88,6 @@ def scan_sql_injection(url):
             r.init()
             r.url(url+'%27')
             r.wait()
-            x = url
-            n = x.translate({ord(i): None for i in ':/.'})
             r.snap('page', 'sql-injection-'+imageTime+'.png')
             r.close()
 
@@ -100,7 +98,7 @@ def scan_sql_injection(url):
             pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
             # to add screenshots of all vulnerable pages to the pdf report
-            pdf.add_page()
+            pdf.add_page(orientation="L")
             pdf.set_font('Arial', size=12)
             pdf.cell(200, 10, txt=f"({url})", ln=1, align='L')
             pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/sql-injection-{imageTime}.png',50,50,300,120)
@@ -150,10 +148,7 @@ def scan_sql_injection(url):
                 r.init()
                 r.url(url)
                 r.wait()
-                ss = []
-                ss.append(f"sql-injection-{url}.png")
-                n = s.translate({ord(i): None for i in ':/'})
-                r.snap('page', n+'.png')
+                r.snap('page', 'sql-injection-'+imageTime+'.png')
                 r.close()
 
                 pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
@@ -161,15 +156,14 @@ def scan_sql_injection(url):
                 pdf.cell(200, 10, txt= "[+] SQL Injection vulnerability detected with specified link (FORM):", ln=1, align="L")
                 pdf.cell(200, 10, txt= "[+] Form:", ln=1, align="L")
                 pdf.cell(200, 10, print(form_details), ln=1, align="L")
-                pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
                 pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+                pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
-                # # To add screenshots of all vulnerable pages to the PDF Report
-                # for i in ss:
-                #     pdf.add_page(orientation="L", format="A4")
-                #     pdf.set_font('Arial', size=12)
-                #     pdf.cell(200, 10, txt=f"Screenshots: ({i})", ln=1, align='L')
-                #     pdf.image(f'/media/sf_Shared_VM_Folder_(Kali)/Scripts/{i}',50,50,300,120)
+                # To add screenshots of all vulnerable pages to the PDF Report
+                pdf.add_page(orientation="L")
+                pdf.set_font('Arial', size=12)
+                pdf.cell(200, 10, txt=f"({url})", ln=1, align='L')
+                pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/sql-injection-{imageTime}.png',50,50,300,120)
 
                 pdf.output(f'sql_injection({time1}).pdf')
 
