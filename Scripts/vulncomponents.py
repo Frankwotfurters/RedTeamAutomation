@@ -60,7 +60,7 @@ def scan_server(url):
 
 def main(url):
 	scan_js(url)
-	# scan_server(url)
+	scan_server(url)
 
 	results = {}
 	results["jsOutput"] = jsOutput

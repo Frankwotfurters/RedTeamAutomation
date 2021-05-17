@@ -10,7 +10,7 @@ visited_urls = []
 form_urls = []
 vuln_forms = []
 non_vuln_forms = []
-generated_pocs = []
+generated_pocs = {}
 
 def login(loginPage, creds):
 	r.url(loginPage)
@@ -81,17 +81,27 @@ def check(form):
 		return True
 
 def create_poc(form):
+	#Determines file name based on html page name
+	if r.url()[-1] == "/":
+		filename = r.url().split('/')[-2]
+	else:
+		filename = r.url().split('/')[-1]
 
-	#First creates a folder based on domain name
+	#Creates a folder based on domain name
 	folder = get_domain(r.url())
 	if not os.path.exists(folder):
 		os.makedirs(folder)
-	f = open(folder + "/" + r.url().split('/')[-2], "w")
+
+	#Writes html of PoC to file
+	print(r.url())
+	print(filename)
+	f = open(folder + "/" + filename, "w")
 	f.write(str(form))
 	pwd = os.path.dirname(os.path.realpath(__file__))
-	output = pwd + "/" + folder + "/" + r.url().split('/')[-2]
+
+	output = pwd + "/" + folder + "/" + filename
 	print("Exported PoC to " + output)
-	generated_pocs.append(output)
+	generated_pocs[r.url()] = output
 
 	# r.clipboard("file://"+output)
 	# r.keyboard("[ctrl][t]")
@@ -128,9 +138,8 @@ def main(creds, loginPage):
 
 	results = {}
 	results["internal_urls"] = internal_urls
-	results["visited_urls"] = visited_urls
+	results["form_urls"] = form_urls
 	results["vuln_forms"] = vuln_forms
-	results["non_vuln_forms"] = non_vuln_forms
 	results["generated_pocs"] = generated_pocs
 	return results #returns dictionary of found urls, form urls, possibly vulnerable forms, non-vulnerable forms
 
