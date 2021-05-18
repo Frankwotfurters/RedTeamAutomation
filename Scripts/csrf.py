@@ -14,8 +14,16 @@ generated_pocs = {}
 
 def login(loginPage, creds):
 	r.url(loginPage)
-	r.type('//*[@name="username"]', creds[0])
-	r.type('//*[@name="password"]', creds[1])
+
+	#Username input
+	for tag in 'username','email','id':
+		if r.type(tag, creds[0]):
+			break
+
+	#Password input
+	for tag in 'password','pw':
+		if r.type(tag, creds[1]):
+			break
 
 def is_valid(url):
     """
@@ -109,8 +117,17 @@ def create_poc(form):
 	# r.keyboard("[enter]")
 
 def main(creds, loginPage):
+
+	#Empty lists
+	internal_urls.clear()
+	external_urls.clear()
+	visited_urls.clear()
+	form_urls.clear()
+	vuln_forms.clear()
+	non_vuln_forms.clear()
+	generated_pocs.clear()
+
 	creds[1] += "[enter]" # have RPA press enter after typing credentials
-	# loginPage = 'http://localhost/DVWA/login.php'
 
 	r.init(visual_automation = True)
 	login(loginPage, creds)
@@ -155,9 +172,6 @@ if __name__ == "__main__":
 		# Split username:password into a list and test if valid url
 		creds = args["creds"].split(":")
 		loginPage = args["url"]
-		r.init(chrome_browser=False)
-		r.url(loginPage)
-		r.close()
 
 	except:
 		print("Please provide credentials in the format userid:password")
