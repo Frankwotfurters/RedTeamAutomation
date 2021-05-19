@@ -76,7 +76,7 @@ def main(target):
             #test = "file:///root/Documents/ProjectScripts/"
 
             pwd = os.path.dirname(os.path.realpath(__file__))
-            saved = pwd + "/" + site + "/" + ".html"
+            saved = pwd + "/" + site + ".html"
             #RPA (To take screenshot)
             r.clipboard(f"file://{saved}")
             r.url()
