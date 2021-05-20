@@ -3,18 +3,19 @@ import re
 import retirejs
 import requests
 import json
+import os
 from bs4 import BeautifulSoup as bs
 import urllib3
 from urllib.parse import urljoin
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-script_files = []
-jsOutput = {}
-nvdOutput = ""
-searchsploitOutput = ""
+def main(url):
+	script_files = []
+	jsOutput = {}
+	nvdOutput = ""
+	eDBOutput = ""
 
-def scan_js(url):
-	#compiles list of js files loaded	
+	#Scan JS files loaded	
 	html = requests.get(url).content
 	soup = bs(html, "html.parser")
 	for script in soup.find_all("script"):
@@ -25,49 +26,41 @@ def scan_js(url):
 
 	#run retire.js on each script
 	for js in script_files:
-		print("Scanning file: " + js)
+		print(f"[!] Scanning file: {js}")
 		scan = retirejs.scan_endpoint(js)
-		print(json.dumps(scan, indent=2))
 		jsOutput[js]=scan
 
-	print(json.dumps(jsOutput, indent=2))
-
-def scan_server(url):
-	#scans server version for CVEs
+	#Banner grabbing to retrieve web server (and version)
 	server = requests.get(url).headers['Server']
 	server = re.sub(r" ?\([^)]+\)", "", server).replace('/', ' ')
-	print("Scanning Server Version: " + server)
+	print(f"[!] Scanning Server Version: {server}")
 
-	#NVD Query
+	#NVD Query using banner grabbing result
 	r.init(visual_automation = True)
 	r.url("https://nvd.nist.gov/vuln/search")
-	r.type('//*[@name="query"]', server + "[enter]")
-	r.dom('window.scrollBy(0,400)')
-	r.snap('page', server+'NVD.png')
-	nvdOutput = server+'NVD.png'
-	r.wait(1.5)
+	r.type('//*[@name="query"]', f"{server}[enter]")
+	r.wait(1)
+	r.dom('window.scrollTo(0,400)')
+	r.snap('page', f'{server}_NVD.png')
+	nvdOutput = f'{server}_NVD.png'
+	pwd = os.path.dirname(os.path.realpath(__file__))
+	print(f"[+] Saved NVD Query to {pwd}/{nvdOutput}")
+
+	#Exploit-DB Query using banner grabbing result
+	r.url("https://www.exploit-db.com/search")
+	r.type('//*[@name="q"]', server + "[enter]")
+	r.wait(1)
+	r.snap('page', f'{server}_Exploit-DB.png')
+	eDBOutput = f'{server}_Exploit-DB.png'
+	print(f"[+] Saved Exploit-DB Query to {pwd}/{eDBOutput}")
 	r.close()
-
-	#Searchsploit
-	# r.init(visual_automation = True, chrome_browser = False)
-	# r.keyboard("[win]")
-	# r.keyboard("terminal[enter]") # open new shell
-	# r.keyboard("searchsploit " + server + "[enter]")
-	# r.snap('page', server+'Searchsploit.png')
-	# r.wait(1.5)
-	# r.keyboard("[ctrl][shift][w]") # close shell
-	# r.close()
-
-def main(url):
-	scan_js(url)
-	scan_server(url)
 
 	results = {}
 	results["jsOutput"] = jsOutput
 	results["nvdOutput"] = nvdOutput
-	results["searchsploitOutput"] = searchsploitOutput
+	results["eDBOutput"] = eDBOutput
 
-	return results #retirejs output, screenshots from searchsploit & nvd
+	return results #retirejs output, screenshot outputs from nvd & e-db
 
 if __name__ == "__main__":
 	import argparse
@@ -77,6 +70,6 @@ if __name__ == "__main__":
 	args = vars(parser.parse_args())["target"]
 
 	if args.startswith('http://') or args.startswith('https://'):
-		print(main(args))
+		main(args)
 	else:
 		parser.error("Target must start with http:// or https://")

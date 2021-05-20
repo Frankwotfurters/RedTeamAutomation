@@ -4,7 +4,7 @@
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px" id="showcase">
     <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
-    <h1 class="w3-xxxlarge w3-text-red"><b>Using components with known vulnerablities</b></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><b>Using Components with Known Vulnerabilities</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
   {% if error %}
@@ -15,4 +15,31 @@
     <input name="target" id="target" required> <br> <br>
   	<input type="submit">
   </form>
+    <br>
+<strong>
+  <h3>Note:
+    <p>
+      This script will gather all JavaScript files loaded by a page and scan them for known vulnerabilities. This is done 
+      with the help of <a href="https://github.com/FallibleInc/retirejslib">RetireJS (Python)</a>. Additionally, it will 
+      perform banner grabbing to determine the web server used, for example nginx or Apache, and potentially its version 
+      and searches the <a href="https://nvd.nist.gov/">National Vulnerability Database (NVD)</a> for related CVEs.
+      <br>
+      Robotic Process Automation (RPA) Demonstration is available during the scan. The RPA tool will showcase the NVD query 
+      process.
+    </p>
+  </h3>
+</strong>
+
+<h3>About:</h3>
+<p>
+  Using Components with Known Vulnerabilities is a very widespread issue among web applications. Many development teams 
+  may not even understand what components or modules they are using due to a large amount of components being implemented. 
+  Keeping such components up-to-date is an even harder task.
+</p>
+
+<h3>Impact:</h3>
+<p>
+  Some vulnerabilities lead to only minor impacts, however, some of the largest breaches that have occured leveraged known 
+  vulnerabilities in components. The impact depends on the assets at risk.
+</p>
 {% endblock %}

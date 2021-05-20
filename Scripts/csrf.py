@@ -3,6 +3,8 @@ import rpa as r
 from bs4 import BeautifulSoup
 from urllib.request import urlparse, urljoin
 import sys
+from fpdf import FPDF
+import time
 
 internal_urls = []
 external_urls = []
@@ -11,19 +13,6 @@ form_urls = []
 vuln_forms = []
 non_vuln_forms = []
 generated_pocs = {}
-
-def login(loginPage, creds):
-	r.url(loginPage)
-
-	#Username input
-	for tag in 'username','email','id':
-		if r.type(tag, creds[0]):
-			break
-
-	#Password input
-	for tag in 'password','pw':
-		if r.type(tag, creds[1]):
-			break
 
 def is_valid(url):
     """
@@ -35,7 +24,7 @@ def is_valid(url):
 def get_domain(url):
 	return urlparse(url).netloc
 
-def find_forms():
+def find_forms(pdf):
 	# From landing page, finds links to crawl to and spot forms
 	html = r.dom('return document.querySelector("html").outerHTML')
 	url = r.url()
@@ -77,9 +66,11 @@ def find_forms():
 			if "logout" in page:
 				continue # dont logout
 			else:
+				print(f"[+] Crawling: {page}")
+				pdf.cell(200, 10, txt=f"[+] Crawled: {page}", ln=1, align="L")
 				visited_urls.append(page)
 				r.url(page)
-				find_forms()
+				find_forms(pdf)
 
 def check(form):
 	# Checks if form requires a token or some type of hidden field to be submitted
@@ -87,34 +78,6 @@ def check(form):
 		return False
 	else:
 		return True
-
-def create_poc(form):
-	#Determines file name based on html page name
-	if r.url()[-1] == "/":
-		filename = r.url().split('/')[-2]
-	else:
-		filename = r.url().split('/')[-1]
-
-	#Creates a folder based on domain name
-	folder = get_domain(r.url())
-	if not os.path.exists(folder):
-		os.makedirs(folder)
-
-	#Writes html of PoC to file
-	print(r.url())
-	print(filename)
-	f = open(folder + "/" + filename, "w")
-	f.write(str(form))
-	pwd = os.path.dirname(os.path.realpath(__file__))
-
-	output = pwd + "/" + folder + "/" + filename
-	print("Exported PoC to " + output)
-	generated_pocs[r.url()] = output
-
-	# r.clipboard("file://"+output)
-	# r.keyboard("[ctrl][t]")
-	# r.keyboard("[ctrl][v]")
-	# r.keyboard("[enter]")
 
 def main(creds, loginPage):
 
@@ -127,18 +90,54 @@ def main(creds, loginPage):
 	non_vuln_forms.clear()
 	generated_pocs.clear()
 
+	#Generate PDF
+	pdf = FPDF()
+	pdf.add_page()
+	pdf.set_font('Arial', 'B', size=16)
+	pdf.cell(200, 10, txt="RTA Integrated RPA", ln=2, align='L')
+	pdf.set_font('')
+	pdf.set_font('Arial', size=12)
+	pdf.cell(200, 10, txt="Scanner: Cross-Site Request Forgery", ln=1, align='L')
+
+	timestart = time.strftime("%d/%m/%Y %I:%M:%S")
+	time1 = time.strftime("%-H%M")
+	imgtime = time.strftime("(%d%m-%I%M%S)")
+	pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
+	pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
+
 	creds[1] += "[enter]" # have RPA press enter after typing credentials
 
 	r.init(visual_automation = True)
-	login(loginPage, creds)
-	find_forms()
+
+	#Login
+	r.url(loginPage)
+
+	#Username input
+	for tag in 'username','email','id':
+		if r.type(tag, creds[0]):
+			break
+
+	#Password input
+	for tag in 'password','pw':
+		if r.type(tag, creds[1]):
+			break
+
+	#Find forms
+	find_forms(pdf)
+
+	print()
+	print("[!] Scanning individual forms")
+	pdf.cell(200, 10, txt="Form vulnerability results:", ln=1, align='L')
+	print()
 
 	for url in form_urls:
+		#Retrieve HTML code a search for form tags
 		r.url(url)
 		html = r.dom('return document.querySelector("html").outerHTML')
 		soup = BeautifulSoup(html, 'html.parser')
 		form = soup.find("form")
 		try:
+			#Set action to full url path
 			form['action'] = r.url() + form['action']
 		except:
 			pass
@@ -146,11 +145,37 @@ def main(creds, loginPage):
 		if check(form):
 			# If form is potentially vulnerable to CSRF
 			vuln_forms.append(url)
-			create_poc(form)
+
+			#Create PoC
+			#Determines file name based on html page name
+			url = r.url()
+			if url[-1] == "/":
+				filename = url.split('/')[-2]
+			else:
+				filename = url.split('/')[-1]
+
+			#Creates a folder based on domain name
+			folder = get_domain(url)
+			if not os.path.exists(folder):
+				os.makedirs(folder)
+
+			#Writes html of PoC to file
+			f = open(f"{folder}/{filename}", "w")
+			f.write(str(form))
+			pwd = os.path.dirname(os.path.realpath(__file__))
+
+			output = f"{pwd}/{folder}/{filename}"
+			print(f"[+] Vulnerable! Exported PoC for {url} to {output}")
+			pdf.cell(200, 10, txt=f"[+] Vulnerable! Exported PoC for {url} to {output}", ln=1, align="L")
+			generated_pocs[url] = output
+
 		else:
+			print(f"[-] Not Vulnerable: {url}")
+			pdf.cell(200, 10, txt=f"[-] Not Vulnerable: {url}", ln=1, align="L")
 			non_vuln_forms.append(url)
 
 	# Cleanup
+	pdf.output(f"csrf({time1}).pdf")
 	r.close()
 
 	results = {}

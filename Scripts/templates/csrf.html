@@ -19,4 +19,31 @@
     <input name="password" id="password" required> <br> <br>
   	<input type="submit">
   </form>
+  <br>
+<strong>
+  <h3>Note:
+    <p>
+      Please provide the login page to the web app as the Target URL.
+      <br><br>
+      This script will run an authenticated crawl through the website and find every form. It then checks if the form has
+      a hidden input field or requires a token. If not, it is deemed as potentially vulnerable to CSRF. A Proof-of-Concept
+       (PoC) is then generated and saved to the local file system for further manual testing.
+      <br><br>
+      Robotic Process Automation (RPA) Demonstration is available during the scan. The RPA tool will showcase the login and
+       crawling phases.
+    </p>
+  </h3>
+</strong>
+
+<h3>About:</h3>
+<p>
+  Cross-Site Request Forgery (CSRF) is an attack that makes an authenticated user perform an action on a web application 
+  unknowingly. This attack only works when the user is already authenticated on the web application.
+</p>
+
+<h3>Impact:</h3>
+<p>
+  If the attack is successfully executed, the victim will be forced to perform an unwanted action on their account, such as 
+  the changing of password or transfer of funds.
+</p>
 {% endblock %}
