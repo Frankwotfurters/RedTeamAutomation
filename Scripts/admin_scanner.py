@@ -152,11 +152,12 @@ def main(target):
     pwd = os.path.dirname(os.path.realpath(__file__))
 
     # To add screenshots of all vulnerable pages to the PDF Report
-    for i in ss:
-        pdf.add_page(orientation="L", format="A4")
-        pdf.set_font('Arial', size=12)
-        pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
-        pdf.image(f'{pwd}/{i}',50,50,300,120)
+    if ss:
+        for i in ss:
+            pdf.add_page(orientation="L", format="A4")
+            pdf.set_font('Arial', size=12)
+            pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
+            pdf.image(f'{pwd}/{i}',50,50,300,120)
     
     pdf.output(f'adminscan({time1}).pdf')
 

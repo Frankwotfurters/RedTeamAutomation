@@ -54,10 +54,12 @@ def main(target):
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
-    #print(target)
-    try: sites = open(target, 'r').readlines()
-    except: print("[*] Usage: python(3) clickjacking_tester.py <file_name>"); exit(0)
-    #file = open("sites.txt", 'r').readlines()
+    try: 
+        sites = open(target, 'r').readlines()
+        if not sites:
+            exit()
+    except: 
+        print("Error: Text File is empty"); exit(0)
  
     for site in sites[0:]:
         print("\n[*] Checking " + site)
@@ -76,7 +78,7 @@ def main(target):
             #test = "file:///root/Documents/ProjectScripts/"
 
             pwd = os.path.dirname(os.path.realpath(__file__))
-            saved = pwd + "/" + site + "/" + ".html"
+            saved = pwd + "/" + site + ".html"
             #RPA (To take screenshot)
             r.clipboard(f"file://{saved}")
             r.url()
@@ -90,6 +92,11 @@ def main(target):
             r.close()
 
             print(" ")
+            for i in ss:
+                pdf.add_page(orientation="L", format="A4")
+                pdf.set_font('Arial', size=12)
+                pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
+                pdf.image(f'{pwd}/{i}',50,50,300,120)
 
         elif not status: 
             print("[-] Website is not vulnerable!") 
@@ -98,17 +105,18 @@ def main(target):
         else: 
             print('Everything crashed, RIP.') 
             pdf.cell(200, 10, txt="[-] Everything crashed, RIP.", ln=1, align="L")
+            pdf.cell(200, 10, txt="[-] Please run the scanner again.", ln=1, align="L")
     
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
     # To add screenshots of all vulnerable pages to the PDF Report
-    for i in ss:
-        pdf.add_page(orientation="L", format="A4")
-        pdf.set_font('Arial', size=12)
-        pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
-        pdf.image(f'{pwd}/{i}',50,50,300,120)
+    # for i in ss:
+    #     pdf.add_page(orientation="L", format="A4")
+    #     pdf.set_font('Arial', size=12)
+    #     pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
+    #     pdf.image(f'{pwd}/{i}',50,50,300,120)
 
     pdf.output(f"clickjack({time1}).pdf")
-
+    pwd = os.path.dirname(os.path.realpath(__file__))
     displayfile = []
     displayfile.append(f"{pwd}/clickjack({time1}).pdf")
     outputfile = f"{pwd}/clickjack({time1}).pdf"
