@@ -108,12 +108,13 @@ def main(creds, loginPage):
 	creds[1] += "[enter]" # have RPA press enter after typing credentials
 
 	r.init(visual_automation = True)
+	r.timeout(2.5)
 
 	#Login
 	r.url(loginPage)
 
 	#Username input
-	for tag in 'username','email','id':
+	for tag in 'username','login','email','id':
 		if r.type(tag, creds[0]):
 			break
 
