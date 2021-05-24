@@ -44,7 +44,7 @@ def subdCode():
         r.wait()
         ss = []
         ss.append(f"subdomains-{imageTime}.png")
-        r.snap('page', 'subdomains-'+imageTime+'.png')
+        r.snap('page', f'subdomains-{subdomain}{imageTime}.png')
         r.close()
         
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
