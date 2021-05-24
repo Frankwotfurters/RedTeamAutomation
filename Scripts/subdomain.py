@@ -2,6 +2,7 @@ import requests
 import rpa as r
 from fpdf import FPDF
 import time
+import os.path
 
 # the domain to scan for subdomains
 domain = "google.com"
@@ -28,45 +29,48 @@ def subdCode():
     time1 = time.strftime("%-H%M")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
+    ss = []
     for subdomain in subdomains:
         # construct the url
         url = f"http://{subdomain}.{domain}"
+        # init
+        r.init()
         try:
           # if this raises an ERROR, that means the subdomain does not exist
             requests.get(url)
         except requests.ConnectionError:
             # if the subdomain does not exist, just pass, print nothing
             pass
-    else:
-        print("[+] Discovered subdomain:", url)
-        r.init()
-        r.url(url)
-        r.wait()
-        ss = []
-        ss.append(f"subdomains-{imageTime}.png")
-        r.snap('page', 'subdomains-'+imageTime+'.png')
+        else:
+            print("[+] Discovered subdomain:", url)
+            #rpa
+            r.url(url)
+            r.wait()
+            ss.append(f"subdomains-{imageTime}.png")
+            r.snap('page', 'subdomains-'+imageTime+'.png')
+            pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+            pdf.cell(200, 10, txt= "[+] Discovered subdomain:"+ url, ln=1, align="L")
         r.close()
-        
-        pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
-        pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
-        pdf.cell(200, 10, txt= "[+] Discovered subdomain:"+ url, ln=1, align="L")
 
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
     pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
+
+    #OS Path
+    pwd = os.path.dirname(os.path.realpath(__file__))
 
     # To add screenshots of all vulnerable pages to the PDF Report
     for i in ss:
         pdf.add_page(orientation="L")
         pdf.set_font('Arial', size=12)
         pdf.cell(200, 10, txt=f"({i})", ln=1, align='L')
-        pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/subdomains-{imageTime}.png',50,50,300,120)
+        pdf.image(f'{pwd}/subdomains-{imageTime}.png',50,50,300,120)
 
     pdf.output(f'subdomains-scanned({time1}).pdf')
 
     # RPA (To open PDF file after scan)
-    outputfile = f"subdomains-scanned({time1}).pdf"
+    outputfile = f"{pwd}/subdomains-scanned({time1}).pdf"
     r.init(visual_automation=True)
-    r.clipboard(f"file:///media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/{outputfile}")
+    r.clipboard(f"file://{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
