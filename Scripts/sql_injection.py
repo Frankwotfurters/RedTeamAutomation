@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 from pprint import pprint
 from fpdf import FPDF
 import time
+import os.path
 
 s = requests.Session()
 s.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
@@ -97,18 +98,21 @@ def scan_sql_injection(url):
             pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
             pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
+            #OS Path
+            pwd = os.path.dirname(os.path.realpath(__file__))
+
             # to add screenshots of all vulnerable pages to the pdf report
             pdf.add_page(orientation="L")
             pdf.set_font('Arial', size=12)
             pdf.cell(200, 10, txt=f"({url})", ln=1, align='L')
-            pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/sql-injection-{imageTime}.png',50,50,300,120)
-
+            pdf.image(f'{pwd}/sql-injection-{imageTime}.png',50,50,300,120)
+            
             pdf.output(f'sql_injection({time1}).pdf')
 
-            #RPA (To open PDF file after scan)
-            outputfile = f"sql_injection({time1}).pdf"
+            # RPA (To open PDF file after scan)
+            outputfile = f"{pwd}/sql_injection({time1}).pdf"
             r.init(visual_automation=True)
-            r.clipboard(f"file:///media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/{outputfile}")
+            r.clipboard(f"file://{outputfile}")
             r.url()
             r.keyboard("[ctrl]l")
             r.keyboard("[ctrl]v")
@@ -159,16 +163,19 @@ def scan_sql_injection(url):
                 pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
                 pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
+                #OS Path
+                pwd = os.path.dirname(os.path.realpath(__file__))
+
                 # To add screenshots of all vulnerable pages to the PDF Report
                 pdf.add_page(orientation="L")
                 pdf.set_font('Arial', size=12)
                 pdf.cell(200, 10, txt=f"({url})", ln=1, align='L')
-                pdf.image(f'/media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/sql-injection-{imageTime}.png',50,50,300,120)
+                pdf.image(f'{pwd}/sql-injection-{imageTime}.png',50,50,300,120)
 
                 pdf.output(f'sql_injection({time1}).pdf')
 
                 #RPA (To open PDF file after scan)
-                outputfile = f"sql_injection({time1}).pdf"
+                outputfile = f"{pwd}/sql_injection({time1}).pdf"
                 r.init(visual_automation=True)
                 r.clipboard(f"file:///media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/{outputfile}")
                 r.url()
