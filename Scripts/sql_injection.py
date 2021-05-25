@@ -104,7 +104,7 @@ def scan_sql_injection(url):
             # to add screenshots of all vulnerable pages to the pdf report
             pdf.add_page(orientation="L")
             pdf.set_font('Arial', size=12)
-            pdf.cell(200, 10, txt=f"({url})", ln=1, align='L')
+            pdf.cell(200, 10, txt=f"{url}", ln=1, align='L')
             pdf.image(f'{pwd}/sql-injection-{imageTime}.png',50,50,300,120)
             
             pdf.output(f'sql_injection({time1}).pdf')
