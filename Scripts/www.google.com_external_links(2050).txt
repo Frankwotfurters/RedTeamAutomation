@@ -1,7 +1,0 @@
-https://maps.google.com.sg/maps
-https://drive.google.com/
-https://www.youtube.com/
-https://mail.google.com/mail/
-https://accounts.google.com/ServiceLogin
-https://play.google.com/
-https://news.google.com/

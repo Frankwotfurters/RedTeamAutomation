@@ -144,7 +144,7 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
         pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',10,10,80,500)
+        pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
         pdf.output(f'sensitive-data({time1}).pdf')
     else:
         #print("Sensitive Data Exposure: True")
