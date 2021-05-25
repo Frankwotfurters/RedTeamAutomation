@@ -107,10 +107,6 @@ def clickjackRun():
 		return redirect(url_for("clickjackPage", error="Only files with the '.txt' extension are  allowed!"))
 
 
-@app.route("/xss")
-def xssPage():
-	return render_template("xss.html")
-
 @app.route("/sensitive-data")
 def sendataPage():
 	print(request.args)
