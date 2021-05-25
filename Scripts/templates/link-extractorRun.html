@@ -11,6 +11,6 @@
   <br>
   <p>Scan Report is generated, if it does not open, click here</p> 
   <p>{% for i in results["displayfile"] %}</p>
-  <a href="file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{{i}}">{{i}}</a>
+  <a href="file://{{i}}">PDF Report for Link Extractor</a>
   {% endfor %}
 {% endblock %}

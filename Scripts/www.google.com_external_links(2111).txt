@@ -5,3 +5,10 @@ https://www.youtube.com/
 https://news.google.com/
 https://mail.google.com/mail/
 https://drive.google.com/
+https://play.google.com/
+https://accounts.google.com/ServiceLogin
+https://maps.google.com.sg/maps
+https://www.youtube.com/
+https://news.google.com/
+https://mail.google.com/mail/
+https://drive.google.com/
