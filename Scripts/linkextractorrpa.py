@@ -28,6 +28,7 @@ def is_valid(url):
 def scan_link_extract(url):
     get_all_website_links(url)
     crawl(url, max_urls=50)
+    print_results(url)
     
     
 def get_all_website_links(url):
@@ -66,14 +67,6 @@ def get_all_website_links(url):
         internal_urls.add(href)
     return urls
 
-    # r.init(chrome_browser = False)
-    # for internal_link in internal_urls:
-    #     r.write(internal_link.strip() + "\n", f"{domain_name}_internal_links.txt")
-        
-    # for external_link in external_urls:
-    #     r.write(external_link.strip() + "\n", f"{domain_name}_external_links.txt")
-    # r.close()
-
 def crawl(url, max_urls=50):
     """
     Crawls a web page and extracts all links.
@@ -89,6 +82,15 @@ def crawl(url, max_urls=50):
             break
         crawl(link, max_urls=max_urls)
 
+def print_results(url):
+    domain_name = urlparse(url).netloc
+    r.init(chrome_browser = False)
+    for internal_link in internal_urls:
+        r.write(internal_link.strip() + "\n", f"{domain_name}_internal_links.txt")
+        
+    for external_link in external_urls:
+        r.write(external_link.strip() + "\n", f"{domain_name}_external_links.txt")
+    r.close()
 
 if __name__ == "__main__":
     import argparse
@@ -102,6 +104,7 @@ if __name__ == "__main__":
 
     scan_link_extract(url)
 
+    
     print("[+] Total Internal links:", len(internal_urls))
     print("[+] Total External links:", len(external_urls))
     print("[+] Total URLs:", len(external_urls) + len(internal_urls))
@@ -118,10 +121,3 @@ if __name__ == "__main__":
 #             print(external_link.strip(), file=f)
 # print("[*] URL Links saved to respective files.")
 
-    r.init(chrome_browser = False)
-    for internal_link in internal_urls:
-        r.write(internal_link.strip() + "\n", f"{domain_name}_internal_links.txt")
-        
-    for external_link in external_urls:
-        r.write(external_link.strip() + "\n", f"{domain_name}_external_links.txt")
-    r.close()
