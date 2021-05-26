@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#Setup chrome for RPA
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+apt install -y ./google-chrome-stable_current_amd64.deb
+sed -i '$ s/$/ --no-sandbox/' /usr/bin/google-chrome
+
 #Install python modules
 apt update
 apt install -y pip
@@ -16,11 +21,6 @@ pip install pprint
 pip install colorama
 pip install flask
 export OPENSSL_CONF=/etc/ssl/
-
-#Setup chrome for RPA
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-apt install -y ./google-chrome-stable_current_amd64.deb
-sed -i '$ s/$/ --no-sandbox/' /usr/bin/google-chrome
 
 #Setup services for DVWA
 apt install -y apache2
