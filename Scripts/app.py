@@ -57,17 +57,6 @@ def subdRun():
 	target = request.form.get("target")
 	return render_template("subdomainRun.html", target=target, results=subdCode())
 
-@app.route("/th-subdomain")
-def thsubdPage():
-	return render_template("th-subdomain.html")
-
-@app.route("/th-subdomainRun", methods = ['POST'])
-def thsubdRun():
-	target = request.form.get("target")
-	domain = request.form.get("target2")
-	outputFile = request.form.get("target3")
-	return render_template("th-subdomainRun.html", target=target, domain=domain, outputFile=outputFile, results=main(domain, n_threads, subdomains))
-
 @app.route("/admin-scanner")
 def adminScannerPage():
 	try:
@@ -106,10 +95,6 @@ def clickjackRun():
 	else:
 		return redirect(url_for("clickjackPage", error="Only files with the '.txt' extension are  allowed!"))
 
-
-@app.route("/xss")
-def xssPage():
-	return render_template("xss.html")
 
 @app.route("/sensitive-data")
 def sendataPage():
