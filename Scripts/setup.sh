@@ -1,12 +1,22 @@
 #!/bin/bash
 
-export OPENSSL_CONF=/etc/ssl/
+#Install python libraries
+apt install -y pip
 pip install rpa
 pip install retirejs
 pip install fdpf
+pip install urllib
+pip install sys
+pip install time
+pip install os
+pip install pprint
+pip install time
+pip install colorama
+pip install flask
+export OPENSSL_CONF=/etc/ssl/
 
 #Setup chrome for RPA
-wget https://www.google.com/chrome/thank-you.html?platform=linux&statcb=0&installdataindex=empty&defaultbrowser=0# -O chrome.deb
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O chrome.deb
 apt install -y chrome.deb
 sed -i '$ s/$/ --no-sandbox/' /usr/bin/google-chrome
 
