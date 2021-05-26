@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #Install python libraries
+apt update
 apt install -y pip
 pip install rpa
 pip install retirejs
@@ -10,14 +11,13 @@ pip install sys
 pip install time
 pip install os
 pip install pprint
-pip install time
 pip install colorama
 pip install flask
 export OPENSSL_CONF=/etc/ssl/
 
 #Setup chrome for RPA
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O chrome.deb
-apt install -y chrome.deb
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
+apt install -y /tmp/chrome.deb
 sed -i '$ s/$/ --no-sandbox/' /usr/bin/google-chrome
 
 #Setup services for DVWA
