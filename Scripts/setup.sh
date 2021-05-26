@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#Install python libraries
+#Install python modules
 apt update
 apt install -y pip
 pip install rpa
 pip install retirejs
-pip install fdpf
+pip install fpdf
 pip install urllib
 pip install sys
 pip install time
@@ -28,5 +28,7 @@ systemctl enable apache2
 systemctl enable mysql
 
 #Setup DVWA
-cd /var/www/html
-git clone https://github.com/digininja/DVWA.git
+git clone https://github.com/digininja/DVWA.git /var/www/html
+
+#RPA for Python first time setup
+./rpaSetup.py

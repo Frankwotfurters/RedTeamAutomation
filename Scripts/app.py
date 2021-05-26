@@ -1,5 +1,5 @@
 from subdomain import subdCode
-from threaded_subdomain import main
+#from threaded_subdomain import main
 from sql_injection import scan_sql_injection
 from flask import Flask, redirect, url_for, render_template, request
 import clickjackrpa
