@@ -7,6 +7,7 @@ from admin_scanner import main
 import admin_scanner
 from sensitivedatarpa import scan_sensitive_data
 from linkextractorrpa import scan_link_extract
+from linkextractorrpa import print_report
 import csrf
 import vulncomponents
 
@@ -56,17 +57,6 @@ def subdRun():
 	target = request.form.get("target")
 	return render_template("subdomainRun.html", target=target, results=subdCode())
 
-@app.route("/th-subdomain")
-def thsubdPage():
-	return render_template("th-subdomain.html")
-
-@app.route("/th-subdomainRun", methods = ['POST'])
-def thsubdRun():
-	target = request.form.get("target")
-	domain = request.form.get("target2")
-	outputFile = request.form.get("target3")
-	return render_template("th-subdomainRun.html", target=target, domain=domain, outputFile=outputFile, results=main(domain, n_threads, subdomains))
-
 @app.route("/admin-scanner")
 def adminScannerPage():
 	try:
@@ -106,10 +96,6 @@ def clickjackRun():
 		return redirect(url_for("clickjackPage", error="Only files with the '.txt' extension are  allowed!"))
 
 
-@app.route("/xss")
-def xssPage():
-	return render_template("xss.html")
-
 @app.route("/sensitive-data")
 def sendataPage():
 	print(request.args)
@@ -142,7 +128,7 @@ def linkextractPage():
 def linkextractRun():
 	target = request.form.get("target")
 	if target.startswith('http://') or target.startswith('https://'):
-			return render_template("link-extractorRun.html", target=target, results=scan_link_extract(target))
+			return render_template("link-extractorRun.html", target=target, results=scan_link_extract(target), result=print_report(target))
 	else:
 		return redirect(url_for("linkextractPage", error="Target does not begin with http:// or https://"))
 

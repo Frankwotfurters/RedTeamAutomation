@@ -7,6 +7,7 @@ from urllib.parse import urljoin
 import re
 from fpdf import FPDF
 import time
+import os.path
 
 def get_all_forms(url):
     """Given a url, it returns all forms from the HTML content"""
@@ -144,7 +145,7 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
         pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',10,10,80,500)
+        pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
         pdf.output(f'sensitive-data({time1}).pdf')
     else:
         #print("Sensitive Data Exposure: True")
@@ -155,21 +156,24 @@ def scan_sensitive_data(url):
         pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
         pdf.output(f'sensitive-data({time1}).pdf')
 
-        #RPA (To open PDF file after scan)
-        outputfile = f"sensitive-data({time1}).pdf"
-        displayfile = []
-        displayfile.append(f"sensitive-data({time1}).pdf")   
+    #OS path
+    pwd = os.path.dirname(os.path.realpath(__file__))
+    
+    outputfile = f"{pwd}/sensitive-data({time1}).pdf"
+    displayfile = []
+    displayfile.append(f"{pwd}/sensitive-data({time1}).pdf")   
 
-        r.init(visual_automation=True)
-        r.clipboard(f"file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{outputfile}")
-        r.url()
-        r.keyboard("[ctrl]l")
-        r.keyboard("[ctrl]v")
-        r.keyboard("[enter]")
+    #RPA (To open PDF file after scan)
+    r.init(visual_automation=True)
+    r.clipboard(f"file://{outputfile}")
+    r.url()
+    r.keyboard("[ctrl]l")
+    r.keyboard("[ctrl]v")
+    r.keyboard("[enter]")
 
-        results = {}
-        results["displayfile"] = displayfile
-        return results
+    results = {}
+    results["displayfile"] = displayfile
+    return results
 
 if __name__ == "__main__":
     import argparse

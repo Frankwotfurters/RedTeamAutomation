@@ -3,6 +3,9 @@ from urllib.request import urlparse, urljoin
 from bs4 import BeautifulSoup
 import colorama
 import rpa as r
+from fpdf import FPDF
+import time
+import os.path
 
 # init the colorama module
 colorama.init()
@@ -17,6 +20,18 @@ external_urls = set()
 
 total_urls_visited = 0
 
+#Generate PDF
+pdf = FPDF()
+pdf.add_page()
+pdf.set_font('Arial', 'B', size=16)
+pdf.cell(200, 10, txt="RTA Integrated RPA", ln=2, align='L')
+pdf.set_font('')
+pdf.set_font('Arial', size=12)
+pdf.cell(200, 10, txt="Scanner: Link Extractor", ln=1, align='L')
+timestart = time.strftime("%d/%m/%Y %I:%M:%S")
+time1 = time.strftime("%-H%M")
+pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
+pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
 def is_valid(url):
     """
@@ -28,7 +43,8 @@ def is_valid(url):
 def scan_link_extract(url):
     get_all_website_links(url)
     crawl(url, max_urls=50)
-    
+    print_results(url)
+    print_report(url)
     
 def get_all_website_links(url):
     """
@@ -66,14 +82,6 @@ def get_all_website_links(url):
         internal_urls.add(href)
     return urls
 
-    # r.init(chrome_browser = False)
-    # for internal_link in internal_urls:
-    #     r.write(internal_link.strip() + "\n", f"{domain_name}_internal_links.txt")
-        
-    # for external_link in external_urls:
-    #     r.write(external_link.strip() + "\n", f"{domain_name}_external_links.txt")
-    # r.close()
-
 def crawl(url, max_urls=50):
     """
     Crawls a web page and extracts all links.
@@ -89,6 +97,48 @@ def crawl(url, max_urls=50):
             break
         crawl(link, max_urls=max_urls)
 
+#rpa to write urls into text documents
+def print_results(url):
+    domain_name = urlparse(url).netloc
+    r.init(chrome_browser = False)
+    for internal_link in internal_urls:
+        r.write(internal_link.strip() + "\n", f"{domain_name}_internal_links({time1}).txt")
+        
+    for external_link in external_urls:
+        r.write(external_link.strip() + "\n", f"{domain_name}_external_links({time1}).txt")
+    r.close()
+
+def print_report(url):
+    total_len = len(external_urls) + len(internal_urls)
+
+    #print report details in pdf
+    pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+    pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+    pdf.cell(200, 10, txt= "[+] Total Internal links: "+ str(len(internal_urls)), ln=1, align="L")
+    pdf.cell(200, 10, txt="[+] Total External links: "+ str(len(external_urls)), ln=1, align="L")
+    pdf.cell(200, 10, txt="[+] Total URLs: "+ str(total_len), ln=1, align="L")
+    pdf.cell(200, 10, txt="All links are saved in a Text Document file and will automatically be downloaded.", ln=1, align="L")
+    pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+    pdf.output(f'link-extractor({time1}).pdf')
+
+    #OS path
+    pwd = os.path.dirname(os.path.realpath(__file__))
+
+    outputfile = f"{pwd}/link-extractor({time1}).pdf" 
+    displayfile = []
+    displayfile.append(f"{pwd}/link-extractor({time1}).pdf") 
+
+    #rpa to open pdf file
+    r.init(visual_automation=True)
+    r.clipboard(f"file://{outputfile}")
+    r.url()
+    r.keyboard("[ctrl]l")
+    r.keyboard("[ctrl]v")
+    r.keyboard("[enter]")
+
+    results = {}
+    results["displayfile"] = displayfile
+    return results
 
 if __name__ == "__main__":
     import argparse
@@ -101,27 +151,6 @@ if __name__ == "__main__":
     max_urls = args.max_urls
 
     scan_link_extract(url)
-
-    print("[+] Total Internal links:", len(internal_urls))
-    print("[+] Total External links:", len(external_urls))
-    print("[+] Total URLs:", len(external_urls) + len(internal_urls))
-
     domain_name = urlparse(url).netloc
-#     #save the internal links to a file
-#     with open(f"{domain_name}_internal_links.txt", "w") as f:
-#         for internal_link in internal_urls:
-#             print(internal_link.strip(), file=f)
 
-#     # save the external links to a file
-#     with open(f"{domain_name}_external_links.txt", "w") as f:
-#         for external_link in external_urls:
-#             print(external_link.strip(), file=f)
-# print("[*] URL Links saved to respective files.")
 
-    r.init(chrome_browser = False)
-    for internal_link in internal_urls:
-        r.write(internal_link.strip() + "\n", f"{domain_name}_internal_links.txt")
-        
-    for external_link in external_urls:
-        r.write(external_link.strip() + "\n", f"{domain_name}_external_links.txt")
-    r.close()

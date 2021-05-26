@@ -7,7 +7,10 @@
     <h1 class="w3-xxxlarge w3-text-red"><b>Link Extractor</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
-  <p>URL tested: {{target}}</p>
+  <p>URL Scanned: {{target}}</p>
   <br>
-  <p>{{results}}</p>
+  <p>Scan Report is generated, if it does not open, click here</p> 
+  <p>{% for i in result["displayfile"] %}</p>
+  <a href="file://{{i}}">PDF Report for Link Extractor</a>
+  {% endfor %}
 {% endblock %}

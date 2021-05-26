@@ -46,8 +46,8 @@ def subdCode():
             #rpa
             r.url(url)
             r.wait()
-            ss.append(f"subdomains-{imageTime}.png")
-            r.snap('page', 'subdomains-'+imageTime+'.png')
+            ss.append(f"{subdomain}({imageTime}).png")
+            r.snap('page', f"{subdomain}({imageTime}).png")
             pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
             pdf.cell(200, 10, txt= "[+] Discovered subdomain:"+ url, ln=1, align="L")
         r.close()
@@ -62,8 +62,8 @@ def subdCode():
     for i in ss:
         pdf.add_page(orientation="L")
         pdf.set_font('Arial', size=12)
-        pdf.cell(200, 10, txt=f"({i})", ln=1, align='L')
-        pdf.image(f'{pwd}/subdomains-{imageTime}.png',50,50,300,120)
+        pdf.cell(200, 10, txt=f"{i}", ln=1, align='L')
+        pdf.image(f'{pwd}/{i}',50,50,300,120)
 
     pdf.output(f'subdomains-scanned({time1}).pdf')
 
