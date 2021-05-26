@@ -20,7 +20,6 @@ export OPENSSL_CONF=/etc/ssl/
 #Install Google Chrome
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 apt install -y ./google-chrome-stable_current_amd64.deb
-sed -i '$ s/$/ --no-sandbox/' /usr/bin/google-chrome 
 rm -f ./google-chrome-stable_current_amd64.deb
 
 #Setup services for DVWA
@@ -34,4 +33,5 @@ systemctl enable mysql
 git clone https://github.com/digininja/DVWA.git /var/www/html/DVWA
 
 #RPA for Python first time setup
-./rpaSetup.py
+sed -i '$ s/$/ --no-sandbox/' $(readlink -f /usr/bin/google-chrome)
+python3 rpaSetup.py
