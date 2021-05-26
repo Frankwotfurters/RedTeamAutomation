@@ -3,6 +3,8 @@
 #Install python modules
 apt update
 apt install -y pip
+pip install bs4
+pip install requests
 pip install rpa
 pip install retirejs
 pip install fpdf
@@ -18,7 +20,7 @@ export OPENSSL_CONF=/etc/ssl/
 #Setup chrome for RPA
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/chrome.deb
 apt install -y /tmp/chrome.deb
-sed -i '$ s/$/ --no-sandbox/' /usr/bin/google-chrome
+
 
 #Setup services for DVWA
 apt install -y apache2
@@ -28,7 +30,8 @@ systemctl enable apache2
 systemctl enable mysql
 
 #Setup DVWA
-git clone https://github.com/digininja/DVWA.git /var/www/html
+git clone https://github.com/digininja/DVWA.git /var/www/html/DVWA
 
 #RPA for Python first time setup
+sed -i '$ s/$/ --no-sandbox/' /usr/bin/google-chrome
 ./rpaSetup.py
