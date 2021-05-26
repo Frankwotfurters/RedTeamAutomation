@@ -17,6 +17,12 @@ pip install colorama
 pip install flask
 export OPENSSL_CONF=/etc/ssl/
 
+#Install Google Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+apt install -y ./google-chrome-stable_current_amd64.deb
+sed -i '$ s/$/ --no-sandbox/' /usr/bin/google-chrome 
+rm -f ./google-chrome-stable_current_amd64.deb
+
 #Setup services for DVWA
 apt install -y apache2
 systemctl start apache2
