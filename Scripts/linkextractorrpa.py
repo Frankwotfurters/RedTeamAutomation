@@ -5,6 +5,7 @@ import colorama
 import rpa as r
 from fpdf import FPDF
 import time
+import os.path
 
 # init the colorama module
 colorama.init()
@@ -120,13 +121,16 @@ def print_report(url):
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
     pdf.output(f'link-extractor({time1}).pdf')
 
-    outputfile = f"link-extractor({time1}).pdf" 
+    #OS path
+    pwd = os.path.dirname(os.path.realpath(__file__))
+
+    outputfile = f"{pwd}/link-extractor({time1}).pdf" 
     displayfile = []
-    displayfile.append(f"link-extractor({time1}).pdf") 
+    displayfile.append(f"{pwd}/link-extractor({time1}).pdf") 
 
     #rpa to open pdf file
     r.init(visual_automation=True)
-    r.clipboard(f"file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{outputfile}")
+    r.clipboard(f"file://{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")

@@ -7,6 +7,7 @@ from urllib.parse import urljoin
 import re
 from fpdf import FPDF
 import time
+import os.path
 
 def get_all_forms(url):
     """Given a url, it returns all forms from the HTML content"""
@@ -155,13 +156,16 @@ def scan_sensitive_data(url):
         pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
         pdf.output(f'sensitive-data({time1}).pdf')
 
-    #RPA (To open PDF file after scan)
-    outputfile = f"sensitive-data({time1}).pdf"
+    #OS path
+    pwd = os.path.dirname(os.path.realpath(__file__))
+    
+    outputfile = f"{pwd}/sensitive-data({time1}).pdf"
     displayfile = []
-    displayfile.append(f"sensitive-data({time1}).pdf")   
+    displayfile.append(f"{pwd}/sensitive-data({time1}).pdf")   
 
+    #RPA (To open PDF file after scan)
     r.init(visual_automation=True)
-    r.clipboard(f"file:///media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/{outputfile}")
+    r.clipboard(f"file://{outputfile}")
     r.url()
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")

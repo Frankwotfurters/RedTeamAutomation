@@ -143,7 +143,7 @@ def linkextractPage():
 def linkextractRun():
 	target = request.form.get("target")
 	if target.startswith('http://') or target.startswith('https://'):
-			return render_template("link-extractorRun.html", target=target, results=print_report(target))
+			return render_template("link-extractorRun.html", target=target, results=scan_link_extract(target), result=print_report(target))
 	else:
 		return redirect(url_for("linkextractPage", error="Target does not begin with http:// or https://"))
 
