@@ -43,5 +43,4 @@ echo "Performing first time setup for RPA for Python"
 echo "export OPENSSL_CONF=/etc/ssl/" > /etc/profile.d/openssl_conf
 source /etc/profile.d/openssl_conf
 python3 rpaSetup.py
-source /etc/profile.d/openssl_conf
 echo "Setup complete!"
