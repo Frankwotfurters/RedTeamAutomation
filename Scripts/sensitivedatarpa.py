@@ -70,27 +70,16 @@ def submit_form(form_details, url, value):
 
 
 def scan_form(url):
-    """
-    Given a `url`, it prints all XSS vulnerable forms and 
-    returns True if any is vulnerable, False otherwise
-    """
     # get all the forms from the URL
     forms = get_all_forms(url)
     #print(f"[+] Detected {len(forms)} forms on {url}.")
-    js_script = "<Script>alert('hi')</scripT>"
+    #js_script = "<Script>alert('hi')</script>"
     # returning value
-    #is_vulnerable = False
     # iterate over all forms
     for form in forms:
         form_details = get_form_details(form)
         content = submit_form(form_details, url, js_script).content.decode()
-        #if js_script in content:
-            #print(f"[+] XSS Detected on {url}")
-            #print(f"[*] Form details:")
-            #pprint(form_details)
-            #is_vulnerable = True
-            # won't break because we want to print other available vulnerable forms
-    #return is_vulnerable
+
 def scan_sensitive_data(url):
     #Generate PDF
     pdf = FPDF()
@@ -152,8 +141,10 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
         pdf.cell(200, 10, txt= "[+] Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
+        pdf.cell(200, 10, txt="[*] Remediation Method:", ln=1, align="L")
+        pdf.cell(200, 10, txt="[*] Please modify the error message into the following format: Incorrect username or password.", ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
+        pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,120,300,120)
         pdf.output(f'sensitive-data({time1}).pdf')
 
     #OS path
