@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<title>CSRF Scanner</title>
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px" id="showcase">
     <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
@@ -8,7 +9,7 @@
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
   {% if error %}
-  <p>{{error}}</p>
+    <b><p>ERROR: {{error}}</p></b>
   {% endif %}
   <form action="/csrfRun" method="POST">
   	<label for="target">Target: </label>

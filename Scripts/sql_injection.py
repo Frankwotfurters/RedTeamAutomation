@@ -177,7 +177,7 @@ def scan_sql_injection(url):
                 #RPA (To open PDF file after scan)
                 outputfile = f"{pwd}/sql_injection({time1}).pdf"
                 r.init(visual_automation=True)
-                r.clipboard(f"file:///media/sf_Kali_VM_Shared_Folder/RedTeamAutomation/Scripts/{outputfile}")
+                r.clipboard(f"file://{outputfile}")
                 r.url()
                 r.keyboard("[ctrl]l")
                 r.keyboard("[ctrl]v")
