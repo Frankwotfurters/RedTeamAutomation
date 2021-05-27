@@ -11,6 +11,10 @@
   <h1>Link Extractor</h1>
   <hr>
 
+  {% if error %}
+  <p>{{error}}</p>
+{% endif %}
+
   <form action="/link-extractorRun" method="POST">
     <label for="target">Target URL: </label>
     <input name="target" id="target">
