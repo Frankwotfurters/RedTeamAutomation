@@ -116,7 +116,6 @@ def sendataRun():
 
 @app.route("/link-extractor")
 def linkextractPage():
-	return render_template("link-extractor.html")
 	print(request.args)
 	try:
 		error = request.args["error"]
