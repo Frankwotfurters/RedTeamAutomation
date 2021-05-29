@@ -114,6 +114,7 @@ pwd = os.path.dirname(os.path.realpath(__file__))
 outputfile = f"{pwd}/link-extractor({time1}).pdf" 
 displayfile = []
 displayfile.append(f"{pwd}/link-extractor({time1}).pdf") 
+
 def return_result(url):
     results = {}
     results["displayfile"] = displayfile
