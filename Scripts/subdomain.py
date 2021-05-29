@@ -67,6 +67,8 @@ def subdCode():
     pdf.output(f'subdomains-scanned({time1}).pdf')
 
     # RPA (To open PDF file after scan)
+    displayfile = []
+    displayfile.append(f"{pwd}/subdomains-scanned({time1}).pdf")
     outputfile = f"{pwd}/subdomains-scanned({time1}).pdf"
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
@@ -74,6 +76,13 @@ def subdCode():
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
+    r.wait(10)
+    r.close()
+
+    #Display PDF link on results page
+    results = {}
+    results["displayfile"] = displayfile
+    return results
 
 if __name__ == "__main__":
     subdCode()
