@@ -30,11 +30,10 @@ def subdCode():
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
     ss = []
+    r.init()
     for subdomain in subdomains:
         # construct the url
         url = f"http://{subdomain}.{domain}"
-        # init
-        r.init()
         try:
           # if this raises an ERROR, that means the subdomain does not exist
             requests.get(url)
@@ -50,7 +49,7 @@ def subdCode():
             r.snap('page', f"{subdomain}({imageTime}).png")
             pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
             pdf.cell(200, 10, txt= "[+] Discovered subdomain:"+ url, ln=1, align="L")
-        r.close()
+    r.close()
 
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
     pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
@@ -75,6 +74,7 @@ def subdCode():
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
+    r.close()
 
 if __name__ == "__main__":
     subdCode()
