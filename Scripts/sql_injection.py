@@ -111,13 +111,22 @@ def scan_sql_injection(url):
 
             # RPA (To open PDF file after scan)
             outputfile = f"{pwd}/sql_injection({time1}).pdf"
+            displayfile = []
+            displayfile.append(f"{pwd}/sql_injection({time1}).pdf")
             r.init(visual_automation=True)
             r.clipboard(f"file://{outputfile}")
             r.url()
             r.keyboard("[ctrl]l")
             r.keyboard("[ctrl]v")
             r.keyboard("[enter]")
-            return
+            r.wait(10)
+            r.close()
+
+            #Display PDF link on results page
+            results = {}
+            results["displayfile"] = displayfile
+            return results
+
     # test on HTML forms
     forms = get_all_forms(url)
     print(f"[+] Detected {len(forms)} forms on {url}.")
@@ -176,13 +185,21 @@ def scan_sql_injection(url):
 
                 #RPA (To open PDF file after scan)
                 outputfile = f"{pwd}/sql_injection({time1}).pdf"
+                displayfile = []
+                displayfile.append(f"{pwd}/sql_injection({time1}).pdf")
                 r.init(visual_automation=True)
                 r.clipboard(f"file://{outputfile}")
                 r.url()
                 r.keyboard("[ctrl]l")
                 r.keyboard("[ctrl]v")
                 r.keyboard("[enter]")
-                break   
+                r.wait(10)
+                r.close()
+
+                #Display PDF link on results page
+                results = {}
+                results["displayfile"] = displayfile
+                return results
             
 if __name__ == "__main__":
     import sys

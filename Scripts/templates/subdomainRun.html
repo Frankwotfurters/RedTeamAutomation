@@ -8,6 +8,8 @@
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
   <h2>File tested: subdomains.txt</h2>
-  <br>
-  <h3>Please wait for RPA to redirect you to a generated PDF from the scan.</h3>
+  <p>Scan Report available for viewing:</p>
+  <p>{% for i in results["displayfile"] %}</p>
+  <a href="file://{{i}}">PDF Report</a>
+  {% endfor %}
 {% endblock %}
