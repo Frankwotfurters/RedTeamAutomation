@@ -117,7 +117,6 @@ def scan_sql_injection(url):
             r.keyboard("[ctrl]l")
             r.keyboard("[ctrl]v")
             r.keyboard("[enter]")
-            r.close()
             return
     # test on HTML forms
     forms = get_all_forms(url)
@@ -183,7 +182,6 @@ def scan_sql_injection(url):
                 r.keyboard("[ctrl]l")
                 r.keyboard("[ctrl]v")
                 r.keyboard("[enter]")
-                r.close()
                 break   
             
 if __name__ == "__main__":

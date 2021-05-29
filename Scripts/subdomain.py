@@ -74,7 +74,6 @@ def subdCode():
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
-    r.close()
 
 if __name__ == "__main__":
     subdCode()
