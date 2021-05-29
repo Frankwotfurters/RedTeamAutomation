@@ -108,6 +108,17 @@ def print_results(url):
         r.write(external_link.strip() + "\n", f"{domain_name}_external_links({time1}).txt")
     r.close()
 
+#OS path
+pwd = os.path.dirname(os.path.realpath(__file__))
+
+outputfile = f"{pwd}/link-extractor({time1}).pdf" 
+displayfile = []
+displayfile.append(f"{pwd}/link-extractor({time1}).pdf") 
+def return_result(url):
+    results = {}
+    results["displayfile"] = displayfile
+    return results
+
 def print_report(url):
     total_len = len(external_urls) + len(internal_urls)
 
@@ -121,13 +132,6 @@ def print_report(url):
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
     pdf.output(f'link-extractor({time1}).pdf')
 
-    #OS path
-    pwd = os.path.dirname(os.path.realpath(__file__))
-
-    outputfile = f"{pwd}/link-extractor({time1}).pdf" 
-    displayfile = []
-    displayfile.append(f"{pwd}/link-extractor({time1}).pdf") 
-
     #rpa to open pdf file
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
@@ -135,10 +139,8 @@ def print_report(url):
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
-
-    results = {}
-    results["displayfile"] = displayfile
-    return results
+    r.wait(10)
+    r.close()
 
 if __name__ == "__main__":
     import argparse

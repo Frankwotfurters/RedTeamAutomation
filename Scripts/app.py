@@ -7,7 +7,7 @@ from admin_scanner import main
 import admin_scanner
 from sensitivedatarpa import scan_sensitive_data
 from linkextractorrpa import scan_link_extract
-from linkextractorrpa import print_report
+from linkextractorrpa import return_result
 import csrf
 import vulncomponents
 
@@ -127,7 +127,7 @@ def linkextractPage():
 def linkextractRun():
 	target = request.form.get("target")
 	if target.startswith('http://') or target.startswith('https://'):
-			return render_template("link-extractorRun.html", target=target, results=scan_link_extract(target), result=print_report(target))
+			return render_template("link-extractorRun.html", target=target, results=scan_link_extract(target), result=return_result(target))
 	else:
 		return redirect(url_for("linkextractPage", error="Target does not begin with http:// or https://"))
 
