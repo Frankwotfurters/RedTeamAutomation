@@ -93,7 +93,7 @@ def main(target):
 
             print(" ")
             for i in ss:
-                pdf.add_page(orientation="L", format="A4")
+                pdf.add_page(orientation="L")
                 pdf.set_font('Arial', size=12)
                 pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
                 pdf.image(f'{pwd}/{i}',50,50,300,120)
