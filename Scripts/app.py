@@ -110,7 +110,7 @@ def xssScannerRun():
 	if target.startswith('http://') or target.startswith('https://'):
 		return render_template("xssRun.html", target=target, results=scan_xss(target))
 	else:
-		return redirect(url_for("xssPage", error="Please follow the recommended format!"))
+		return redirect(url_for("xssScannerPage", error="Please follow the recommended format!"))
 
 
 @app.route("/sensitive-data")
