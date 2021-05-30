@@ -154,7 +154,7 @@ def main(target):
     # To add screenshots of all vulnerable pages to the PDF Report
     if ss:
         for i in ss:
-            pdf.add_page(orientation="L", format="A4")
+            pdf.add_page(orientation="L")
             pdf.set_font('Arial', size=12)
             pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
             pdf.image(f'{pwd}/{i}',50,50,300,120)
@@ -172,6 +172,8 @@ def main(target):
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
+    r.wait(10)
+    r.close
 
     #Display PDF link on results page
     results = {}

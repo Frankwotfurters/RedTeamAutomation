@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>Cross Site Scripting</title>
+  <!-- Header -->
+  <div class="w3-container" style="margin-top:80px" id="showcase">
+    <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><b>Cross Site Scripting</b></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+  </div>
+  <h1>Cross Site Scripting Scanner</h1>
+  <hr>
+
+  {% if error %}
+    <b><p>ERROR: {{error}}</p></b>
+  {% endif %}
+
+  <form action="/xssRun" method="POST">
+    Please enter target URL according to the recommended format:<br>
+    Format: http://website.com/subdirectory
+    <br>
+  	<!-- <label for="target">Targets: </label> -->
+  	<input name="target" id="target">
+  	<input type="submit" value="Start Scan">
+  </form>
+  <h3>
+  <p>
+    The Cross Site Scripting(XSS) Scanner will detect pages that include forms vulnerable to XSS.
+  </p>
+  </h3>
+  <h3><b>About:</b></h3>
+  <p>Cross-Site Scripting (XSS) assaults are injection attacks in which malicious scripts are inserted into otherwise 
+    trustworthy and innocent websites. XSS attacks occur when an attacker utilizes a web application to transmit 
+    malicious code to a separate end user, usually in the form of a browser side script. The flaws that allow 
+    these attacks to succeed are common and can be found whenever a web application accepts user input in its 
+    output without verifying or encoding it.</p>
+  <h3>Impact:</h3>
+  <p>This vulnerability is under the OWASP Top 10 - Cross Site Scripting. Cross-site scripting (XSS) vulnerabilities are 
+      still a major threat to web applications, as attackers can take control of a user's account and steal personal 
+      information like passwords, bank account numbers, credit card information, Personally Identifiable Information (PII), 
+      social security numbers, and more.
+      </p>
+{% endblock %}

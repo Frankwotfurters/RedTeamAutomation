@@ -161,6 +161,8 @@ def scan_sensitive_data(url):
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
+    r.wait(10)
+    r.close()
 
     results = {}
     results["displayfile"] = displayfile
