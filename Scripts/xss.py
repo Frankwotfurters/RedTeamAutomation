@@ -169,6 +169,8 @@ def scan_xss(target):
     r.keyboard("[ctrl]l")
     r.keyboard("[ctrl]v")
     r.keyboard("[enter]")
+    r.wait(10)
+    r.close
 
     #Display PDF link on results page
     results = {}
