@@ -105,8 +105,6 @@ def main(creds, loginPage):
 	pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
 	pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
-	creds[1] += "[enter]" # have RPA press enter after typing credentials
-
 	r.init(visual_automation = True)
 	r.timeout(2.5)
 
@@ -120,7 +118,7 @@ def main(creds, loginPage):
 
 	#Password input
 	for tag in 'password','pw':
-		if r.type(tag, creds[1]):
+		if r.type(tag, f'{creds[1]}[enter]'):
 			break
 
 	#Find forms
@@ -132,7 +130,7 @@ def main(creds, loginPage):
 	print()
 
 	for url in form_urls:
-		#Retrieve HTML code a search for form tags
+		#Retrieve HTML code and search for form tags
 		r.url(url)
 		html = r.dom('return document.querySelector("html").outerHTML')
 		soup = BeautifulSoup(html, 'html.parser')

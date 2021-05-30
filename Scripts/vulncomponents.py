@@ -9,13 +9,11 @@ import time
 from bs4 import BeautifulSoup as bs
 import urllib3
 from urllib.parse import urljoin
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+# urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def main(url):
 	script_files = []
 	jsOutput = {}
-	nvdOutput = ""
-	eDBOutput = ""
 
 	#Generate PDF
 	pdf = FPDF()
