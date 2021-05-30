@@ -10,6 +10,7 @@ from linkextractorrpa import scan_link_extract
 from linkextractorrpa import return_result
 import csrf
 import vulncomponents
+from xss import scan_xss
 
 
 app = Flask(__name__)
@@ -94,6 +95,22 @@ def clickjackRun():
 		return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target))
 	else:
 		return redirect(url_for("clickjackPage", error="Only files with the '.txt' extension are  allowed!"))
+
+@app.route("/xss")
+def xssScannerPage():
+	try:
+		error = request.args["error"]
+	except:
+		return render_template("xss.html")
+	return render_template("xss.html", error=error)
+
+@app.route("/xssRun", methods = ['POST'])
+def xssScannerRun():
+	target = request.form.get("target")
+	if target.startswith('http://') or target.startswith('https://'):
+		return render_template("xssRun.html", target=target, results=scan_xss(target))
+	else:
+		return redirect(url_for("xssPage", error="Please follow the recommended format!"))
 
 
 @app.route("/sensitive-data")

@@ -24,6 +24,7 @@ pip install os
 pip install pprint
 pip install colorama
 pip install flask
+pip install urljoin
 clear
 
 #Setup DVWA and Services
