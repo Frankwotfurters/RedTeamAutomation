@@ -11,13 +11,15 @@
 
 <h1>Subdomain Scanner</h1>
 <hr>
-
+{% if error %}
+  <b><p>ERROR: {{error}}</p></b>
+{% endif %}
 <!--CODE TO RUN SCRIPT-->
 <form action="/subdomainRun" method="POST" enctype = "multipart/form-data">
-  <input name="file" type="file" id="target" required accept=".txt">
-  <input type="submit">
+  Please save websites to a text (.txt) file. <br> And enter the name of the text file below.
   <br>
-  (Please name file as subdomains.txt)
+  <input name="target" id="target">
+  <input type="submit">
 </form>
 <br>
 <strong>

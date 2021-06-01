@@ -1,5 +1,4 @@
-from subdomain import subdCode
-#from threaded_subdomain import main
+import subdomain
 from sql_injection import scan_sql_injection
 from flask import Flask, redirect, url_for, render_template, request
 import clickjackrpa
@@ -56,7 +55,10 @@ def subdPage():
 @app.route("/subdomainRun", methods = ['POST'])
 def subdRun():
 	target = request.form.get("target")
-	return render_template("subdomainRun.html", target=target, results=subdCode())
+	if target.endswith('.txt'):
+		return render_template("subdomainRun.html", target=target, results=subdomain.subdCode(target))
+	else:
+		return redirect(url_for("subdPage", error="Only files with the '.txt' extension are  allowed!"))
 
 @app.route("/admin-scanner")
 def adminScannerPage():
@@ -89,7 +91,6 @@ def clickjackPage():
 
 @app.route("/clickjackRun", methods = ['POST'])
 def clickjackRun():
-	#target = request.files['target']
 	target = request.form.get("target")
 	if target.endswith('.txt'):
 		return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target))

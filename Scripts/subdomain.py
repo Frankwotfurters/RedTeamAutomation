@@ -7,16 +7,10 @@ import os.path
 # the domain to scan for subdomains
 domain = "google.com"
 
-# read all subdomains
-file = open("subdomains.txt")
-# read all content
-content = file.read()
-# split by new lines
-subdomains = content.splitlines()
-
+# to name screenshot
 imageTime = time.strftime("%-H%M")
 
-def subdCode():
+def subdCode(target):
     # generate pdf
     pdf = FPDF()
     pdf.add_page()
@@ -31,6 +25,14 @@ def subdCode():
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
     ss = []
     r.init()
+
+    # read all subdomains
+    file = open(target, 'r')
+    # read all content
+    content = file.read()
+    # split by new lines
+    subdomains = content.splitlines()
+
     for subdomain in subdomains:
         # construct the url
         url = f"http://{subdomain}.{domain}"
