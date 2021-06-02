@@ -1,7 +1,0 @@
-<form action="http://localhost/DVWA/vulnerabilities/xss_r/#" method="GET" name="XSS">
-<p>
-				What's your name?
-				<input name="name" type="text"/>
-<input type="submit" value="Submit"/>
-</p>
-</form>
