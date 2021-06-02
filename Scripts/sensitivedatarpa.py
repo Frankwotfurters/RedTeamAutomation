@@ -105,7 +105,7 @@ def scan_sensitive_data(url):
     # formdata['name'] = u'username'
     # formdata['hello'] = u'password'
 
-    # print(formdata)
+    #print(formdata)
     posturl = urljoin(url, form['action'])
     #print(posturl)
 
@@ -126,15 +126,14 @@ def scan_sensitive_data(url):
     n = s.translate({ord(i): None for i in ':/'})
     #print(n)
     r.snap('page', n+'.png')
-    r.close()
-
+    
     if "Incorrect username or password" in r.text():
         #print("Sensitive Data Exposure: False")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
         pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
+        #pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
         pdf.output(f'sensitive-data({time1}).pdf')
     else:
         #print("Sensitive Data Exposure: True")
@@ -146,6 +145,8 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
         pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,120,300,120)
         pdf.output(f'sensitive-data({time1}).pdf')
+
+    r.close()
 
     #OS path
     pwd = os.path.dirname(os.path.realpath(__file__))
