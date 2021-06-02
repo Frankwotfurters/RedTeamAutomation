@@ -50,7 +50,16 @@ def main(url):
 			pdf.cell(200, 10, txt="[-] No vulnerabiities found", ln=1, align="L")
 		else:
 			print(json.dumps(scan, indent=4))
-			pdf.cell(200, 10, txt=json.dumps(scan, indent=4), ln=1, align="L")
+			pdf.cell(200, 10, txt="[+] Vulnerability found!", ln=1, align="L")
+			#PDF Report formatting
+			for vuln in scan[0]["vulnerabilities"]:
+				pdf.cell(200, 10, txt=f"\tSeverity: {vuln['severity']}", ln=1, align="L")
+				pdf.cell(200, 10, txt=f"\tCVE(s): {vuln['identifiers']['CVE']}", ln=1, align="L")
+				pdf.cell(200, 10, txt=f"\tSummary: {vuln['identifiers']['summary']}", ln=1, align="L")
+				pdf.cell(200, 10, txt=f"\tInfo:", ln=1, align="L")
+				for info in vuln['info']:
+					pdf.cell(200, 10, txt=f"\t\t{info}", ln=1, align="L")
+				pdf.cell(200, 10, txt=f"\n", ln=1, align="L")
 
 	#Banner grabbing to retrieve web server (and version)
 	server = requests.get(url).headers['Server']
