@@ -44,4 +44,4 @@ echo "Performing first time setup for RPA for Python"
 echo "export OPENSSL_CONF=/etc/ssl/" > /etc/profile.d/openssl_conf
 source /etc/profile.d/openssl_conf
 python3 rpaSetup.py
-echo "Setup complete!"
+echo "Setup complete! Run the command <export /etc/profile.d/openssl_conf> followed by <python3 app.py>, and head to http://localhost:5000 to access the GUI."
