@@ -165,7 +165,8 @@ def main(creds, loginPage):
 
 			output = f"{pwd}/{folder}/{filename}"
 			print(f"[+] Vulnerable! Exported PoC for {url} to {output}")
-			pdf.cell(200, 10, txt=f"[+] Vulnerable! Exported PoC for {url} to {output}", ln=1, align="L")
+			pdf.cell(200, 10, txt=f"[+] Vulnerable: {url}", ln=1, align="L")
+			pdf.cell(200, 10, txt=f"\t[!] Exported PoC to {output}", ln=1, align="L")
 			generated_pocs[url] = output
 
 		else:
