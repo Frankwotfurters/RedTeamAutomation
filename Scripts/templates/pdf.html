@@ -17,7 +17,7 @@
     <tr>
         <th>Scanner Used</th>
         <th>Date</th>
-        <th>Time</th>
+        <th>Time (HH:MM:SS)</th>
         <th>PDF Link</th>
     </tr>
     {% for i in results["user"] %}
@@ -26,26 +26,7 @@
         <td>{{results["time1"][loop.index0]}}</td>
         <td>{{results["time2"][loop.index0]}}</td>
         <td><a href="file://{{results['pdf_path'][loop.index0]}}">File</a></td>
-        <!-- <td>{{results["pdf_path"][loop.index0]}}</td> -->
     </tr>
-    <!-- <tr>
-        <th>PDF SCAN REPORT</th>
-        <th>DATE/TIME</th>
-        <th>FILE PATH</th>
-    </tr>      
-    <tr>
-        <td>{{results["user"]}}</td>
-    </tr>
-
-    <tr>
-        <td>{{results["time1"]}}</td>
-    </tr>
-
-    <tr>
-      <td><a href="file://{{results['pdf_path']}}">File</a></td>   -->
   {% endfor %}
-
     </table>
-
-
 {% endblock %}
