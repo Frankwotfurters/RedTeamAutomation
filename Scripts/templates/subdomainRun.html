@@ -8,7 +8,7 @@
     <h1 class="w3-xxxlarge w3-text-red"><b>Subdomain Scanner</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
-  <h2>File tested: subdomains.txt</h2>
+  <h2>File tested: {{target}}</h2>
   <p>Scan Report available for viewing:</p>
   <p>{% for i in results["displayfile"] %}</p>
   <a href="file://{{i}}">PDF Report</a>

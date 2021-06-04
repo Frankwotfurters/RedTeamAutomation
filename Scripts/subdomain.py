@@ -66,12 +66,12 @@ def subdCode(target):
         pdf.cell(200, 10, txt=f"{i}", ln=1, align='L')
         pdf.image(f'{pwd}/{i}',50,50,300,120)
 
-    pdf.output(f'Subdomain_({time1}).pdf')
+    pdf.output(f'Subdomain_{time1}.pdf')
 
     # RPA (To open PDF file after scan)
     displayfile = []
-    displayfile.append(f"{pwd}/Subdomain_({time1}).pdf")
-    outputfile = f"{pwd}/Subdomain_({time1}).pdf"
+    displayfile.append(f"{pwd}/Subdomain_{time1}.pdf")
+    outputfile = f"{pwd}/Subdomain_{time1}.pdf"
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
     r.url()
