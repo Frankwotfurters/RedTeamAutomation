@@ -9,9 +9,16 @@ import time
 from bs4 import BeautifulSoup as bs
 import urllib3
 from urllib.parse import urljoin
-# urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+import logging
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def main(url):
+	logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+	print("Running Using Components with Known Vulnerabilities Scanner")
+	logging.info("Running Using Components with Known Vulnerabilities Scanner")
+	print(f"Target: {url}")
+	logging.info(f"Target: {url}")
+
 	script_files = []
 	jsOutput = {}
 
@@ -42,14 +49,17 @@ def main(url):
 	#run retire.js on each script
 	for js in script_files:
 		print(f"[!] Scanning file: {js}")
+		logging.info(f"[!] Scanning file: {js}")
 		pdf.cell(200, 10, txt=f"[!] Scanned file: {js}", ln=1, align="L")
 		scan = retirejs.scan_endpoint(js)
 		jsOutput[js]=scan
 		if scan == []:
 			print("[-] No vulnerabiities found")
+			logging.info("[-] No vulnerabiities found")
 			pdf.cell(200, 10, txt="[-] No vulnerabiities found", ln=1, align="L")
 		else:
 			print(json.dumps(scan, indent=4))
+			logging.info(json.dumps(scan, indent=4))
 			pdf.cell(200, 10, txt="[+] Vulnerability found!", ln=1, align="L")
 			#PDF Report formatting
 			for vuln in scan[0]["vulnerabilities"]:
@@ -65,6 +75,7 @@ def main(url):
 	server = requests.get(url).headers['Server']
 	server = re.sub(r" ?\([^)]+\)", "", server).replace('/', ' ')
 	print(f"[!] Scanning Server Version: {server}")
+	logging.info(f"[!] Scanning Server Version: {server}")
 	pdf.cell(200, 10, txt=f"[!] Server Version: {server}", ln=1, align="L")
 
 	#NVD Query using banner grabbing result
@@ -77,6 +88,7 @@ def main(url):
 	nvdOutput = f'{server}_NVD.png'
 	pwd = os.path.dirname(os.path.realpath(__file__))
 	print(f"[+] Saved NVD Query to {pwd}/{nvdOutput}")
+	logging.info(f"[+] Saved NVD Query to {pwd}/{nvdOutput}")
 	pdf.add_page(orientation="L")
 	pdf.cell(200, 10, txt=f"National Vulnerability Database query result for [{server}]", ln=1, align='L')
 	pdf.image(f'{pwd}/{nvdOutput}',10,30,250,130)
@@ -88,12 +100,14 @@ def main(url):
 	r.snap('page', f'{server}_Exploit-DB.png')
 	eDBOutput = f'{server}_Exploit-DB.png'
 	print(f"[+] Saved Exploit-DB Query to {pwd}/{eDBOutput}")
+	logging.info(f"[+] Saved Exploit-DB Query to {pwd}/{eDBOutput}")
 	pdf.add_page(orientation="L")
 	pdf.cell(200, 10, txt=f"Exploit-DB query result for [{server}]", ln=1, align='L')
 	pdf.image(f'{pwd}/{eDBOutput}',10,30,250,130)
 
 	#Cleanup
-	pdf.output(f"vulncomponents({time1}).pdf")
+	imgTime = time.strftime("%d-%m-%Y%H%M%S")
+	pdf.output(f"VulnComponents_{imgTime}.pdf")
 	r.close()
 
 	results = {}
