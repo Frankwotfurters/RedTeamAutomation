@@ -110,7 +110,7 @@ def scan_sql_injection(url):
             pdf.output(f'SQLInjection_{time1}.pdf')
 
             # RPA (To open PDF file after scan)
-            outputfile = f"{pwd}SQLInjection_{time1}.pdf"
+            outputfile = f"{pwd}/SQLInjection_{time1}.pdf"
             displayfile = []
             displayfile.append(f"{pwd}/SQLInjection_{time1}.pdf")
             r.init(visual_automation=True)
