@@ -107,12 +107,12 @@ def scan_sql_injection(url):
             pdf.cell(200, 10, txt=f"{url}", ln=1, align='L')
             pdf.image(f'{pwd}/sql-injection-{imageTime}.png',50,50,300,120)
             
-            pdf.output(f'SQLInjection_({time1}).pdf')
+            pdf.output(f'SQLInjection_{time1}.pdf')
 
             # RPA (To open PDF file after scan)
-            outputfile = f"{pwd}SQLInjection_({time1}).pdf"
+            outputfile = f"{pwd}SQLInjection_{time1}.pdf"
             displayfile = []
-            displayfile.append(f"{pwd}/SQLInjection_({time1}).pdf")
+            displayfile.append(f"{pwd}/SQLInjection_{time1}.pdf")
             r.init(visual_automation=True)
             r.clipboard(f"file://{outputfile}")
             r.url()
@@ -181,12 +181,12 @@ def scan_sql_injection(url):
                 pdf.cell(200, 10, txt=f"({url})", ln=1, align='L')
                 pdf.image(f'{pwd}/sql-injection-{imageTime}.png',50,50,300,120)
 
-                pdf.output(f'SQLInjection_({time1}).pdf')
+                pdf.output(f'SQLInjection_{time1}.pdf')
 
                 #RPA (To open PDF file after scan)
-                outputfile = f"{pwd}/SQLInjection_({time1}).pdf"
+                outputfile = f"{pwd}/SQLInjection_{time1}.pdf"
                 displayfile = []
-                displayfile.append(f"{pwd}/SQLInjection_({time1}).pdf")
+                displayfile.append(f"{pwd}/SQLInjection_{time1}.pdf")
                 r.init(visual_automation=True)
                 r.clipboard(f"file://{outputfile}")
                 r.url()
