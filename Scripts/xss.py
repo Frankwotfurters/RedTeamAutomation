@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 import os.path
 import time
 from fpdf import FPDF
+import logging
 
 
 # url = input("Please Enter Target: ")
@@ -74,6 +75,12 @@ def submit_form(form_details, target, value):
 
 
 def scan_xss(target):
+
+    #Logfile
+    logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+    logging.info("Running Cross Site Scripting Scanner")
+    logging.info(f"Target: {target}")
+
     #PDF Report Generation
     pdf = FPDF()
     pdf.add_page()

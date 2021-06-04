@@ -7,6 +7,7 @@ import rpa as r
 import requests
 from fpdf import FPDF
 import os.path
+import logging
 
 
 # def getTarget():
@@ -14,8 +15,12 @@ import os.path
 #     return target
 
 def main(target):
-    #target = request.form.get['target']
-    #Define colours for different outputs
+
+    #Logfile
+    logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+    logging.info("Running Admin Interface Scanner")
+    logging.info(f"Target: {target}")
+
     
     #Generate PDF
     pdf = FPDF()

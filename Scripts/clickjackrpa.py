@@ -5,6 +5,7 @@ import requests
 from fpdf import FPDF
 import time
 import os.path
+import logging
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -39,6 +40,12 @@ def create_poc(url):
 
 def main(target):
     ''' Everything comes together '''
+    #Logfile
+    logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+    logging.info("Running Clickjacking Scanner")
+    logging.info(f"Test File: {target}")
+
+
     #Generate PDF
     pdf = FPDF()
     pdf.add_page()
@@ -68,6 +75,7 @@ def main(target):
 
         if status:
             print("[+] Website is vulnerable!")
+            #logging.info(f"{site} is vulnerable")
             pdf.cell(200, 10, txt=f"[+] {site} is vulnerable!", ln=1, align="L")
             create_poc(site.split('\n')[0])
             print("[*] Created a poc and saved to <URL>.html")
@@ -137,6 +145,7 @@ def main(target):
     results = {}
     results["displayfile"] = displayfile
     return results
+
 
 if __name__ == '__main__': 
     main()
