@@ -70,7 +70,7 @@ def scan_sql_injection(url):
     pdf.set_font('Arial', size=12)
     pdf.cell(200, 10, txt="Scanner: SQL Injection", ln=1, align='L')
     timestart = time.strftime("%d/%m/%Y %I:%M:%S")
-    time1 = time.strftime("%-H%M")
+    time1 =  time.strftime("%d-%m-%Y%H%M%S")
     imageTime = time.strftime("%-H%M")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
@@ -107,12 +107,12 @@ def scan_sql_injection(url):
             pdf.cell(200, 10, txt=f"{url}", ln=1, align='L')
             pdf.image(f'{pwd}/sql-injection-{imageTime}.png',50,50,300,120)
             
-            pdf.output(f'sql_injection({time1}).pdf')
+            pdf.output(f'SQLInjection_({time1}).pdf')
 
             # RPA (To open PDF file after scan)
-            outputfile = f"{pwd}/sql_injection({time1}).pdf"
+            outputfile = f"{pwd}SQLInjection_({time1}).pdf"
             displayfile = []
-            displayfile.append(f"{pwd}/sql_injection({time1}).pdf")
+            displayfile.append(f"{pwd}/SQLInjection_({time1}).pdf")
             r.init(visual_automation=True)
             r.clipboard(f"file://{outputfile}")
             r.url()

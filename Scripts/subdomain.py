@@ -20,7 +20,7 @@ def subdCode(target):
     pdf.set_font('Arial', size=12)
     pdf.cell(200, 10, txt="Scanner: Subdomain Scanner", ln=1, align='L')
     timestart = time.strftime("%d/%m/%Y %I:%M:%S")
-    time1 = time.strftime("%-H%M")
+    time1 =  time.strftime("%d-%m-%Y%H%M%S")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
     ss = []
@@ -66,12 +66,12 @@ def subdCode(target):
         pdf.cell(200, 10, txt=f"{i}", ln=1, align='L')
         pdf.image(f'{pwd}/{i}',50,50,300,120)
 
-    pdf.output(f'subdomains-scanned({time1}).pdf')
+    pdf.output(f'Subdomain_({time1}).pdf')
 
     # RPA (To open PDF file after scan)
     displayfile = []
-    displayfile.append(f"{pwd}/subdomains-scanned({time1}).pdf")
-    outputfile = f"{pwd}/subdomains-scanned({time1}).pdf"
+    displayfile.append(f"{pwd}/Subdomain_({time1}).pdf")
+    outputfile = f"{pwd}/Subdomain_({time1}).pdf"
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
     r.url()
