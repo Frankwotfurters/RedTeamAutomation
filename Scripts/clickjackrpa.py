@@ -115,11 +115,13 @@ def main(target):
     #     pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
     #     pdf.image(f'{pwd}/{i}',50,50,300,120)
 
-    pdf.output(f"clickjack({time1}).pdf")
+
+    imgTime = time.strftime("%d-%m-%Y%H%M%S")
+    pdf.output(f"Clickjacking_{imgTime}.pdf")
     pwd = os.path.dirname(os.path.realpath(__file__))
     displayfile = []
-    displayfile.append(f"{pwd}/clickjack({time1}).pdf")
-    outputfile = f"{pwd}/clickjack({time1}).pdf"
+    displayfile.append(f"{pwd}/Clickjacking_{imgTime}.pdf")
+    outputfile = f"{pwd}/Clickjacking_{imgTime}.pdf"
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)

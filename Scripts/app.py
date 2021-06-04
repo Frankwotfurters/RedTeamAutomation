@@ -10,7 +10,7 @@ from linkextractorrpa import return_result
 import csrf
 import vulncomponents
 from xss import scan_xss
-
+from viewpdf import scan_report
 
 app = Flask(__name__)
 
@@ -25,6 +25,10 @@ def index():
 @app.route("/about-us")
 def aboutPage():
 	return render_template("about-us.html")
+
+@app.route("/report")
+def reportPage():
+	return render_template("pdf.html", results=scan_report()) 
 
 @app.route("/sqli")
 def sqliPage():

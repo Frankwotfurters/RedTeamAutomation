@@ -159,13 +159,14 @@ def main(target):
             pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
             pdf.image(f'{pwd}/{i}',50,50,300,120)
     
-    pdf.output(f'adminscan({time1}).pdf')
+    imgTime = time.strftime("%d-%m-%Y%H%M%S")
+    pdf.output(f'AdminInterface_{imgTime}.pdf')
 
     #RPA (To open PDF file after scan)
     displayfile = []
-    displayfile.append(f"{pwd}/adminscan({time1}).pdf")
+    displayfile.append(f"{pwd}/AdminInterface_{imgTime}.pdf")
 
-    outputfile = (f"{pwd}/adminscan({time1}).pdf")
+    outputfile = (f"{pwd}/AdminInterface_{imgTime}.pdf")
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
     r.url()
