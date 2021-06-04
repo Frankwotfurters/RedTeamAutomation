@@ -20,28 +20,24 @@ def scan_report():
             name_1 = name[:-4]
             name_2 = name_1.strip('0123456789_.-')
             user.append(name_2)
-            print(name_2)
 
     for date in files:
         if date.endswith(".pdf"):
             date_1 = date.strip('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.')
             date_2 = date_1[0:10]
             time1.append(date_2)
-            print(date_2)
 
     for time in files:
         if time.endswith(".pdf"):
             time_1 = time.strip('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.')
             time_2 = time_1[10:18]
             time2.append(time_2)
-            print(time_2)
 
     
     for path in files:
         if path.endswith(".pdf"):
             filepath = os.path.join(pwd,path)
             pdf_path.append(filepath)
-            print(os.path.join(pwd,path))
 
     results = {}
     results["user"] = user
