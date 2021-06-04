@@ -5,6 +5,7 @@ from urllib.request import urlparse, urljoin
 import sys
 from fpdf import FPDF
 import time
+import logging
 
 internal_urls = []
 external_urls = []
@@ -67,6 +68,7 @@ def find_forms(pdf):
 				continue # dont logout
 			else:
 				print(f"[+] Crawling: {page}")
+				logging.info(f"[+] Crawling: {page}")
 				pdf.cell(200, 10, txt=f"[+] Crawled: {page}", ln=1, align="L")
 				visited_urls.append(page)
 				r.url(page)
@@ -80,6 +82,11 @@ def check(form):
 		return True
 
 def main(creds, loginPage):
+	logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+	print("Running Cross-Site Request Forgery Scanner")
+	logging.info("Running Cross-Site Request Forgery Scanner")
+	print(f"Target: {loginPage}")
+	logging.info(f"Target: {loginPage}")
 
 	#Empty lists
 	internal_urls.clear()
@@ -165,17 +172,20 @@ def main(creds, loginPage):
 
 			output = f"{pwd}/{folder}/{filename}"
 			print(f"[+] Vulnerable! Exported PoC for {url} to {output}")
+			logging.info(f"[+] Vulnerable! Exported PoC for {url} to {output}")
 			pdf.cell(200, 10, txt=f"[+] Vulnerable: {url}", ln=1, align="L")
 			pdf.cell(200, 10, txt=f"\t[!] Exported PoC to {output}", ln=1, align="L")
 			generated_pocs[url] = output
 
 		else:
 			print(f"[-] Not Vulnerable: {url}")
+			logging.info(f"[-] Not Vulnerable: {url}")
 			pdf.cell(200, 10, txt=f"[-] Not Vulnerable: {url}", ln=1, align="L")
 			non_vuln_forms.append(url)
 
 	# Cleanup
-	pdf.output(f"csrf({time1}).pdf")
+	imgTime = time.strftime("%d-%m-%Y%H%M%S")
+	pdf.output(f"CSRF_{imgTime}.pdf")
 	r.close()
 
 	results = {}
