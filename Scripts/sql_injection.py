@@ -6,6 +6,7 @@ from pprint import pprint
 from fpdf import FPDF
 import time
 import os.path
+import logging
 
 s = requests.Session()
 s.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
@@ -61,6 +62,12 @@ def is_vulnerable(response):
     return False
 
 def scan_sql_injection(url):
+    logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+    print("Running SQL Injection Scanner")
+    logging.info("Running SQL Injection Scanner")
+    print(f"Target: {url}")
+    logging.info(f"Target: {url}")
+
     # generate pdf
     pdf = FPDF()
     pdf.add_page()
@@ -79,6 +86,7 @@ def scan_sql_injection(url):
         # add quote/double quote character to the URL
         new_url = f"{url}{c}"
         print("[!] Trying", new_url)
+        logging.info(f"[!] Trying, {new_url}")
         # make the HTTP request
         res = s.get(new_url)
         if is_vulnerable(res):
@@ -93,9 +101,12 @@ def scan_sql_injection(url):
             r.close()
 
             pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+            logging.info(f"Target Scanned: {url}")
             pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
             pdf.cell(200, 10, txt= "[+] SQL Injection vulnerability detected (URL):"+ url, ln=1, align="L")
+            logging.info(f"[+] SQL Injection vulnerability detected (URL): {url}")
             pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+            logging.info("End of Results.")
             pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
             #OS Path
@@ -165,11 +176,15 @@ def scan_sql_injection(url):
                 r.close()
 
                 pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+                logging.info(f"Target Scanned: {url}")
                 pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
-                pdf.cell(200, 10, txt= "[+] SQL Injection vulnerability detected with specified link (FORM):", ln=1, align="L")
+                pdf.cell(200, 10, txt= "[+] SQL Injection vulnerability detected with specified link (FORM):" + url, ln=1, align="L")
+                logging.info(f"[+] SQL Injection vulnerability detected with specified link (FORM): {url}")
                 pdf.cell(200, 10, txt= "[+] Form:", ln=1, align="L")
                 pdf.cell(200, 10, print(form_details), ln=1, align="L")
+                logging.info(f"[+] Form: {form_details}")
                 pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+                logging.info("End of Results.")
                 pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
                 #OS Path

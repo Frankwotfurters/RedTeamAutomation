@@ -3,6 +3,7 @@ import rpa as r
 from fpdf import FPDF
 import time
 import os.path
+import logging
 
 # the domain to scan for subdomains
 domain = "google.com"
@@ -11,6 +12,13 @@ domain = "google.com"
 imageTime = time.strftime("%-H%M")
 
 def subdCode(target):
+    logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+    print("Running Subdomain Scanner")
+    logging.info("Running Subdomain Scanner")
+    print(f"Target: {target}")
+    logging.info(f"Target: {target}")
+    logging.info(f"Using Domain: {domain}")
+
     # generate pdf
     pdf = FPDF()
     pdf.add_page()
@@ -50,10 +58,13 @@ def subdCode(target):
             ss.append(f"{subdomain}({imageTime}).png")
             r.snap('page', f"{subdomain}({imageTime}).png")
             pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
+            logging.info(f"Target Scanned: {url}")
             pdf.cell(200, 10, txt= "[+] Discovered subdomain:"+ url, ln=1, align="L")
+            logging.info(f"[+] Discovered subdomain: {url}")
     r.close()
 
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
+    logging.info(f"End of Results.")
     pdf.cell(40, 10, txt=f"Screenshot(s) will be in the following page(s).", ln=1, align="L")
 
     #OS Path
