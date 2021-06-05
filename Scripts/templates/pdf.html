@@ -13,15 +13,13 @@
   <div class="w3-responsive">
     <table class="w3-table-all sortable">
     <tr>
-        <th>User</th>
         <th>Scanner Used</th>
         <th>Date</th>
         <th>Time (HH:MM:SS)</th>
-        <th>PDF Link</th>
+        <th>Scan Report</th>
     </tr>
     {% for i in results["scanner"] %}
     <tr>
-        <td>{{results["username"][loop.index0]}}</td>
         <td>{{results["scanner"][loop.index0]}}</td>
         <td>{{results["time1"][loop.index0]}}</td>
         <td>{{results["time2"][loop.index0]}}</td>

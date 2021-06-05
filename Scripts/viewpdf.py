@@ -9,7 +9,6 @@ def scan_report():
     #List all files
     files = os.listdir(pwd)
 
-    username = []
     scanner = []
     pdf_path = []
     time1 = []
@@ -44,20 +43,11 @@ def scan_report():
             filepath = os.path.join(pwd,path)
             pdf_path.append(filepath)
 
-    #Username
-    for user in files:
-        if user.endswith(".pdf"):
-            user_1 = user.split("_",1)
-            user_2 = user_1[0]
-            username.append(user_2)
-
-
     results = {}
     results["scanner"] = scanner
     results["time1"] = time1
     results["time2"] = time2
     results["pdf_path"] = pdf_path
-    results["username"] = username
     return results
 
 if __name__ == "__main__":
