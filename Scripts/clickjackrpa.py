@@ -75,7 +75,7 @@ def main(target):
 
         if status:
             print("[+] Website is vulnerable!")
-            #logging.info(f"{site} is vulnerable")
+            logging.info(f"{site} is vulnerable")
             pdf.cell(200, 10, txt=f"[+] {site} is vulnerable!", ln=1, align="L")
             create_poc(site.split('\n')[0])
             print("[*] Created a poc and saved to <URL>.html")
@@ -108,10 +108,12 @@ def main(target):
 
         elif not status: 
             print("[-] Website is not vulnerable!") 
+            logging.info(f" {site} is not vulnerable!")
             pdf.cell(200, 10, txt=f"[-] {site} is not vulnerable!", ln=1, align="L")
             pdf.cell(200, 10, txt=" ", ln=1, align="L")
         else: 
             print('Everything crashed, RIP.') 
+            logging.info(f"Everything crashed, RIP.")
             pdf.cell(200, 10, txt="[-] Everything crashed, RIP.", ln=1, align="L")
             pdf.cell(200, 10, txt="[-] Please run the scanner again.", ln=1, align="L")
     

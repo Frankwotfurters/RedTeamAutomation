@@ -124,6 +124,7 @@ def main(target):
     #If the array is not empty, website is vulnerable.
     if admin:
         print(f"{RED}[-] WEBSITE IS VULNERABLE.")
+        logging.info(f"{target} is vulnerable!")
         print(f"{RED}[-] VULNERABILITY DETECTED: OWASP 2017 A6 [SECURITY MISCONFIGURATIONS]")
         print(f"{RED}[-] SCANNER WAS ABLE TO LOCATE ADMIN PAGE(S) OF WEBSITE")
         print(f"{RED}[-] POSSIBLE ADMIN PAGE(S): ")
@@ -144,6 +145,7 @@ def main(target):
 
     else:
         print(f"{GREEN}[+] WEBSITE IS NOT VULNERABLE.")
+        logging.info(f"{target} is not vulnerable!")
         print(f"{GREEN}[+] SCANNER WAS UNABLE TO LOCATE ADMIN PAGE(S).")
         pdf.cell(200, 10, txt="[+] Website is not vulnerable", ln=1, align="L")
         pdf.cell(200, 10, txt="[+] Scanner was unable to locate admin page(s)", ln=1, align="L")

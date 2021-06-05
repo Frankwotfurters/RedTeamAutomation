@@ -115,6 +115,7 @@ def scan_xss(target):
         if js_script in content:
             
             print(f"[+] XSS Detected on {target}")
+            logging.info(f"XSS Detected on {target}")
             print(f"[+] Form details:")
             pdf.cell(40, 10, txt=f"[+] {target} is vulnerble", ln=1, align="L")
             pdf.cell(40, 10, txt=f"[+] XSS Detected on {target}", ln=1, align="L")
@@ -148,6 +149,7 @@ def scan_xss(target):
 
         else:
             print(f"[-] {target} is not vulnerable!") 
+            logging.info(f"{target} is not vulnerable!")
             pdf.cell(200, 10, txt=f"[-] XSS was not detected on {target}", ln=1, align="L")
             pdf.cell(200, 10, txt=f"[-] {target} is not vulnerable!", ln=1, align="L")
             pdf.cell(40, 10, txt=f"[+] Form details:", ln=1, align="L")
