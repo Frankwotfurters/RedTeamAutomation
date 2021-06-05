@@ -17,8 +17,8 @@ def scan_report():
     #Scanner Name
     for name in files:
         if name.endswith(".pdf"):
-            name_1 = name.split("_",2)
-            name_2 = name_1[1]
+            name_1 = name.split("_",1)
+            name_2 = name_1[0]
             scanner.append(name_2)
 
     #Date
