@@ -133,13 +133,13 @@ def print_report(url):
     logging.info("End of Results")
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
 
-    pdf.add_page(orientation="L")
+    pdf.add_page()
     pdf.set_font('Arial', size=12)
     pdf.cell(200, 10, txt="Internal Links" + "\n", ln=1, align="L")
     for internal_link in internal_urls:
         pdf.cell(200, 10, txt=internal_link.strip() + "\n", ln=1, align="L")
 
-    pdf.add_page(orientation="L")
+    pdf.add_page()
     pdf.set_font('Arial', size=12)
     pdf.cell(200, 10, txt="External Links" + "\n", ln=1, align="L")
     for external_link in external_urls:
