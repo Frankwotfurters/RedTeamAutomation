@@ -6,6 +6,7 @@ import rpa as r
 from fpdf import FPDF
 import time
 import os.path
+import logging
 
 # init the colorama module
 colorama.init()
@@ -41,6 +42,13 @@ def is_valid(url):
     return bool(parsed.netloc) and bool(parsed.scheme)
 
 def scan_link_extract(url):
+    #Logfile
+    logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+    logging.info("Running Link Extractor")
+    print("Running Link Extractor")
+    logging.info(f"Target: {url}")
+    print(f"Target: {url}")
+
     get_all_website_links(url)
     crawl(url, max_urls=50)
     print_results(url)

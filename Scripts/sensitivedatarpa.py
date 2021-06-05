@@ -8,6 +8,7 @@ import re
 from fpdf import FPDF
 import time
 import os.path
+import logging
 
 def get_all_forms(url):
     """Given a url, it returns all forms from the HTML content"""
@@ -81,6 +82,11 @@ def scan_form(url):
         content = submit_form(form_details, url, js_script).content.decode()
 
 def scan_sensitive_data(url):
+    #Logfile
+    logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
+    logging.info("Running Sensitive Data Exposure Detector")
+    logging.info(f"Target: {url}")
+
     #Generate PDF
     pdf = FPDF()
     pdf.add_page()
@@ -91,6 +97,7 @@ def scan_sensitive_data(url):
     pdf.cell(200, 10, txt="Scanner: Sensitive Data Exposure", ln=1, align='L')
     timestart = time.strftime("%d/%m/%Y %I:%M:%S")
     time1 = time.strftime("%-H%M")
+    imgtime = time.strftime("(%d%m-%I%M%S)")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
