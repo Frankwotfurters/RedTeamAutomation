@@ -217,7 +217,11 @@ def scan_sql_injection(url):
                 results = {}
                 results["displayfile"] = displayfile
                 return results
-            
+    else:
+        print("[+] SQL Injection vulnerability not detected, link:", url)
+        logging.info(f"[+] SQL Injection vulnerability not detected, link: {url}")
+        logging.info("End of Results.")
+
 if __name__ == "__main__":
     import sys
     url = sys.argv[1]

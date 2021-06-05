@@ -49,6 +49,7 @@ def subdCode(target):
             requests.get(url)
         except requests.ConnectionError:
             # if the subdomain does not exist, just pass, print nothing
+            logging.info(f"[+] Subdomain does not exist: {url}")
             pass
         else:
             print("[+] Discovered subdomain:", url)
