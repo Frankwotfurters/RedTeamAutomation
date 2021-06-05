@@ -34,7 +34,9 @@ def scan_report():
         if time.endswith(".pdf"):
             time_1 = time.strip('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.')
             time_2 = time_1[10:18]
-            time2.append(time_2)
+            time_3 = time_2[:2] + ":" + time_2[2:]
+            time_4 = time_3[:5] + ":" + time_3[5:]
+            time2.append(time_4)
 
     #File Path
     for path in files:
