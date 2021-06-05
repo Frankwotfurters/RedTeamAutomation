@@ -6,6 +6,7 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
+import getpass
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -124,12 +125,14 @@ def main(target):
     #     pdf.image(f'{pwd}/{i}',50,50,300,120)
 
 
+    #Username
+    username = getpass.getuser()
     imgTime = time.strftime("%d-%m-%Y%H%M%S")
-    pdf.output(f"Clickjacking_{imgTime}.pdf")
+    pdf.output(f"{username}_Clickjacking_{imgTime}.pdf")
     pwd = os.path.dirname(os.path.realpath(__file__))
     displayfile = []
-    displayfile.append(f"{pwd}/Clickjacking_{imgTime}.pdf")
-    outputfile = f"{pwd}/Clickjacking_{imgTime}.pdf"
+    displayfile.append(f"{pwd}/{username}_Clickjacking_{imgTime}.pdf")
+    outputfile = f"{pwd}/{username}_Clickjacking_{imgTime}.pdf"
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)
