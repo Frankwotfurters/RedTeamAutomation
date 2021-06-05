@@ -9,6 +9,7 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
+import getpass
 
 def get_all_forms(url):
     """Given a url, it returns all forms from the HTML content"""
@@ -134,6 +135,10 @@ def scan_sensitive_data(url):
     #print(n)
     r.snap('page', n+'.png')
     
+    # get user and define time and date
+    username = getpass.getuser()
+    imgTime = time.strftime("%d-%m-%Y%H%M%S")
+
     if "Incorrect username or password" in r.text():
         #print("Sensitive Data Exposure: False")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
@@ -141,7 +146,7 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
         #pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
-        pdf.output(f'sensitive-data({time1}).pdf')
+        pdf.output(f'{username}_SensitiveDataExposure_{imgTime}.pdf')
     else:
         #print("Sensitive Data Exposure: True")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
@@ -151,16 +156,16 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt="[*] Please modify the error message into the following format: Incorrect username or password.", ln=1, align="L")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
         pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,120,300,120)
-        pdf.output(f'sensitive-data({time1}).pdf')
+        pdf.output(f'{username}_SensitiveDataExposure_{imgTime}.pdf')
 
     r.close()
 
     #OS path
     pwd = os.path.dirname(os.path.realpath(__file__))
     
-    outputfile = f"{pwd}/sensitive-data({time1}).pdf"
+    outputfile = f"{pwd}/{username}_SensitiveDataExposure_{imgTime}.pdf"
     displayfile = []
-    displayfile.append(f"{pwd}/sensitive-data({time1}).pdf")   
+    displayfile.append(f"{pwd}/{username}_SensitiveDataExposure{imgTime}.pdf")   
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)
