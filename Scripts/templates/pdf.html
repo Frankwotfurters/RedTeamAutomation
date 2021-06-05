@@ -13,16 +13,16 @@
   <div class="w3-responsive">
     <table class="w3-table-all sortable">
     <tr>
-        <th>Scanner Used</th>
         <th>Date</th>
-        <th>Time (HH:MM:SS)</th>
+        <th>Time</th>
+        <th>Scanner Used</th>
         <th>File</th>
     </tr>
     {% for i in results["scanner"] %}
     <tr>
-        <td>{{results["scanner"][loop.index0]}}</td>
         <td>{{results["time1"][loop.index0]}}</td>
         <td>{{results["time2"][loop.index0]}}</td>
+        <td>{{results["scanner"][loop.index0]}}</td>
         <td><a href="file://{{results['pdf_path'][loop.index0]}}">File</a></td>
     </tr>
   {% endfor %}
