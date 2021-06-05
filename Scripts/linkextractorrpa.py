@@ -31,6 +31,8 @@ pdf.set_font('Arial', size=12)
 pdf.cell(200, 10, txt="Scanner: Link Extractor", ln=1, align='L')
 timestart = time.strftime("%d/%m/%Y %I:%M:%S")
 time1 = time.strftime("%-H%M")
+#imgtime = time.strftime("(%d%m-%I%M%S)")
+imgTime = time.strftime("%d-%m-%Y%H%M%S")
 pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
 pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
@@ -46,12 +48,9 @@ def scan_link_extract(url):
     logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
     logging.info("Running Link Extractor")
     print("Running Link Extractor")
-    logging.info(f"Target: {url}")
-    print(f"Target: {url}")
 
     get_all_website_links(url)
     crawl(url, max_urls=50)
-    print_results(url)
     print_report(url)
     
 def get_all_website_links(url):
@@ -105,23 +104,12 @@ def crawl(url, max_urls=50):
             break
         crawl(link, max_urls=max_urls)
 
-#rpa to write urls into text documents
-def print_results(url):
-    domain_name = urlparse(url).netloc
-    r.init(chrome_browser = False)
-    for internal_link in internal_urls:
-        r.write(internal_link.strip() + "\n", f"{domain_name}_internal_links({time1}).txt")
-        
-    for external_link in external_urls:
-        r.write(external_link.strip() + "\n", f"{domain_name}_external_links({time1}).txt")
-    r.close()
-
 #OS path
 pwd = os.path.dirname(os.path.realpath(__file__))
 
-outputfile = f"{pwd}/link-extractor({time1}).pdf" 
+outputfile = f"{pwd}/LinkExtractor_{imgTime}.pdf" 
 displayfile = []
-displayfile.append(f"{pwd}/link-extractor({time1}).pdf") 
+displayfile.append(f"{pwd}/LinkExtractor_{imgTime}.pdf") 
 
 def return_result(url):
     results = {}
@@ -132,14 +120,33 @@ def print_report(url):
     total_len = len(external_urls) + len(internal_urls)
 
     #print report details in pdf
+    logging.info(f"Target Scanned: {url}")
     pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
     pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+    logging.info(f"[+] Total Internal links: {len(internal_urls)}")
     pdf.cell(200, 10, txt= "[+] Total Internal links: "+ str(len(internal_urls)), ln=1, align="L")
+    logging.info(f"[+] Total External links: {len(external_urls)}")
     pdf.cell(200, 10, txt="[+] Total External links: "+ str(len(external_urls)), ln=1, align="L")
+    logging.info(f"[+] Total URLs: {(total_len)}")
     pdf.cell(200, 10, txt="[+] Total URLs: "+ str(total_len), ln=1, align="L")
-    pdf.cell(200, 10, txt="All links are saved in a Text Document file and will automatically be downloaded.", ln=1, align="L")
+    pdf.cell(200, 10, txt="All links extracted are shown below in the next two pages.", ln=1, align="L")
+    logging.info("End of Results")
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-    pdf.output(f'link-extractor({time1}).pdf')
+
+    pdf.add_page(orientation="L")
+    pdf.set_font('Arial', size=12)
+    pdf.cell(200, 10, txt="Internal Links" + "\n", ln=1, align="L")
+    for internal_link in internal_urls:
+        pdf.cell(200, 10, txt=internal_link.strip() + "\n", ln=1, align="L")
+
+    pdf.add_page(orientation="L")
+    pdf.set_font('Arial', size=12)
+    pdf.cell(200, 10, txt="External Links" + "\n", ln=1, align="L")
+    for external_link in external_urls:
+        pdf.cell(200, 10, txt=external_link.strip() + "\n", ln=1, align="L")
+
+    pdf.output(f'LinkExtractor_{imgTime}.pdf')
+
 
     #rpa to open pdf file
     r.init(visual_automation=True)
