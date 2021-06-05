@@ -9,7 +9,6 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
-import getpass
 
 def get_all_forms(url):
     """Given a url, it returns all forms from the HTML content"""
@@ -98,7 +97,7 @@ def scan_sensitive_data(url):
     pdf.cell(200, 10, txt="Scanner: Sensitive Data Exposure", ln=1, align='L')
     timestart = time.strftime("%d/%m/%Y %I:%M:%S")
     time1 = time.strftime("%-H%M")
-    imgtime = time.strftime("(%d%m-%I%M%S)")
+    imgTime = time.strftime("%d-%m-%Y%H%M%S")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
@@ -135,37 +134,42 @@ def scan_sensitive_data(url):
     #print(n)
     r.snap('page', n+'.png')
     
-    # get user and define time and date
-    username = getpass.getuser()
-    imgTime = time.strftime("%d-%m-%Y%H%M%S")
 
     if "Incorrect username or password" in r.text():
         #print("Sensitive Data Exposure: False")
+        logging.info(f"Target Scanned: {url}")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+        logging.info(f"[+] No Sensitive Data Exposure detected (URL): {url}")
         pdf.cell(200, 10, txt= "[+] No Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
+        logging.info("End of Results")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        #pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,90,300,120)
-        pdf.output(f'{username}_SensitiveDataExposure_{imgTime}.pdf')
+        pdf.output(f'SensitiveDataExposure_{imgTime}.pdf')
     else:
         #print("Sensitive Data Exposure: True")
+        logging.info(f"Target Scanned: {url}")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
+        logging.info(f"[+] Sensitive Data Exposure detected (URL): {url}")
         pdf.cell(200, 10, txt= "[+] Sensitive Data Exposure detected (URL): "+ url, ln=1, align="L")
+        logging.info(f"[*] Remediation Method:")
+        logging.info(f"[*] Please modify the error message into the following format or a similar concept to the following: Incorrect username or password.")
         pdf.cell(200, 10, txt="[*] Remediation Method:", ln=1, align="L")
-        pdf.cell(200, 10, txt="[*] Please modify the error message into the following format: Incorrect username or password.", ln=1, align="L")
+        pdf.cell(200, 10, txt="[*] Please modify the error message into the following format or a similar concept", ln=1, align="L")
+        pdf.cell(200, 10, txt="to the following: Incorrect username or password.", ln=1, align="L")
+        logging.info("End of Results")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
         pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,120,300,120)
-        pdf.output(f'{username}_SensitiveDataExposure_{imgTime}.pdf')
+        pdf.output(f'SensitiveDataExposure_{imgTime}.pdf')
 
     r.close()
 
     #OS path
     pwd = os.path.dirname(os.path.realpath(__file__))
     
-    outputfile = f"{pwd}/{username}_SensitiveDataExposure_{imgTime}.pdf"
+    outputfile = f"{pwd}/SensitiveDataExposure_{imgTime}.pdf"
     displayfile = []
-    displayfile.append(f"{pwd}/{username}_SensitiveDataExposure{imgTime}.pdf")   
+    displayfile.append(f"{pwd}/SensitiveDataExposure_{imgTime}.pdf")   
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)

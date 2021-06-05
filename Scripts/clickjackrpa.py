@@ -6,7 +6,6 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
-import getpass
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -76,7 +75,7 @@ def main(target):
 
         if status:
             print("[+] Website is vulnerable!")
-            #logging.info(f"{site} is vulnerable")
+            logging.info(f"{site} is vulnerable")
             pdf.cell(200, 10, txt=f"[+] {site} is vulnerable!", ln=1, align="L")
             create_poc(site.split('\n')[0])
             print("[*] Created a poc and saved to <URL>.html")
@@ -109,10 +108,12 @@ def main(target):
 
         elif not status: 
             print("[-] Website is not vulnerable!") 
+            logging.info(f" {site} is not vulnerable!")
             pdf.cell(200, 10, txt=f"[-] {site} is not vulnerable!", ln=1, align="L")
             pdf.cell(200, 10, txt=" ", ln=1, align="L")
         else: 
             print('Everything crashed, RIP.') 
+            logging.info(f"Everything crashed, RIP.")
             pdf.cell(200, 10, txt="[-] Everything crashed, RIP.", ln=1, align="L")
             pdf.cell(200, 10, txt="[-] Please run the scanner again.", ln=1, align="L")
     
@@ -125,14 +126,12 @@ def main(target):
     #     pdf.image(f'{pwd}/{i}',50,50,300,120)
 
 
-    #Username
-    username = getpass.getuser()
     imgTime = time.strftime("%d-%m-%Y%H%M%S")
-    pdf.output(f"{username}_Clickjacking_{imgTime}.pdf")
+    pdf.output(f"Clickjacking_{imgTime}.pdf")
     pwd = os.path.dirname(os.path.realpath(__file__))
     displayfile = []
-    displayfile.append(f"{pwd}/{username}_Clickjacking_{imgTime}.pdf")
-    outputfile = f"{pwd}/{username}_Clickjacking_{imgTime}.pdf"
+    displayfile.append(f"{pwd}/Clickjacking_{imgTime}.pdf")
+    outputfile = f"{pwd}/Clickjacking_{imgTime}.pdf"
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)

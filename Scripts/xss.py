@@ -115,6 +115,7 @@ def scan_xss(target):
         if js_script in content:
             
             print(f"[+] XSS Detected on {target}")
+            logging.info(f"XSS Detected on {target}")
             print(f"[+] Form details:")
             pdf.cell(40, 10, txt=f"[+] {target} is vulnerble", ln=1, align="L")
             pdf.cell(40, 10, txt=f"[+] XSS Detected on {target}", ln=1, align="L")
@@ -148,6 +149,7 @@ def scan_xss(target):
 
         else:
             print(f"[-] {target} is not vulnerable!") 
+            logging.info(f"{target} is not vulnerable!")
             pdf.cell(200, 10, txt=f"[-] XSS was not detected on {target}", ln=1, align="L")
             pdf.cell(200, 10, txt=f"[-] {target} is not vulnerable!", ln=1, align="L")
             pdf.cell(40, 10, txt=f"[+] Form details:", ln=1, align="L")
@@ -164,13 +166,13 @@ def scan_xss(target):
             pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
             pdf.image(f'{pwd}/{i}',50,50,300,120)
 
-    username = getpass.getuser()
+
     imgTime = time.strftime("%d-%m-%Y%H%M%S")
-    pdf.output(f"{username}_CrossSiteScripting_{imgTime}.pdf")
+    pdf.output(f"CrossSiteScripting_{imgTime}.pdf")
     pwd = os.path.dirname(os.path.realpath(__file__))
     displayfile = []
-    displayfile.append(f"{pwd}/{username}_CrossSiteScripting_{imgTime}.pdf")
-    outputfile = f"{pwd}/{username}_CrossSiteScripting_{imgTime}.pdf"
+    displayfile.append(f"{pwd}/CrossSiteScripting_{imgTime}.pdf")
+    outputfile = f"{pwd}/CrossSiteScripting_{imgTime}.pdf"
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)

@@ -8,7 +8,6 @@ import requests
 from fpdf import FPDF
 import os.path
 import logging
-import getpass
 
 
 # def getTarget():
@@ -125,6 +124,7 @@ def main(target):
     #If the array is not empty, website is vulnerable.
     if admin:
         print(f"{RED}[-] WEBSITE IS VULNERABLE.")
+        logging.info(f"{target} is vulnerable!")
         print(f"{RED}[-] VULNERABILITY DETECTED: OWASP 2017 A6 [SECURITY MISCONFIGURATIONS]")
         print(f"{RED}[-] SCANNER WAS ABLE TO LOCATE ADMIN PAGE(S) OF WEBSITE")
         print(f"{RED}[-] POSSIBLE ADMIN PAGE(S): ")
@@ -145,6 +145,7 @@ def main(target):
 
     else:
         print(f"{GREEN}[+] WEBSITE IS NOT VULNERABLE.")
+        logging.info(f"{target} is not vulnerable!")
         print(f"{GREEN}[+] SCANNER WAS UNABLE TO LOCATE ADMIN PAGE(S).")
         pdf.cell(200, 10, txt="[+] Website is not vulnerable", ln=1, align="L")
         pdf.cell(200, 10, txt="[+] Scanner was unable to locate admin page(s)", ln=1, align="L")
@@ -165,15 +166,15 @@ def main(target):
             pdf.cell(200, 10, txt=f"Proof of Concept ({i})", ln=1, align='L')
             pdf.image(f'{pwd}/{i}',50,50,300,120)
     
-    username = getpass.getuser()
+    
     imgTime = time.strftime("%d-%m-%Y%H%M%S")
-    pdf.output(f'{username}_AdminInterface_{imgTime}.pdf')
+    pdf.output(f'AdminInterface_{imgTime}.pdf')
 
     #RPA (To open PDF file after scan)
     displayfile = []
-    displayfile.append(f"{pwd}/{username}_AdminInterface_{imgTime}.pdf")
+    displayfile.append(f"{pwd}/AdminInterface_{imgTime}.pdf")
 
-    outputfile = (f"{pwd}/{username}_AdminInterface_{imgTime}.pdf")
+    outputfile = (f"{pwd}/AdminInterface_{imgTime}.pdf")
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
     r.url()
