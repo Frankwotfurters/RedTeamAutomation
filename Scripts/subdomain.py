@@ -4,6 +4,7 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
+import getpass
 
 # the domain to scan for subdomains
 domain = "google.com"
@@ -77,12 +78,15 @@ def subdCode(target):
         pdf.cell(200, 10, txt=f"{i}", ln=1, align='L')
         pdf.image(f'{pwd}/{i}',50,50,300,120)
 
-    pdf.output(f'Subdomain_{time1}.pdf')
+    # get user
+    username = getpass.getuser()
+
+    pdf.output(f'{username}_Subdomain_{time1}.pdf')
 
     # RPA (To open PDF file after scan)
+    outputfile = f"{pwd}/{username}_Subdomain_{time1}.pdf"
     displayfile = []
-    displayfile.append(f"{pwd}/Subdomain_{time1}.pdf")
-    outputfile = f"{pwd}/Subdomain_{time1}.pdf"
+    displayfile.append(f"{pwd}/{username}_Subdomain_{time1}.pdf")
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
     r.url()
