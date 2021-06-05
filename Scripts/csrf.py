@@ -6,7 +6,6 @@ import sys
 from fpdf import FPDF
 import time
 import logging
-import getpass
 
 internal_urls = []
 external_urls = []
@@ -185,9 +184,8 @@ def main(creds, loginPage):
 			non_vuln_forms.append(url)
 
 	# Cleanup
-	username = getpass.getuser()
 	imgTime = time.strftime("%d-%m-%Y%H%M%S")
-	pdf.output(f"{username}_CSRF_{imgTime}.pdf")
+	pdf.output(f"CSRF_{imgTime}.pdf")
 	r.close()
 
 	results = {}

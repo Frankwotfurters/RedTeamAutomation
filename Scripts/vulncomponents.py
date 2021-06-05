@@ -10,7 +10,6 @@ from bs4 import BeautifulSoup as bs
 import urllib3
 from urllib.parse import urljoin
 import logging
-import getpass
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def main(url):
@@ -107,9 +106,8 @@ def main(url):
 	pdf.image(f'{pwd}/{eDBOutput}',10,30,250,130)
 
 	#Cleanup
-	username = getpass.getuser()
 	imgTime = time.strftime("%d-%m-%Y%H%M%S")
-	pdf.output(f"{username}_VulnComponents_{imgTime}.pdf")
+	pdf.output(f"VulnComponents_{imgTime}.pdf")
 	r.close()
 
 	results = {}
