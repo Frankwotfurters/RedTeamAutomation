@@ -81,6 +81,7 @@ def scan_sql_injection(url):
     imageTime = time.strftime("%-H%M")
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
+
     # test on URL
     for c in "\"'":
         # add quote/double quote character to the URL
@@ -180,7 +181,7 @@ def scan_sql_injection(url):
                 logging.info(f"Target Scanned: {url}")
                 pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
                 pdf.cell(200, 10, txt= "[+] SQL Injection vulnerability detected with specified link (FORM):" + url, ln=1, align="L")
-                logging.info(f"[+] SQL Injection vulnerability detected with specified link (FORM): {url}")
+                logging.info(f"[+] SQL Injection vulnerability detected (FORM): {url}")
                 pdf.cell(200, 10, txt= "[+] Form:", ln=1, align="L")
                 pdf.cell(200, 10, print(form_details), ln=1, align="L")
                 logging.info(f"[+] Form: {form_details}")
@@ -218,6 +219,7 @@ def scan_sql_injection(url):
                 results["displayfile"] = displayfile
                 return results
     else:
+        # if no vulnerability detected
         print("[+] SQL Injection vulnerability not detected, link:", url)
         logging.info(f"[+] SQL Injection vulnerability not detected, link: {url}")
         logging.info("End of Results.")
