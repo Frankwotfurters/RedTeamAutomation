@@ -10,9 +10,10 @@ from bs4 import BeautifulSoup as bs
 import urllib3
 from urllib.parse import urljoin
 import logging
+import sendmail
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def main(url):
+def main(url, receiver=""):
 	logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
 	print("Running Using Components with Known Vulnerabilities Scanner")
 	logging.info("Running Using Components with Known Vulnerabilities Scanner")
@@ -108,6 +109,9 @@ def main(url):
 	#Cleanup
 	imgTime = time.strftime("%d-%m-%Y%H%M%S")
 	pdf.output(f"VulnComponents_{imgTime}.pdf")
+	if not receiver == "":
+		# Send email
+		sendmail.main("Vulnerable Components", url, f"VulnComponents_{imgTime}.pdf", receiver)
 	r.close()
 
 	results = {}

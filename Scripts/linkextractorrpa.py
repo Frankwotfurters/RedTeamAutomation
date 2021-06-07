@@ -7,6 +7,7 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
+import sendmail
 
 # init the colorama module
 colorama.init()
@@ -43,7 +44,7 @@ def is_valid(url):
     parsed = urlparse(url)
     return bool(parsed.netloc) and bool(parsed.scheme)
 
-def scan_link_extract(url):
+def scan_link_extract(url, receiver=""):
     #Logfile
     logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
     logging.info("Running Link Extractor")
@@ -52,6 +53,15 @@ def scan_link_extract(url):
     get_all_website_links(url)
     crawl(url, max_urls=50)
     print_report(url)
+
+    results = {}
+    results["displayfile"] = displayfile
+
+    if not receiver == "":
+        # Send email
+        sendmail.main("Link Extractor", url, outputfile, receiver)
+
+    return results
     
 def get_all_website_links(url):
     """
@@ -110,11 +120,6 @@ pwd = os.path.dirname(os.path.realpath(__file__))
 outputfile = f"{pwd}/LinkExtractor_{imgTime}.pdf" 
 displayfile = []
 displayfile.append(f"{pwd}/LinkExtractor_{imgTime}.pdf") 
-
-def return_result(url):
-    results = {}
-    results["displayfile"] = displayfile
-    return results
 
 def print_report(url):
     total_len = len(external_urls) + len(internal_urls)

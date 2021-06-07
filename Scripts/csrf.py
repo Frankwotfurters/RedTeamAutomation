@@ -6,6 +6,7 @@ import sys
 from fpdf import FPDF
 import time
 import logging
+import sendmail
 
 internal_urls = []
 external_urls = []
@@ -81,7 +82,7 @@ def check(form):
 	else:
 		return True
 
-def main(creds, loginPage):
+def main(creds, loginPage, receiver=""):
 	logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
 	print("Running Cross-Site Request Forgery Scanner")
 	logging.info("Running Cross-Site Request Forgery Scanner")
@@ -186,6 +187,9 @@ def main(creds, loginPage):
 	# Cleanup
 	imgTime = time.strftime("%d-%m-%Y%H%M%S")
 	pdf.output(f"CSRF_{imgTime}.pdf")
+	if not receiver == "":
+		# Send email
+		sendmail.mail("CSRF", loginPage, f"CSRF_{imgTime}.pdf", receiver)
 	r.close()
 
 	results = {}

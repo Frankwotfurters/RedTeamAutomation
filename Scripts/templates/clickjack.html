@@ -14,11 +14,13 @@
     <b><p>ERROR: {{error}}</p></b>
   {% endif %}
   <form action="/clickjackRun" method="POST" enctype = "multipart/form-data">
-    <!-- <label for="target">Targets: </label> -->
     Please save websites to a text (.txt) file. <br> And enter the name of the text file below.
-    <br>
+    <br><br>
     <!-- <input name="file" type="file" id="target"> -->
-    <input name="target" id="target">
+    <label for="target">Targets: </label>
+    <input name="target" id="target"> <br>
+    <label for="email">Email to receive results (Optional): </label>
+    <input name="email" id="email" type="email"> <br><br>
   	<input type="submit" value="Start Scan">
   </form>
   <h3>The scanner will detect for any clickjacking vulnerabilities within the website.</h3>

@@ -6,7 +6,6 @@ from admin_scanner import main
 import admin_scanner
 from sensitivedatarpa import scan_sensitive_data
 from linkextractorrpa import scan_link_extract
-from linkextractorrpa import return_result
 import csrf
 import vulncomponents
 from xss import scan_xss
@@ -42,8 +41,9 @@ def sqliPage():
 @app.route("/sqliRun", methods = ['POST'])
 def sqliRun():
 	target = request.form.get("target")
+	email = request.form.get("email")
 	if target.startswith('http://') or target.startswith('https://'):
-			return render_template("sqliRun.html", target=target, results=scan_sql_injection(target))
+			return render_template("sqliRun.html", target=target, results=scan_sql_injection(target, email))
 	else:
 		return redirect(url_for("sqliPage", error="Target does not begin with http:// or https://"))
 
@@ -59,8 +59,9 @@ def subdPage():
 @app.route("/subdomainRun", methods = ['POST'])
 def subdRun():
 	target = request.form.get("target")
+	email = request.form.get("email")
 	if target.endswith('.txt'):
-		return render_template("subdomainRun.html", target=target, results=subdomain.subdCode(target))
+		return render_template("subdomainRun.html", target=target, results=subdomain.subdCode(target, email))
 	else:
 		return redirect(url_for("subdPage", error="Only files with the '.txt' extension are  allowed!"))
 
@@ -75,13 +76,14 @@ def adminScannerPage():
 @app.route("/admin-scannerRun", methods = ['POST'])
 def adminScannerRun():
 	target = request.form.get("target")
+	email = request.form.get("email")
 	count = 0
 	if target.startswith('http://') or target.startswith('https://'):
 		count = count +1
 	if target.endswith('/'):
 		count = count +1
 	if count == 2:
-		return render_template("admin-scannerRun.html", target=target, results=main(target))
+		return render_template("admin-scannerRun.html", target=target, results=main(target, email))
 	else:
 		return redirect(url_for("adminScannerPage", error="Please follow the recommended format!"))
 
@@ -96,8 +98,9 @@ def clickjackPage():
 @app.route("/clickjackRun", methods = ['POST'])
 def clickjackRun():
 	target = request.form.get("target")
+	email = request.form.get("email")
 	if target.endswith('.txt'):
-		return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target))
+		return render_template("clickjackRun.html", target=target, results=clickjackrpa.main(target, email))
 	else:
 		return redirect(url_for("clickjackPage", error="Only files with the '.txt' extension are  allowed!"))
 
@@ -112,8 +115,9 @@ def xssScannerPage():
 @app.route("/xssRun", methods = ['POST'])
 def xssScannerRun():
 	target = request.form.get("target")
+	email = request.form.get("email")
 	if target.startswith('http://') or target.startswith('https://'):
-		return render_template("xssRun.html", target=target, results=scan_xss(target))
+		return render_template("xssRun.html", target=target, results=scan_xss(target, email))
 	else:
 		return redirect(url_for("xssScannerPage", error="Please follow the recommended format!"))
 
@@ -130,8 +134,9 @@ def sendataPage():
 @app.route("/sensitive-dataRun", methods = ['POST'])
 def sendataRun():
 	target = request.form.get("target")
+	email = request.form.get("email")
 	if target.startswith('http://') or target.startswith('https://'):
-			return render_template("sensitive-dataRun.html", target=target, results=scan_sensitive_data(target))
+			return render_template("sensitive-dataRun.html", target=target, results=scan_sensitive_data(target, email))
 	else:
 		return redirect(url_for("sendataPage", error="Target does not begin with http:// or https://"))
 	
@@ -148,8 +153,9 @@ def linkextractPage():
 @app.route("/link-extractorRun", methods = ['POST'])
 def linkextractRun():
 	target = request.form.get("target")
+	email = request.form.get("email")
 	if target.startswith('http://') or target.startswith('https://'):
-			return render_template("link-extractorRun.html", target=target, results=scan_link_extract(target), result=return_result(target))
+			return render_template("link-extractorRun.html", target=target, result=scan_link_extract(target, email))
 	else:
 		return redirect(url_for("linkextractPage", error="Target does not begin with http:// or https://"))
 
@@ -165,8 +171,9 @@ def csrfPage():
 def csrfRun():
 	creds = [request.form.get("userID"), request.form.get("password")]
 	loginPage = request.form.get("target")
+	email = request.form.get("email")
 	if loginPage.startswith('http://') or loginPage.startswith('https://'):
-		return render_template("csrfRun.html", results=csrf.main(creds, loginPage))
+		return render_template("csrfRun.html", results=csrf.main(creds, loginPage, email))
 	else:
 		return redirect(url_for("csrfPage", error="Target does not begin with http:// or https://"))
 
@@ -181,8 +188,9 @@ def vulncompPage():
 @app.route("/vuln-componentsRun", methods = ['POST'])
 def vulncompRun():
 	target = request.form.get("target")
+	email = request.form.get("email")
 	if target.startswith('http://') or target.startswith('https://'):
-		return render_template("vuln-componentsRun.html", results=vulncomponents.main(target))
+		return render_template("vuln-componentsRun.html", results=vulncomponents.main(target, email))
 	else:
 		return redirect(url_for("vulncompPage", error="Target does not begin with http:// or https://"))
 

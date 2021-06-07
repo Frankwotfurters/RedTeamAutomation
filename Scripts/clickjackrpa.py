@@ -6,6 +6,7 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
+import sendmail
 
 def check(url):
     ''' check given URL is vulnerable or not '''
@@ -38,7 +39,7 @@ def create_poc(url):
         f.write(code)
         f.close()
 
-def main(target):
+def main(target, receiver=""):
     ''' Everything comes together '''
     #Logfile
     logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
@@ -132,6 +133,10 @@ def main(target):
     displayfile = []
     displayfile.append(f"{pwd}/Clickjacking_{imgTime}.pdf")
     outputfile = f"{pwd}/Clickjacking_{imgTime}.pdf"
+
+    if not receiver == "":
+        # Send email
+        sendmail.main("Clickjacking", target, outputfile, receiver)
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)

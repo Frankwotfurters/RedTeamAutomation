@@ -8,7 +8,7 @@ import time
 from fpdf import FPDF
 import logging
 import getpass
-
+import sendmail
 
 # url = input("Please Enter Target: ")
 def get_all_forms(target):
@@ -75,7 +75,7 @@ def submit_form(form_details, target, value):
         return requests.get(target_url, params=data)
 
 
-def scan_xss(target):
+def scan_xss(target, receiver=""):
 
     #Logfile
     logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
@@ -173,6 +173,10 @@ def scan_xss(target):
     displayfile = []
     displayfile.append(f"{pwd}/CrossSiteScripting_{imgTime}.pdf")
     outputfile = f"{pwd}/CrossSiteScripting_{imgTime}.pdf"
+
+    if not receiver == "":
+        # Send email
+        sendmail.main("Cross Site Scripting", target, outputfile, receiver)
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)

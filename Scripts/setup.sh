@@ -25,6 +25,8 @@ pip install pprint
 pip install colorama
 pip install flask
 pip install urljoin
+pip install smtplib
+pip install email
 clear
 
 #Setup DVWA and Services

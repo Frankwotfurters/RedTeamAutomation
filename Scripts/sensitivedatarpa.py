@@ -9,6 +9,7 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
+import sendmail
 
 def get_all_forms(url):
     """Given a url, it returns all forms from the HTML content"""
@@ -81,7 +82,7 @@ def scan_form(url):
         form_details = get_form_details(form)
         content = submit_form(form_details, url, js_script).content.decode()
 
-def scan_sensitive_data(url):
+def scan_sensitive_data(url, receiver=""):
     #Logfile
     logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
     logging.info("Running Sensitive Data Exposure Detector")
@@ -168,7 +169,11 @@ def scan_sensitive_data(url):
    
     outputfile = f"{pwd}/SensitiveDataExposure_{imgTime}.pdf"
     displayfile = []
-    displayfile.append(f"{pwd}/SensitiveDataExposure_{imgTime}.pdf")   
+    displayfile.append(f"{pwd}/SensitiveDataExposure_{imgTime}.pdf")
+
+    if not receiver == "":
+        # Send email
+        sendmail.main("Sensitive Data Exposure", url, outputfile, receiver)
 
     #RPA (To open PDF file after scan)
     r.init(visual_automation=True)
