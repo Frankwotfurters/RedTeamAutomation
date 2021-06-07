@@ -165,17 +165,15 @@ def main(target, receiver=""):
     
     imgTime = time.strftime("%d-%m-%Y%H%M%S")
     pdf.output(f'AdminInterface_{imgTime}.pdf')
-
-    #RPA (To open PDF file after scan)
     displayfile = []
     displayfile.append(f"{pwd}/AdminInterface_{imgTime}.pdf")
-
     outputfile = (f"{pwd}/AdminInterface_{imgTime}.pdf")
 
     if not receiver == "":
         # Send email
         sendmail.main("Admin Interface", target, outputfile, receiver)
 
+    #RPA (To open PDF file after scan)
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
     r.url()
