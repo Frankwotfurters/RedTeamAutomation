@@ -4,6 +4,7 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
+import sendmail
 
 # the domain to scan for subdomains
 domain = "google.com"
@@ -11,7 +12,7 @@ domain = "google.com"
 # to name screenshot
 imageTime = time.strftime("%-H%M")
 
-def subdCode(target):
+def subdCode(target, receiver=""):
     logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
     print("Running Subdomain Scanner")
     logging.info("Running Subdomain Scanner")
@@ -84,6 +85,11 @@ def subdCode(target):
     outputfile = f"{pwd}/Subdomain_{time1}.pdf"
     displayfile = []
     displayfile.append(f"{pwd}/Subdomain_{time1}.pdf")
+
+    if not receiver == "":
+        # Send email
+        sendmail.main("Subdomain", target, outputfile, receiver)
+
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
     r.url()

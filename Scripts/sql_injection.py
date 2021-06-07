@@ -7,6 +7,7 @@ from fpdf import FPDF
 import time
 import os.path
 import logging
+import sendmail
 
 s = requests.Session()
 s.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
@@ -61,7 +62,7 @@ def is_vulnerable(response):
     # no error detected
     return False
 
-def scan_sql_injection(url):
+def scan_sql_injection(url, receiver=""):
     logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
     print("Running SQL Injection Scanner")
     logging.info("Running SQL Injection Scanner")
@@ -126,6 +127,11 @@ def scan_sql_injection(url):
             outputfile = f"{pwd}/SQLInjection_{time1}.pdf"
             displayfile = []
             displayfile.append(f"{pwd}/SQLInjection_{time1}.pdf")
+
+            if not receiver == "":
+                # Send email
+                sendmail.main("SQL Injection", url, outputfile, receiver)
+
             r.init(visual_automation=True)
             r.clipboard(f"file://{outputfile}")
             r.url()

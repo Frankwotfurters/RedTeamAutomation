@@ -8,13 +8,9 @@ import requests
 from fpdf import FPDF
 import os.path
 import logging
+import sendmail
 
-
-# def getTarget():
-#     target = request.form['target']
-#     return target
-
-def main(target):
+def main(target, receiver=""):
 
     #Logfile
     logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
@@ -175,6 +171,11 @@ def main(target):
     displayfile.append(f"{pwd}/AdminInterface_{imgTime}.pdf")
 
     outputfile = (f"{pwd}/AdminInterface_{imgTime}.pdf")
+
+    if not receiver == "":
+        # Send email
+        sendmail.main("Admin Interface", target, outputfile, receiver)
+
     r.init(visual_automation=True)
     r.clipboard(f"file://{outputfile}")
     r.url()

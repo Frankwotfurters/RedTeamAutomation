@@ -189,7 +189,7 @@ def main(creds, loginPage, receiver=""):
 	pdf.output(f"CSRF_{imgTime}.pdf")
 	if not receiver == "":
 		# Send email
-		sendmail.mail("CSRF", loginPage, f"CSRF_{imgTime}.pdf", receiver)
+		sendmail.mail("Cross-Site Request Forgery", loginPage, f"CSRF_{imgTime}.pdf", receiver)
 	r.close()
 
 	results = {}

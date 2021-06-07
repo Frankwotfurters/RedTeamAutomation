@@ -18,9 +18,11 @@
   <form action="/admin-scannerRun" method="POST">
     Please enter target URL according to the recommended format:<br>
     Format: http://website.com/subdirectory/
-    <br>
-  	<!-- <label for="target">Targets: </label> -->
-  	<input name="target" id="target">
+    <br><br>
+  	<label for="target">Target: </label>
+  	<input name="target" id="target"> <br>
+    <label for="email">Email to receive results (Optional): </label>
+    <input name="email" id="email" type="email"> <br><br>
   	<input type="submit" value="Start Scan">
   </form>
   <h3>
