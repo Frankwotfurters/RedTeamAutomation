@@ -159,14 +159,13 @@ def scan_sensitive_data(url):
         pdf.cell(200, 10, txt="to the following: Incorrect username or password.", ln=1, align="L")
         logging.info("End of Results")
         pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
-        pdf.image('/media/sf_Shared_VM_Folder/RedTeamAutomation/Scripts/'+n+'.png',-50,120,300,120)
+        #OS path
+        pwd = os.path.dirname(os.path.realpath(__file__))
+        pdf.image(f'{pwd}/{n}.png',-50,120,300,120)
         pdf.output(f'SensitiveDataExposure_{imgTime}.pdf')
 
     r.close()
-
-    #OS path
-    pwd = os.path.dirname(os.path.realpath(__file__))
-    
+   
     outputfile = f"{pwd}/SensitiveDataExposure_{imgTime}.pdf"
     displayfile = []
     displayfile.append(f"{pwd}/SensitiveDataExposure_{imgTime}.pdf")   

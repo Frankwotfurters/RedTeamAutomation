@@ -18,13 +18,19 @@
         <th>Scanner Used</th>
         <th>File</th>
     </tr>
-    {% for i in results["scanner"] %}
-    <tr>
-        <td>{{results["time1"][loop.index0]}}</td>
-        <td>{{results["time2"][loop.index0]}}</td>
-        <td>{{results["scanner"][loop.index0]}}</td>
-        <td><a href="file://{{results['pdf_path'][loop.index0]}}">File</a></td>
-    </tr>
-  {% endfor %}
+    {% if results["scanner"] == [] %} <!-- if empty -->
+        <tr>
+            <td>No previous scan results found!</td>
+        </tr>
+    {% else %} <!-- if pdfs found -->
+        {% for i in results["scanner"] %}
+        <tr>
+            <td>{{results["time1"][loop.index0]}}</td>
+            <td>{{results["time2"][loop.index0]}}</td>
+            <td>{{results["scanner"][loop.index0]}}</td>
+            <td><a href="file://{{results['pdf_path'][loop.index0]}}">File</a></td>
+        </tr>
+        {% endfor %}
+    {% endif %}
     </table>
 {% endblock %}
