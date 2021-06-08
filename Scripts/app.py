@@ -33,7 +33,10 @@ def reportPage():
 @app.route("/reportFilter", methods = ['POST'])
 def reportFilterPage():
 	target = request.form.get("target")
-	return render_template("pdfFilter.html", target=target, results=report_filter(target))
+	if target == "":
+		return redirect(url_for("reportPage"))
+	else:
+		return render_template("pdfFilter.html", target=target, results=report_filter(target))
 
 @app.route("/sqli")
 def sqliPage():
