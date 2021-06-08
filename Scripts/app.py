@@ -10,6 +10,7 @@ import csrf
 import vulncomponents
 from xss import scan_xss
 from viewpdf import scan_report
+from viewpdfFilter import report_filter
 
 app = Flask(__name__)
 
@@ -28,6 +29,11 @@ def aboutPage():
 @app.route("/report")
 def reportPage():
 	return render_template("pdf.html", results=scan_report()) 
+
+@app.route("/reportFilter", methods = ['POST'])
+def reportFilterPage():
+	target = request.form.get("target")
+	return render_template("pdfFilter.html", target=target, results=report_filter(target))
 
 @app.route("/sqli")
 def sqliPage():

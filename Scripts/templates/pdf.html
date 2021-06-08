@@ -9,7 +9,23 @@
     <h1 class="w3-xxxlarge w3-text-red"><b>Scanner Reports</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
 </div>
-
+<form action="/reportFilter" method="POST" enctype = "multipart/form-data">
+    <select name="target" id="target">
+      <option value="">Select Scan</option>
+      <option value="SQLInjection">SQL Injection</option>
+      <option value="Subdomain">Subdomain</option>
+      <option value="AdminInterface">Admin Interface</option>
+      <option value="Clickjacking">Clickjacking</option>
+      <option value="CrossSiteScripting">Cross Site Scripting</option>
+      <option value="SensitiveDataExposure">Sensitive Data Exposure</option>
+      <option value="LinkExtractor">Link Extractor</option>
+      <option value="CSRF">Cross Site Request Forgery</option>
+      <option value="VulnComponents">Vulnerable Components</option>
+    </select>
+    <!-- <input name="target" id="target"> <br> -->
+    <input type="submit" value="Filter">
+  </form>
+  <br>
   <div class="w3-responsive">
     <table class="w3-table-all sortable">
     <tr>
