@@ -26,7 +26,7 @@ def is_valid(url):
 def get_domain(url):
 	return urlparse(url).netloc
 
-def find_forms(pdf):
+def find_forms(pdf, max):
 	# From landing page, finds links to crawl to and spot forms
 	html = r.dom('return document.querySelector("html").outerHTML')
 	url = r.url()
@@ -68,12 +68,21 @@ def find_forms(pdf):
 			if "logout" in page:
 				continue # dont logout
 			else:
-				print(f"[+] Crawling: {page}")
-				logging.info(f"[+] Crawling: {page}")
-				pdf.cell(200, 10, txt=f"[+] Crawled: {page}", ln=1, align="L")
-				visited_urls.append(page)
-				r.url(page)
-				find_forms(pdf)
+				if len(visited_urls) == max:
+					# if hit max limit
+					print(f"[!] Crawled maximum of {max} pages.")
+					logging.info(f"[!] Crawled maximum of {max} pages.")
+					pdf.cell(200, 10, txt=f"[!] Crawled maximum of {max} pages.", ln=1, align="L")
+					return
+				else:
+					print(f"[+] Crawling: {page}")
+					logging.info(f"[+] Crawling: {page}")
+					pdf.cell(200, 10, txt=f"[+] Crawled: {page}", ln=1, align="L")
+					visited_urls.append(page)
+					r.url(page)
+					find_forms(pdf, max)
+					if len(visited_urls) == max:
+						return
 
 def check(form):
 	# Checks if form requires a token or some type of hidden field to be submitted
@@ -82,7 +91,7 @@ def check(form):
 	else:
 		return True
 
-def main(creds, loginPage, receiver=""):
+def main(creds, loginPage, max=50, receiver=""):
 	logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
 	print("Running Cross-Site Request Forgery Scanner")
 	logging.info("Running Cross-Site Request Forgery Scanner")
@@ -130,7 +139,7 @@ def main(creds, loginPage, receiver=""):
 			break
 
 	#Find forms
-	find_forms(pdf)
+	find_forms(pdf, max)
 
 	print()
 	print("[!] Scanning individual forms")

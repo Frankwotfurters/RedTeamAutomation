@@ -22,6 +22,26 @@ def root():
 def index():
 	return render_template("index.html")
 
+@app.route("/dashboard")
+def dashboard():
+	pdf = scan_report()
+
+	labels = []
+	for scanner in pdf['scanner']:
+		if scanner not in labels:
+			labels.append(scanner)
+
+	values = []
+	for scanner in labels:
+		values.append(pdf['scanner'].count(scanner))
+
+	colors = [
+    "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
+    "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
+    "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
+
+	return render_template("dashboard.html", set=zip(values, labels, colors))
+
 @app.route("/about-us")
 def aboutPage():
 	return render_template("about-us.html")
@@ -180,9 +200,10 @@ def csrfPage():
 def csrfRun():
 	creds = [request.form.get("userID"), request.form.get("password")]
 	loginPage = request.form.get("target")
+	max = request.form.get("max")
 	email = request.form.get("email")
 	if loginPage.startswith('http://') or loginPage.startswith('https://'):
-		return render_template("csrfRun.html", results=csrf.main(creds, loginPage, email))
+		return render_template("csrfRun.html", results=csrf.main(creds, loginPage, max, email))
 	else:
 		return redirect(url_for("csrfPage", error="Target does not begin with http:// or https://"))
 

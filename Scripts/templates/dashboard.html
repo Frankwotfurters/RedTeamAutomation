@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>Dashboard</title>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+<!-- Header -->
+<div class="w3-container" style="margin-top:80px" id="showcase">
+    <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
+    <h1 class="w3-xxxlarge w3-text-red"><b>Dashboard</b></h1>
+    <hr style="width:50px;border:5px solid red" class="w3-round">
+</div>
+ <h1>{{ title }}</h1>
+
+    <canvas id="chart" width="400" height="400"></canvas>
+    <script>
+      var pieData = [
+        {% for item, label, colors in set %}
+          {
+            value: {{item}},
+            label: "{{label}}",
+            color : "{{colors}}"
+          },
+        {% endfor %}
+      ];
+
+      // get bar chart canvas
+      var mychart = document.getElementById("chart").getContext("2d");
+      steps = 10
+      max = {{ max }}
+
+      // draw pie chart
+      new Chart(document.getElementById("chart").getContext("2d")).Doughnut(pieData);
+
+    </script>
+{% endblock %}
