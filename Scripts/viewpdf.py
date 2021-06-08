@@ -1,6 +1,5 @@
 import os.path
 import os
-import time
 
 def scan_report():
     #Define current path

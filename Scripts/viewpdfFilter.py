@@ -1,6 +1,5 @@
 import os.path
 import os
-import time
 
 def report_filter(target):
     #Define current path
