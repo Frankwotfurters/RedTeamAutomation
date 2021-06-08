@@ -19,7 +19,7 @@ def main(scanner, target, attachment, receiver):
 		msg['Subject'] = f'{scanner} Scan complete!'
 		msg['From'] = 'RPA Integrated RTA'
 		msg['To'] = receiver
-		msg.attach(MIMEText(f"{scanner} Scan on {target} complete! Please check the attached PDF report for more details!"))
+		msg.attach(MIMEText(f"{scanner} Scan on {target} complete! \nPlease check the attached PDF report for more details!"))
 
 		# Attach PDF report
 		with open(attachment, "rb") as f:
