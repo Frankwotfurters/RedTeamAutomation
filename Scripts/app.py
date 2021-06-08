@@ -1,5 +1,5 @@
 import subdomain
-from sql_injection import scan_sql_injection
+import sql_injection
 from flask import Flask, redirect, url_for, render_template, request
 import clickjackrpa
 from admin_scanner import main
@@ -43,7 +43,7 @@ def sqliRun():
 	target = request.form.get("target")
 	email = request.form.get("email")
 	if target.startswith('http://') or target.startswith('https://'):
-			return render_template("sqliRun.html", target=target, results=scan_sql_injection(target, email))
+			return render_template("sqliRun.html", target=target, results=sql_injection.scan_sql_injection(target, email))
 	else:
 		return redirect(url_for("sqliPage", error="Target does not begin with http:// or https://"))
 

@@ -211,6 +211,12 @@ def scan_sql_injection(url, receiver=""):
                 outputfile = f"{pwd}/SQLInjection_{time1}.pdf"
                 displayfile = []
                 displayfile.append(f"{pwd}/SQLInjection_{time1}.pdf")
+
+                if not receiver == "":
+                    # Send email
+                    sendmail.main("SQL Injection", url, outputfile, receiver)
+
+
                 r.init(visual_automation=True)
                 r.clipboard(f"file://{outputfile}")
                 r.url()
