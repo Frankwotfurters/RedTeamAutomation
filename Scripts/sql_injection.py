@@ -193,7 +193,7 @@ def scan_sql_injection(url, receiver=""):
                 r.close()
                 
                 url_tested.append(url)
-                url_result.append("Subdomain Detected")
+                url_result.append("Vulnerability Detected")
 
                 pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
                 logging.info(f"Target Scanned: {url}")
