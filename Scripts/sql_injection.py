@@ -83,6 +83,9 @@ def scan_sql_injection(url, receiver=""):
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
 
+    url_tested = []
+    url_result = []
+
     # test on URL
     for c in "\"'":
         # add quote/double quote character to the URL
@@ -101,6 +104,10 @@ def scan_sql_injection(url, receiver=""):
             r.wait()
             r.snap('page', 'sql-injection-'+imageTime+'.png')
             r.close()
+
+
+            url_tested.append(url)
+            url_result.append("Vulnerability Detected")
 
             pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
             logging.info(f"Target Scanned: {url}")
@@ -144,6 +151,8 @@ def scan_sql_injection(url, receiver=""):
             #Display PDF link on results page
             results = {}
             results["displayfile"] = displayfile
+            results["url_tested"] = url_tested
+            results["url_result"] = url_result
             return results
 
     # test on HTML forms
@@ -182,6 +191,9 @@ def scan_sql_injection(url, receiver=""):
                 r.wait()
                 r.snap('page', 'sql-injection-'+imageTime+'.png')
                 r.close()
+                
+                url_tested.append(url)
+                url_result.append("Subdomain Detected")
 
                 pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
                 logging.info(f"Target Scanned: {url}")
@@ -229,6 +241,8 @@ def scan_sql_injection(url, receiver=""):
                 #Display PDF link on results page
                 results = {}
                 results["displayfile"] = displayfile
+                results["url_tested"] = url_tested
+                results["url_result"] = url_result
                 return results
     else:
         # if no vulnerability detected

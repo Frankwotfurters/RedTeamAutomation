@@ -33,6 +33,8 @@ def subdCode(target, receiver=""):
     pdf.cell(200, 10, txt=f"Scan Time: {timestart}", ln=1, align="L")
     pdf.cell(200, 10, txt="Results: ", ln=1, align='L')
     ss = []
+    url_tested = []
+    url_result = []
     r.init()
 
     # read all subdomains
@@ -63,6 +65,9 @@ def subdCode(target, receiver=""):
             logging.info(f"Target Scanned: {url}")
             pdf.cell(200, 10, txt= "[+] Discovered subdomain:"+ url, ln=1, align="L")
             logging.info(f"[+] Discovered subdomain: {url}")
+
+            url_tested.append(url)
+            url_result.append("Subdomain Detected")
     r.close()
 
     pdf.cell(200, 10, txt="End of Results.", ln=1, align="L")
@@ -102,6 +107,8 @@ def subdCode(target, receiver=""):
     #Display PDF link on results page
     results = {}
     results["displayfile"] = displayfile
+    results["url_tested"] = url_tested
+    results["url_result"] = url_result
     return results
 
 if __name__ == "__main__":
