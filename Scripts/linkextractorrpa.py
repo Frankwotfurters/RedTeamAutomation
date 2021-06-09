@@ -54,8 +54,18 @@ def scan_link_extract(url, receiver=""):
     crawl(url, max_urls=50)
     print_report(url)
 
+    total_len = len(external_urls) + len(internal_urls)
+
+    url_tested = []
+    url_totallinks = []
+
+    url_tested.append(url)
+    url_totallinks.append(total_len)
+
     results = {}
     results["displayfile"] = displayfile
+    results["url_tested"] = url_tested
+    results["url_totallinks"] = url_totallinks
 
     if not receiver == "":
         # Send email

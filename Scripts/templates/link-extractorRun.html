@@ -9,9 +9,23 @@
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
   <p>URL Scanned: {{target}}</p>
+  <p>Summary of Results</p>
+  <div class="w3-responsive">
+    <table class="w3-table-all sortable">
+    <tr>
+        <th>URL</th>
+        <th>Result</th>
+    </tr>
+        {% for i in results["url_tested"] %}
+        <tr>
+            <td>{{results["url_tested"][loop.index0]}}</td>
+            <td>{{results["url_totallinks"][loop.index0]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
   <br>
   <p>Scan Report is generated, if it does not open, click here</p> 
-  <p>{% for i in result["displayfile"] %}</p>
+  <p>{% for i in results["displayfile"] %}</p>
   <a href="file://{{i}}">PDF Report for Link Extractor</a>
   {% endfor %}
 {% endblock %}
