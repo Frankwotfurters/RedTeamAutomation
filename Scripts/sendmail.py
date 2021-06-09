@@ -5,17 +5,12 @@ from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 
 logging.basicConfig(level=logging.INFO, filename="logfile", filemode="a+", format="%(asctime)-15s %(levelname)-8s %(message)s")
-attachment = "/media/sf_Scripts/Clickjacking_07-06-2021232118.pdf"
-receiver = "1905670D@student.tp.edu.sg"
-scanner = "CSRF"
-target = "https://www.google.com"
 
 def main(scanner, target, attachment, receiver):
 	try:
 		# Craft message (obj)
 		msg = MIMEMultipart()
 
-		# message = f'{message}\nSend from Hostname: hostname'
 		msg['Subject'] = f'{scanner} Scan complete!'
 		msg['From'] = 'RPA Integrated RTA'
 		msg['To'] = receiver
@@ -27,7 +22,6 @@ def main(scanner, target, attachment, receiver):
 		attach.add_header('Content-Disposition','attachment',filename=str(attachment))
 		msg.attach(attach)
 
-		# message = "From: RPA Integrated RTA\nTo: " + ", " + receiver + "\nSubject: Scan complete!\n\nScan complete! Please check the attached PDF report for more details!\n"
 		# Start smtp session
 		server = smtplib.SMTP('smtp.gmail.com')
 		server.ehlo()
