@@ -58,14 +58,20 @@ def scan_link_extract(url, receiver=""):
 
     url_tested = []
     url_totallinks = []
+    url_internallinks = []
+    url_externallinks = []
 
     url_tested.append(url)
     url_totallinks.append(total_len)
+    url_internallinks.append(len(internal_urls))
+    url_externallinks.append(len(external_urls))
 
     results = {}
     results["displayfile"] = displayfile
     results["url_tested"] = url_tested
     results["url_totallinks"] = url_totallinks
+    results["url_internallinks"] = url_internallinks
+    results["url_externallinks"] = url_externallinks
 
     if not receiver == "":
         # Send email

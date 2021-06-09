@@ -14,12 +14,16 @@
     <table class="w3-table-all sortable">
     <tr>
         <th>URL</th>
-        <th>Result</th>
+        <th>Total Links</th>
+        <th>Internal Links</th>
+        <th>External Links</th>
     </tr>
         {% for i in results["url_tested"] %}
         <tr>
             <td>{{results["url_tested"][loop.index0]}}</td>
             <td>{{results["url_totallinks"][loop.index0]}}</td>
+            <td>{{results["url_internallinks"][loop.index0]}}</td>
+            <td>{{results["url_externallinks"][loop.index0]}}</td>
         </tr>
         {% endfor %}
     </table>
