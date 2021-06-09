@@ -118,8 +118,9 @@ def main(url, receiver=""):
 	results["jsOutput"] = jsOutput
 	results["nvdOutput"] = nvdOutput
 	results["eDBOutput"] = eDBOutput
+	results["output"] = f"{pwd}/VulnComponents_{imgTime}.pdf"
 
-	return results #retirejs output, screenshot outputs from nvd & e-db
+	return results #retirejs output, screenshot outputs from nvd & e-db, output pdf
 
 if __name__ == "__main__":
 	import argparse

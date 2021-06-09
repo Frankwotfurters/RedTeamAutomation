@@ -206,7 +206,8 @@ def main(creds, loginPage, max=50, receiver=""):
 	results["form_urls"] = form_urls
 	results["vuln_forms"] = vuln_forms
 	results["generated_pocs"] = generated_pocs
-	return results #returns dictionary of found urls, form urls, possibly vulnerable forms, non-vulnerable forms
+	results["output"] = f"{pwd}/CSRF_{imgTime}.pdf"
+	return results #returns dictionary of found urls, form urls, possibly vulnerable forms, non-vulnerable forms, output pdf
 
 if __name__ == "__main__":
 	import argparse

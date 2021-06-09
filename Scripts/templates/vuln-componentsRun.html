@@ -2,15 +2,18 @@
 
 {% block content %}
 <title>Scan Results</title>
+<script type="text/javascript" src="/static/sorttable.js"></script>
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px" id="showcase">
     <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
     <h1 class="w3-xxxlarge w3-text-red"><b>Using components with known vulnerablities</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
+   <h2>URL tested: {{target}}</h2>
   <br>
+  <p>Summary of Results</p>
   <div class="w3-responsive">
-    <table class="w3-table-all">
+    <table class="w3-table-all sortable">
       <tr>
         <th>Script</th>
         <th>Version</th>
@@ -61,5 +64,8 @@
 
     </table>
   </div>
+  <br>
+  <p>Scan Report available for viewing:</p>
+  <a href="file://{{results['output']}}">PDF Report</a>
 
 {% endblock %}

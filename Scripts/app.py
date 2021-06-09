@@ -203,7 +203,7 @@ def csrfRun():
 	max = request.form.get("max")
 	email = request.form.get("email")
 	if loginPage.startswith('http://') or loginPage.startswith('https://'):
-		return render_template("csrfRun.html", results=csrf.main(creds, loginPage, max, email))
+		return render_template("csrfRun.html", target=loginPage, results=csrf.main(creds, loginPage, max, email))
 	else:
 		return redirect(url_for("csrfPage", error="Target does not begin with http:// or https://"))
 
@@ -220,7 +220,7 @@ def vulncompRun():
 	target = request.form.get("target")
 	email = request.form.get("email")
 	if target.startswith('http://') or target.startswith('https://'):
-		return render_template("vuln-componentsRun.html", results=vulncomponents.main(target, email))
+		return render_template("vuln-componentsRun.html", target=target, results=vulncomponents.main(target, email))
 	else:
 		return redirect(url_for("vulncompPage", error="Target does not begin with http:// or https://"))
 

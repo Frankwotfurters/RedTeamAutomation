@@ -2,28 +2,36 @@
 
 {% block content %}
 <title>Scan Results</title>
+<script type="text/javascript" src="/static/sorttable.js"></script>
   <!-- Header -->
   <div class="w3-container" style="margin-top:80px" id="showcase">
     <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
     <h1 class="w3-xxxlarge w3-text-red"><b>CSRF</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
+  <h2>URL tested: {{target}}</h2>
   <br>
-  <table>
-  	<tr>
-  		<th>URL</th>
-  		<th>Form found?</th>
-  		<th>Form potentially vulnerable?</th>
-  		<th>PoC</th>
+  <p>Summary of Results</p>
+  <div>
+    <table class="sortable w3-striped w3-bordered w3-border">
+    	<tr>
+    		<th>URL</th>
+    		<th>Form found?</th>
+    		<th>Form potentially vulnerable?</th>
+    		<th>PoC</th>
+    	</tr>
+    	{% for url in results["internal_urls"] %}
+    	<tr>
+  		<td>{{url}}</td> <!-- URL -->
+  		<td class="w3-center">{% if url in results["form_urls"] %} {{"✅"}} {% else %} {{"❌"}} {% endif %}</td> <!-- Form found? -->
+  		<td class="w3-center">{% if url in results["vuln_forms"] %} {{"✅"}} {% else %} {{"❌"}} {% endif %}</td> <!-- Vulnerable? -->
+  		<td>{{results["generated_pocs"][url]}}</td> <!-- PoC -->
   	</tr>
-  	{% for url in results["internal_urls"] %}
-  	<tr>
-		<td>{{url}}</td> <!-- URL -->
-		<td>{% if url in results["form_urls"] %} {{"✅"}} {% else %} {{"❌"}} {% endif %}</td> <!-- Form found? -->
-		<td>{% if url in results["vuln_forms"] %} {{"✅"}} {% else %} {{"❌"}} {% endif %}</td> <!-- Vulnerable? -->
-		<td>{{results["generated_pocs"][url]}}</td> <!-- PoC -->
-	</tr>
-	{% endfor %}
-  </table>
+  	{% endfor %}
+    </table>
+  </div>
+  <br>
+  <p>Scan Report available for viewing:</p>
+  <a href="file://{{results['output']}}">PDF Report</a>
 
 {% endblock %}
