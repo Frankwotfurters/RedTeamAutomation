@@ -14,7 +14,7 @@
   <div class="w3-responsive">
     <table class="w3-table-all sortable">
     <tr>
-        <th>URL</th>
+        <th>Subdomain</th>
         <th>Result</th>
     </tr>
     {% if results["admin"] == [] %} 
@@ -23,10 +23,10 @@
         <td>No Subdomains Detected</td>
     </tr>
     {% else %}
-        {% for i in results["url_tested"] %}
+        {% for i in results["subdomain_tested"] %}
         <tr>
-            <td>{{results["url_tested"][loop.index0]}}</td>
-            <td>{{results["url_result"][loop.index0]}}</td>
+            <td>{{results["subdomain_tested"][loop.index0]}}</td>
+            <td>{{results["subdomain_result"][loop.index0]}}</td>
         </tr>
         {% endfor %}
     {% endif %}
