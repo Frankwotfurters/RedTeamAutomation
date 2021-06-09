@@ -73,6 +73,8 @@ def main(target, receiver=""):
     list1 = wordlist.readlines()
     #list2 = list1.rstrip()
     ss = []
+    url_tested = []
+    url_result = []
     for i in list1:
         #Combine the website URL and the admin page name
         curl = target + i
@@ -101,6 +103,8 @@ def main(target, receiver=""):
             imgtime = time.strftime("(%d%m-%I%M%S)")
             time2 = time.strftime("[%I:%M:%S]")
             print(time2,f"{GREEN}[+] FOUND POSSIBLE ADMIN PAGE:",curl)
+            url_tested.append(curl)
+            url_result.append("Vulnerability Detected")
             #pdf.cell(200, 10, txt="[+] FOUND POSSIBLE ADMIN PAGE:"+ curl, ln=1, align="L")
             r.init()
             r.url(curl)
@@ -116,6 +120,7 @@ def main(target, receiver=""):
     print(" ")
     print(f"{BLUE}RESULTS:")
     print(" ")
+
 
     #If the array is not empty, website is vulnerable.
     if admin:
@@ -185,7 +190,10 @@ def main(target, receiver=""):
 
     #Display PDF link on results page
     results = {}
+    results["admin"] = admin
     results["displayfile"] = displayfile
+    results["url_tested"] = url_tested
+    results["url_result"] = url_result
     return results
 
 if __name__ == "__main__":

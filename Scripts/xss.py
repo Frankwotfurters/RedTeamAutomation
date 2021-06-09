@@ -107,6 +107,7 @@ def scan_xss(target, receiver=""):
     # iterate over all forms
 
     ss = []
+    check = []
     for form in forms:
         pwd = os.path.dirname(os.path.realpath(__file__))
         form_details = get_form_details(form)
@@ -116,6 +117,7 @@ def scan_xss(target, receiver=""):
             
             print(f"[+] XSS Detected on {target}")
             logging.info(f"XSS Detected on {target}")
+            check.append("Vuln")
             print(f"[+] Form details:")
             pdf.cell(40, 10, txt=f"[+] {target} is vulnerble", ln=1, align="L")
             pdf.cell(40, 10, txt=f"[+] XSS Detected on {target}", ln=1, align="L")
@@ -191,6 +193,7 @@ def scan_xss(target, receiver=""):
     #Display PDF link on results page
     results = {}
     results["displayfile"] = displayfile
+    results["check"] = check
     return results
 
     return is_vulnerable

@@ -9,6 +9,25 @@
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
   <p>Target Scanned: {{target}}</p>
+  <p>Summary of Results</p>
+  <div class="w3-responsive">
+    <table class="w3-table-all sortable">
+    <tr>
+        <th>URL</th>
+        <th>Result</th>
+    </tr>
+    {% if results["check"] == [] %} 
+    <tr>
+        <td>{{target}}</td>
+        <td>No Vulnerability Detected</td>
+    </tr>
+    {% else %}
+        <tr>
+            <td>{{target}}</td>
+            <td>Vulnerability Detected</td>
+        </tr>
+    {% endif %}
+    </table>
   <p>Scan Report available for viewing:</p>
   <p>{% for i in results["displayfile"] %}</p>
   <a href="file://{{i}}">PDF Report</a>

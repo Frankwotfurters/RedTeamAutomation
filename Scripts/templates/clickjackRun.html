@@ -2,13 +2,27 @@
 
 {% block content %}
 <title>Scan Results</title>
-  <!-- Header -->
   <div class="w3-container" style="margin-top:80px" id="showcase">
     <h1 class="w3-jumbo"><b>RPA Integrated RTA</b></h1>
     <h1 class="w3-xxxlarge w3-text-red"><b>Clickjacking</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
   </div>
   <p>Test file: {{target}}</p>
+  <p>Summary of Results</p>
+  <div class="w3-responsive">
+    <table class="w3-table-all sortable">
+    <tr>
+        <th>URL</th>
+        <th>Result</th>
+    </tr>
+        {% for i in results["url_tested"] %}
+        <tr>
+            <td>{{results["url_tested"][loop.index0]}}</td>
+            <td>{{results["url_result"][loop.index0]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
   <p>Scan Report available for viewing:</p>
   <p>{% for i in results["displayfile"] %}</p>
   <a href="file://{{i}}">PDF Report</a>

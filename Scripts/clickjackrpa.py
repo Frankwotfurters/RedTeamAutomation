@@ -69,6 +69,9 @@ def main(target, receiver=""):
     except: 
         print("Error: Text File is empty"); exit(0)
  
+
+    url_tested = []
+    url_result = []
     for site in sites[0:]:
         print("\n[*] Checking " + site)
         pdf.cell(200, 10, txt="[*] Checking " + site, ln=1, align="L")
@@ -76,6 +79,8 @@ def main(target, receiver=""):
 
         if status:
             print("[+] Website is vulnerable!")
+            url_tested.append(site)
+            url_result.append("Vulnerability Detected")
             logging.info(f"{site} is vulnerable")
             pdf.cell(200, 10, txt=f"[+] {site} is vulnerable!", ln=1, align="L")
             create_poc(site.split('\n')[0])
@@ -108,6 +113,8 @@ def main(target, receiver=""):
                 pdf.image(f'{pwd}/{i}',50,50,300,120)
 
         elif not status: 
+            url_tested.append(site)
+            url_result.append("No Vulnerability Detected")
             print("[-] Website is not vulnerable!") 
             logging.info(f" {site} is not vulnerable!")
             pdf.cell(200, 10, txt=f"[-] {site} is not vulnerable!", ln=1, align="L")
@@ -151,6 +158,8 @@ def main(target, receiver=""):
     #Display PDF link on results page
     results = {}
     results["displayfile"] = displayfile
+    results["url_tested"] = url_tested
+    results["url_result"] = url_result
     return results
 
 
