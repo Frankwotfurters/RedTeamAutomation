@@ -135,9 +135,12 @@ def scan_sensitive_data(url, receiver=""):
     #print(n)
     r.snap('page', n+'.png')
     
-
+    url_tested = []
+    url_result = []
     if "Incorrect username or password" in r.text():
         #print("Sensitive Data Exposure: False")
+        url_tested.append(url)
+        url_result.append("No Sensitive Data Exposure detected")
         logging.info(f"Target Scanned: {url}")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
@@ -148,6 +151,8 @@ def scan_sensitive_data(url, receiver=""):
         pdf.output(f'SensitiveDataExposure_{imgTime}.pdf')
     else:
         #print("Sensitive Data Exposure: True")
+        url_tested.append(url)
+        url_result.append("Sensitive Data Exposure detected")
         logging.info(f"Target Scanned: {url}")
         pdf.cell(200, 10, txt="Target Scanned: "+ url, ln=1, align="L")
         pdf.cell(200, 10, txt="Summary:", ln=1, align="L")
@@ -187,6 +192,8 @@ def scan_sensitive_data(url, receiver=""):
 
     results = {}
     results["displayfile"] = displayfile
+    results["url_tested"] = url_tested
+    results["url_result"] = url_result
     return results
 
 if __name__ == "__main__":
