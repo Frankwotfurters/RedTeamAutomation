@@ -11,12 +11,27 @@
 </div>
 
 {% if results["scanner"] == [] %}
+
+{% if Filterdate == "" %}
 <tr>
-    <td>No {{target}} scan results found.</td>
+    <td>Scanner Report(s) for {{target}} not found.</td>
 </tr>
 {% else %} 
+<tr>
+    <td>Scanner Report(s) for {{target}} on {{Filterdate}} not found.</td>
+</tr>
+{% endif %}
 
-<p>Scanner Reports for {{target}}</p>
+{% else %} 
+
+{% if Filterdate == "" %}
+<p>Scanner Report(s) for {{target}}.</p>
+{% elif target == "" %} 
+<p>Scanner Report(s) for scans on {{Filterdate}}.</p>
+{% else %} 
+<p>Scanner Report(s) for {{target}} on {{Filterdate}}.</p>
+{% endif %}
+
   <div class="w3-responsive">
     <table class="w3-table-all sortable">
     <tr>

@@ -19,11 +19,22 @@
       <option value="CrossSiteScripting">Cross Site Scripting</option>
       <option value="SensitiveDataExposure">Sensitive Data Exposure</option>
       <option value="LinkExtractor">Link Extractor</option>
-      <option value="CSRF">Cross Site Request Forgery</option>
+      <option value="CSRF">CSRF</option>
       <option value="VulnComponents">Vulnerable Components</option>
     </select>
+    <!-- <input type="submit" value="Filter"> -->
+    &nbsp;
+    <select name="Filterdate" id="Filterdate">
+        <option value="">Select Date</option>
+        {% for i in results["filter_date"] %}
+        <option value="{{results['filter_date'][loop.index0]}}">{{results["filter_date"][loop.index0]}}</option>
+        {% endfor %}
+      </select>
+      &nbsp;
     <input type="submit" value="Filter">
 </form>
+
+
   <br>
   <div class="w3-responsive">
     <table class="w3-table-all sortable">

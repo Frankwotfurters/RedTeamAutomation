@@ -1,5 +1,6 @@
 import os.path
 import os
+from datetime import datetime
 
 def scan_report():
     #Define current path
@@ -12,6 +13,7 @@ def scan_report():
     pdf_path = []
     time1 = []
     time2 = []
+    filter_date = []
 
     #Scanner Name
     for name in files:
@@ -26,6 +28,16 @@ def scan_report():
             date_1 = date.strip('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.')
             date_2 = date_1[0:10]
             time1.append(date_2)
+
+            #Filter Date
+            for i in time1:
+                if i in filter_date:
+                    pass
+                else:
+                    filter_date.append(i)
+                    
+    #Arrange Date
+    filter_date.sort(key=lambda date: datetime.strptime(date, "%d-%m-%Y"))
 
     #Time
     for time in files:
@@ -42,11 +54,13 @@ def scan_report():
             filepath = os.path.join(pwd,path)
             pdf_path.append(filepath)
 
+
     results = {}
     results["scanner"] = scanner
     results["time1"] = time1
     results["time2"] = time2
     results["pdf_path"] = pdf_path
+    results["filter_date"] = filter_date
     return results
 
 if __name__ == "__main__":
