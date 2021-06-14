@@ -138,8 +138,11 @@ def scan_xss(target, receiver=""):
             for i in new:
                     r.init()
                     r.url(target)
+                    r.wait()
+                    r.snap("page", f"xssscanner2-{imgtime}.png")
                     r.type(i, "<script>document.documentElement.innerHTML = 'Page is vulnerable to XSS. <br> Form did not execute properly when malicious javascript code was entered.'</script>[enter]")
                     ss.append(f"xssscanner-{imgtime}.png")
+                    ss.append(f"xssscanner2-{imgtime}.png")
                     r.snap("page", f"xssscanner-{imgtime}.png")
                     r.close()
         

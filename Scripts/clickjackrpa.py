@@ -93,7 +93,7 @@ def main(target, receiver=""):
 
             pwd = os.path.dirname(os.path.realpath(__file__))
             saved = pwd + "/" + site + ".html"
-            #RPA (To take screenshot)
+            #Screenshot of POC
             r.clipboard(f"file://{saved}")
             r.url()
             r.keyboard("[ctrl]l")
@@ -103,6 +103,14 @@ def main(target, receiver=""):
             ss = []
             ss.append(f"clickjack-{imgtime}.png")
             r.snap("page", f"clickjack-{imgtime}.png")
+            r.close()
+            #Screenshot of Vulnerable Page
+            r.init()
+            ss2 = "http://" + site
+            r.url(ss2)
+            r.wait()
+            r.snap("page", f"clickjack2-{imgtime}.png")
+            ss.append(f"clickjack2-{imgtime}.png")
             r.close()
 
             print(" ")

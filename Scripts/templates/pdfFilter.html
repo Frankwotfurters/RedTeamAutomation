@@ -38,14 +38,14 @@
         <th>Date</th>
         <th>Time (HH:MM:SS)</th>
         <th>Scanner Used</th>
-        <th>File</th>
+        <th>Report</th>
     </tr>
         {% for i in results["scanner"] %}
         <tr>
             <td>{{results["time1"][loop.index0]}}</td>
             <td>{{results["time2"][loop.index0]}}</td>
             <td>{{results["scanner"][loop.index0]}}</td>
-            <td><a href="file://{{results['pdf_path'][loop.index0]}}">File</a></td>
+            <td><a href="file://{{results['pdf_path'][loop.index0]}}">Report</a></td>
         </tr>
         {% endfor %}
 {% endif %}
