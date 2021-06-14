@@ -31,16 +31,26 @@ def dashboard():
 		if scanner not in labels:
 			labels.append(scanner)
 
-	values = []
+	pieValues = []
 	for scanner in labels:
-		values.append(pdf['scanner'].count(scanner))
+		pieValues.append(pdf['scanner'].count(scanner))
+
+	dates = []
+	for date in pdf['time1']:
+		if date not in dates:
+			dates.append(date)
+	dates = sorted(dates)
+
+	barValues = []
+	for date in dates:
+		barValues.append(pdf['time1'].count(date))
 
 	colors = [
     "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
     "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
     "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
 
-	return render_template("dashboard.html", set=zip(values, labels, colors))
+	return render_template("dashboard.html", set=zip(labels, pieValues, colors), dates=dates, barValues=barValues)
 
 @app.route("/about-us")
 def aboutPage():
