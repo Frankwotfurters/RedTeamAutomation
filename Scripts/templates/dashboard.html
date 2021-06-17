@@ -2,6 +2,15 @@
 
 {% block content %}
 <title>Dashboard</title>
+<style>
+  .wrapper {
+    display: flex;
+  }
+  .graph {
+    padding: 2rem;
+  }
+
+</style>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 <!-- Header -->
 <div class="w3-container" style="margin-top:80px" id="showcase">
@@ -13,10 +22,16 @@
     <h2>No previous scan data found!</h2>
   {% else %}
 <div class="w3-container" style="width: 400px">
-  <h3 style="text-align: center;">Total scans run</h3>
-  <canvas id="pieChart" width="400" height="400"></canvas>
-  <h3 style="text-align: center;">Frequency of scans</h3>
-  <canvas id="barChart" width="800" height="400"></canvas>
+  <div class="wrapper">
+    <div class="graph">
+      <h3 style="text-align: center;">Total scans run</h3>
+      <canvas id="pieChart" width="400" height="400"></canvas>
+    </div>
+    <div class="graph">
+      <h3 style="text-align: center;">Frequency of scans</h3>
+      <canvas id="barChart" width="800" height="400"></canvas>
+    </div>
+  </div>
   <script>
     var pieData = [
       {% for label, pieValues, colors in set %}
