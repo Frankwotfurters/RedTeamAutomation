@@ -48,5 +48,5 @@ echo "export OPENSSL_CONF=/etc/ssl/" > /etc/profile.d/openssl_conf
 source /etc/profile.d/openssl_conf
 python3 rpaSetup.py
 echo "Setup complete!"
-echo "Head to http://localhost/DVWA/setup.php to complete DVWA's first time setup."
+echo "Head to http://localhost/DVWA/setup.php and click <Create / Reset Database> to complete DVWA's first time setup."
 echo "Run the command <source /etc/profile.d/openssl_conf> followed by <python3 app.py> and head to http://localhost:5000 to access the GUI."
