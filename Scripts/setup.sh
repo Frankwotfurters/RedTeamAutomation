@@ -39,6 +39,7 @@ systemctl enable apache2
 systemctl enable mysql
 cp /var/www/html/DVWA/config/config.inc.php.dist /var/www/html/DVWA/config/config.inc.php
 mysql -Bse "create database dvwa;create user dvwa@localhost identified by 'p@ssw0rd';grant all on dvwa.* to dvwa@localhost;flush privileges;"
+sed -i "33s/impossible/low/" /var/html/www/DVWA/config/config.inc.php
 clear
 
 #RPA for Python first time setup
@@ -46,4 +47,4 @@ echo "Performing first time setup for RPA for Python"
 echo "export OPENSSL_CONF=/etc/ssl/" > /etc/profile.d/openssl_conf
 source /etc/profile.d/openssl_conf
 python3 rpaSetup.py
-echo "Setup complete! Run the command <export /etc/profile.d/openssl_conf> followed by <python3 app.py>, and head to http://localhost:5000 to access the GUI."
+echo "Setup complete! Run the command <source /etc/profile.d/openssl_conf> followed by <python3 app.py>, and head to http://localhost:5000 to access the GUI."
