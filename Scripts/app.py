@@ -71,7 +71,6 @@ def reportFilterPage():
 
 @app.route("/sqli")
 def sqliPage():
-	print(request.args)
 	try:
 		error = request.args["error"]
 	except:
@@ -89,7 +88,6 @@ def sqliRun():
 
 @app.route("/subdomain")
 def subdPage():
-	print(request.args)
 	try:
 		error = request.args["error"]
 	except:
@@ -164,7 +162,6 @@ def xssScannerRun():
 
 @app.route("/sensitive-data")
 def sendataPage():
-	print(request.args)
 	try:
 		error = request.args["error"]
 	except:
@@ -183,7 +180,6 @@ def sendataRun():
 
 @app.route("/link-extractor")
 def linkextractPage():
-	print(request.args)
 	try:
 		error = request.args["error"]
 	except:
